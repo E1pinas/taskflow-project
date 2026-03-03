@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Masters Santiago - Valorant</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Requisito 1: Estructura semántica
+         Se usa las etiquetas <header>, <main>, <aside> y <section>
+         para organizar contenido de forma clara y accesible. -->
+    <header>
+      <h1>Masters Santiago 2026 - Valorant</h1>
+    </header>
+
+    <main>
+      <!-- Aside: navegación lateral -->
+      <aside>
+        <nav>
+          <a href="#">Inicio</a>
+          <a href="#">Calendario</a>
+          <a href="#">Equipos</a>
+        </nav>
+      </aside>
+
+      <!-- Sección 1: Lista de tareas-->
+      <section>
+        <h2>Lista de Tareas</h2>
+
+        <article class="tarea">
+          <div>
+            <h3>Organizar Eliminatorias</h3>
+            <span class="categoria">Competición</span>
+          </div>
+          <select class="prioridad">
+            <option value="alta">Alta</option>
+            <option value="media">Media</option>
+            <option value="baja">Baja</option>
+          </select>
+        </article>
+
+        <article class="tarea">
+          <div>
+            <h3>Preparar Escenario Final</h3>
+            <span class="categoria">Evento Global</span>
+          </div>
+          <select class="prioridad">
+            <option value="alta">Alta</option>
+            <option value="media" selected>Media</option>
+            <option value="baja">Baja</option>
+          </select>
+        </article>
+
+        <article class="tarea">
+          <div>
+            <h3>Revisión de Equipos</h3>
+            <span class="categoria">Logística</span>
+          </div>
+          <select class="prioridad">
+            <option value="alta">Alta</option>
+            <option value="media">Media</option>
+            <option value="baja" selected>Baja</option>
+          </select>
+        </article>
+      </section>
+
+      <!-- Sección 2: Calendario de partidos -->
+      <section>
+        <h2>Calendario de Partidos</h2>
+
+        <div class="fecha-grupo">
+          <h3 class="fecha-titulo">Hoy - 3 de Marzo</h3>
+
+          <article class="partido">
+            <div class="equipo equipo-local">
+              <img
+                src="public/Evil_Geniuses_2020_darkmode.png"
+                alt="Evil Geniuses"
+                class="logo-equipo"
+              />
+              <span class="nombre-equipo">Evil Geniuses</span>
+              <span class="resultado">13</span>
+            </div>
+            <div class="vs">VS</div>
+            <div class="equipo equipo-visitante">
+              <span class="resultado">8</span>
+              <span class="nombre-equipo">Team Heretics</span>
+              <img src="public/here.png" alt="Heretics" class="logo-equipo" />
+            </div>
+            <span class="estado vivo">En Vivo</span>
+          </article>
+
+          <article class="partido">
+            <div class="equipo equipo-local">
+              <img src="public/levi.png" alt="Leviathan" class="logo-equipo" />
+              <span class="nombre-equipo">Leviathan</span>
+              <span class="resultado">10</span>
+            </div>
+            <div class="vs">VS</div>
+            <div class="equipo equipo-visitante">
+              <span class="resultado">11</span>
+              <span class="nombre-equipo">Loud</span>
+              <img
+                src="public/LOUD_logo.svg.png"
+                alt="Loud"
+                class="logo-equipo"
+              />
+            </div>
+            <span class="estado">Próximo</span>
+          </article>
+
+          <article class="partido">
+            <div class="equipo equipo-local">
+              <img
+                src="public/Paper_Rex_darkmode.png"
+                alt="Paper Rex"
+                class="logo-equipo"
+              />
+              <span class="nombre-equipo">Paper Rex</span>
+              <span class="resultado">—</span>
+            </div>
+            <div class="vs">VS</div>
+            <div class="equipo equipo-visitante">
+              <span class="resultado">—</span>
+              <span class="nombre-equipo">NRG</span>
+              <img src="public/nrg.png" alt="NRG" class="logo-equipo" />
+            </div>
+            <span class="estado">Próximo</span>
+          </article>
+        </div>
+
+        <div class="fecha-grupo">
+          <h3 class="fecha-titulo">Ayer - 2 de Marzo</h3>
+
+          <article class="partido">
+            <div class="equipo equipo-local">
+              <img
+                src="public/liquid.png"
+                alt="Team liquid"
+                class="logo-equipo"
+              />
+              <span class="nombre-equipo">Team Liquid</span>
+              <span class="resultado">13</span>
+            </div>
+            <div class="vs">VS</div>
+            <div class="equipo equipo-visitante">
+              <span class="resultado">9</span>
+              <span class="nombre-equipo">Furia</span>
+              <img
+                src="public/FURIA_Esports_logo.svg"
+                alt="Furia"
+                class="logo-equipo"
+              />
+            </div>
+            <span class="estado finalizado">Finalizado</span>
+          </article>
+
+          <article class="partido">
+            <div class="equipo equipo-local">
+              <img
+                src="public/Edward_Gaming_logo.png"
+                alt="Edward Gaming"
+                class="logo-equipo"
+              />
+              <span class="nombre-equipo">Edward Gaming</span>
+              <span class="resultado">12</span>
+            </div>
+            <div class="vs">VS</div>
+            <div class="equipo equipo-visitante">
+              <span class="resultado">12</span>
+              <span class="nombre-equipo">MIBR</span>
+              <img src="public/mbir.png" alt="MIBR" class="logo-equipo" />
+            </div>
+            <span class="estado finalizado">Finalizado</span>
+          </article>
+        </div>
+
+        <div class="fecha-grupo">
+          <h3 class="fecha-titulo">Hace 2 días - 1 de Marzo</h3>
+
+          <article class="partido">
+            <div class="equipo equipo-local">
+              <img
+                src="public/KRU_Esports_allmode.png"
+                alt="kru esports"
+                class="logo-equipo"
+              />
+              <span class="nombre-equipo">KRU Esports</span>
+              <span class="resultado">13</span>
+            </div>
+            <div class="vs">VS</div>
+            <div class="equipo equipo-visitante">
+              <span class="resultado">7</span>
+              <span class="nombre-equipo">Navi</span>
+              <img
+                src="public/NAVI-Logo.svg.png"
+                alt="Navi"
+                class="logo-equipo"
+              />
+            </div>
+            <span class="estado finalizado">Finalizado</span>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
