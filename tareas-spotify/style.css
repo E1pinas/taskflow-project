@@ -1,0 +1,196 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+  margin: 30px;
+  padding: 20px;
+  width: min(92vw, 480px);
+  border-radius: 12px;
+}
+
+.hidden {
+  display: none;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 24px;
+  background: #f8fafc;
+}
+
+.header {
+  margin-bottom: 20px;
+}
+
+main {
+  max-width: 760px;
+  display: grid;
+  gap: 12px;
+}
+
+.acciones {
+  display: flex;
+  gap: 8px;
+}
+
+#abrirModal {
+  width: fit-content;
+  padding: 10px 14px;
+  border: 0;
+  border-radius: 8px;
+  background: #22c55e;
+  color: #fff;
+  cursor: pointer;
+}
+
+#borrarSeleccionadas {
+  width: fit-content;
+  padding: 10px 14px;
+  border: 0;
+  border-radius: 8px;
+  background: #ef4444;
+  color: #fff;
+  cursor: pointer;
+}
+
+#buscarTarea {
+  padding: 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+}
+
+#listaTareas {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.tarea {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.tarea-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+
+.checkbox-seleccion {
+  display: none;
+}
+
+#listaTareas.modo-seleccion .checkbox-seleccion {
+  display: block;
+}
+
+.contenedor-principal {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.portada-cancion {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  flex-shrink: 0;
+}
+
+.nombre-cancion {
+  display: block;
+  color: #1f2937;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.contenedor-informacion {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.detalle-artista {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.detalle-album {
+  color: #9ca3af;
+  font-size: 12px;
+}
+
+.tarea button {
+  border: 0;
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  color: #fff;
+  background: #ef4444;
+}
+
+.modal-content form {
+  display: grid;
+  gap: 8px;
+}
+
+.modal-content input[type="text"],
+.modal-content input[type="file"] {
+  padding: 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 640px) {
+  body {
+    padding: 14px;
+  }
+
+  .acciones {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  #abrirModal,
+  #borrarSeleccionadas {
+    width: 100%;
+  }
+
+  .tarea {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .tarea-info {
+    align-items: flex-start;
+  }
+
+  .tarea button {
+    width: 100%;
+  }
+}

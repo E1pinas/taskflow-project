@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tareas Spotify</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="header">
+      <h1>Taskflow Spotify</h1>
+    </div>
+    <main>
+      <div class="acciones">
+        <button id="abrirModal">Agregar tarea</button>
+        <button id="borrarSeleccionadas" type="button">Borrar seleccionadas</button>
+      </div>
+      <input
+        id="buscarTarea"
+        type="search"
+        placeholder="Buscar tarea..."
+        aria-label="Buscar tarea"
+      />
+      <ul id="listaTareas"></ul>
+    </main>
+
+    <!-- Aquí se inyectará la modal -->
+    <div id="modalContainer"></div>
+    <script src="modal.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
