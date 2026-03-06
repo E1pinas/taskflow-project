@@ -1,63 +1,102 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Masters Santiago - Valorant</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="./output.css" />
   </head>
-  <body>
-    <!-- Requisito 1: Estructura semántica
-         Se usa las etiquetas <header>, <main>, <aside> y <section>
-         para organizar contenido de forma clara y accesible. -->
-    <header>
-      <h1>Masters Santiago 2026 - Valorant</h1>
+  <body class="m-0 bg-slate-100 font-sans text-slate-900 dark:bg-[#0f1923] dark:text-white">
+    <header class="p-6 bg-white border-b-2 border-slate-200 dark:border-slate-700 dark:bg-black">
+      <div class="flex items-center justify-between gap-4 mx-auto max-w-7xl">
+        <h1 class="m-0 text-xl font-bold">Masters Santiago 2026 - Valorant</h1>
+        <button
+          id="toggleTema"
+          type="button"
+          class="px-3 py-2 text-sm font-semibold transition border rounded-lg border-slate-300 bg-slate-100 text-slate-900 hover:bg-slate-200 dark:border-slate-500 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
+        >
+          Modo claro
+        </button>
+      </div>
     </header>
 
-    <main>
-      <!-- Aside: navegación lateral -->
-      <aside>
-        <nav>
-          <a href="#">Inicio</a>
-          <a href="#">Calendario</a>
-          <a href="#">Equipos</a>
+    <main class="grid gap-4 md:grid-cols-[200px_1fr]">
+      <aside
+        class="border-b border-slate-700 bg-slate-200 p-4 md:row-span-2 md:w-[200px] md:border-b-0 md:border-r dark:bg-[#111827]"
+      >
+        <nav class="flex flex-wrap gap-3 md:flex-col">
+          <a
+            href="#"
+            class="min-w-20 flex-1 rounded-lg px-4 py-3 text-center text-slate-900 transition hover:bg-slate-300 md:block md:flex-none md:text-left dark:text-white dark:hover:bg-[#1f2933]"
+            >Inicio</a
+          >
+          <a
+            href="#"
+            class="min-w-20 flex-1 rounded-lg px-4 py-3 text-center text-slate-900 transition hover:bg-slate-300 md:block md:flex-none md:text-left dark:text-white dark:hover:bg-[#1f2933]"
+            >Calendario</a
+          >
+          <a
+            href="#"
+            class="min-w-20 flex-1 rounded-lg px-4 py-3 text-center text-slate-900 transition hover:bg-slate-300 md:block md:flex-none md:text-left dark:text-white dark:hover:bg-[#1f2933]"
+            >Equipos</a
+          >
         </nav>
       </aside>
 
-      <!-- Sección 1: Lista de tareas-->
-      <section>
-        <h2>Lista de Tareas</h2>
+      <section class="w-full p-4 md:col-start-2 md:row-start-1 md:p-6">
+        <h2 class="mt-0 mb-6 text-xl font-semibold md:mt-0">Lista de Tareas</h2>
 
-        <article class="tarea">
+        <article
+          class="mb-4 flex items-start justify-between gap-4 rounded-lg border border-slate-300 bg-white p-4 transition hover:-translate-y-0.5 hover:shadow-lg dark:border-[#2d3748] dark:bg-[#1f2933] dark:hover:shadow-black/40"
+        >
           <div>
-            <h3>Organizar Eliminatorias</h3>
-            <span class="categoria">Competición</span>
+            <h3 class="mt-0 mb-2 text-base font-semibold">Organizar Eliminatorias</h3>
+            <span
+              class="inline-block px-3 py-2 text-sm rounded-lg bg-slate-200 text-slate-600 dark:bg-white/10 dark:text-slate-300"
+              >Competición</span
+            >
           </div>
-          <select class="prioridad">
+          <select
+            class="px-3 py-2 font-bold text-white transition border-0 rounded-full cursor-pointer prioridad focus:outline-none focus:ring-2 focus:ring-white/40"
+          >
             <option value="alta">Alta</option>
             <option value="media">Media</option>
             <option value="baja">Baja</option>
           </select>
         </article>
 
-        <article class="tarea">
+        <article
+          class="mb-4 flex items-start justify-between gap-4 rounded-lg border border-slate-300 bg-white p-4 transition hover:-translate-y-0.5 hover:shadow-lg dark:border-[#2d3748] dark:bg-[#1f2933] dark:hover:shadow-black/40"
+        >
           <div>
-            <h3>Preparar Escenario Final</h3>
-            <span class="categoria">Evento Global</span>
+            <h3 class="mt-0 mb-2 text-base font-semibold">Preparar Escenario Final</h3>
+            <span
+              class="inline-block px-3 py-2 text-sm rounded-lg bg-slate-200 text-slate-600 dark:bg-white/10 dark:text-slate-300"
+              >Evento Global</span
+            >
           </div>
-          <select class="prioridad">
+          <select
+            class="px-3 py-2 font-bold text-white transition border-0 rounded-full cursor-pointer prioridad focus:outline-none focus:ring-2 focus:ring-white/40"
+          >
             <option value="alta">Alta</option>
             <option value="media" selected>Media</option>
             <option value="baja">Baja</option>
           </select>
         </article>
 
-        <article class="tarea">
+        <article
+          class="mb-4 flex items-start justify-between gap-4 rounded-lg border border-slate-300 bg-white p-4 transition hover:-translate-y-0.5 hover:shadow-lg dark:border-[#2d3748] dark:bg-[#1f2933] dark:hover:shadow-black/40"
+        >
           <div>
-            <h3>Revisión de Equipos</h3>
-            <span class="categoria">Logística</span>
+            <h3 class="mt-0 mb-2 text-base font-semibold">Revisión de Equipos</h3>
+            <span
+              class="inline-block px-3 py-2 text-sm rounded-lg bg-slate-200 text-slate-600 dark:bg-white/10 dark:text-slate-300"
+              >Logística</span
+            >
           </div>
-          <select class="prioridad">
+          <select
+            class="px-3 py-2 font-bold text-white transition border-0 rounded-full cursor-pointer prioridad focus:outline-none focus:ring-2 focus:ring-white/40"
+          >
             <option value="alta">Alta</option>
             <option value="media">Media</option>
             <option value="baja" selected>Baja</option>
@@ -65,146 +104,207 @@
         </article>
       </section>
 
-      <!-- Sección 2: Calendario de partidos -->
-      <section>
-        <h2>Calendario de Partidos</h2>
+      <section class="w-full p-4 md:col-start-2 md:row-start-2 md:p-6">
+        <h2 class="mt-4 mb-6 text-xl font-semibold md:mt-0">Calendario de Partidos</h2>
 
-        <div class="fecha-grupo">
-          <h3 class="fecha-titulo">Hoy - 3 de Marzo</h3>
+        <div class="mb-6">
+          <h3 class="mb-4 mt-4 border-b border-slate-300 pb-3 text-base uppercase tracking-wide text-slate-500 dark:border-[#2d3748] dark:text-slate-400">
+            Hoy - 3 de Marzo
+          </h3>
 
-          <article class="partido">
-            <div class="equipo equipo-local">
+          <article
+            class="mb-4 flex flex-wrap items-center justify-between gap-4 rounded-lg border border-slate-300 bg-white p-4 transition hover:-translate-y-0.5 hover:shadow-lg dark:border-[#2d3748] dark:bg-[#1f2933] dark:hover:shadow-black/40"
+          >
+            <div class="flex items-center flex-1 gap-3 text-left">
               <img
                 src="imagenes/Evil_Geniuses_2020_darkmode.png"
                 alt="Evil Geniuses"
-                class="logo-equipo"
+                class="h-[50px] w-[50px] rounded-lg bg-slate-200 p-2 object-contain dark:bg-white/5"
               />
-              <span class="nombre-equipo">Evil Geniuses</span>
-              <span class="resultado">13</span>
+              <div class="flex flex-col gap-1">
+                <span class="text-sm font-semibold">Evil Geniuses</span>
+                <span class="text-xl font-bold leading-none text-amber-500">13</span>
+              </div>
             </div>
-            <div class="vs">VS</div>
-            <div class="equipo equipo-visitante">
-              <span class="resultado">8</span>
-              <span class="nombre-equipo">Team Heretics</span>
-              <img src="imagenes/Heretics.png" alt="Heretics" class="logo-equipo" />
+            <div class="px-3 text-sm font-bold text-slate-500 dark:text-slate-400">VS</div>
+            <div class="flex flex-row-reverse items-center flex-1 gap-3 text-right">
+              <img
+                src="imagenes/here.png"
+                alt="Heretics"
+                class="h-[50px] w-[50px] rounded-lg bg-slate-200 p-2 object-contain dark:bg-white/5"
+              />
+              <div class="flex flex-col gap-1">
+                <span class="text-sm font-semibold">Team Heretics</span>
+                <span class="text-xl font-bold leading-none text-amber-500">8</span>
+              </div>
             </div>
-            <span class="estado vivo">En Vivo</span>
+            <span class="px-3 py-2 text-sm text-white bg-green-600 rounded-lg whitespace-nowrap">En Vivo</span>
           </article>
 
-          <article class="partido">
-            <div class="equipo equipo-local">
-              <img src="imagenes/Leviathan.png" alt="Leviathan" class="logo-equipo" />
-              <span class="nombre-equipo">Leviathan</span>
-              <span class="resultado">10</span>
+          <article
+            class="mb-4 flex flex-wrap items-center justify-between gap-4 rounded-lg border border-slate-300 bg-white p-4 transition hover:-translate-y-0.5 hover:shadow-lg dark:border-[#2d3748] dark:bg-[#1f2933] dark:hover:shadow-black/40"
+          >
+            <div class="flex items-center flex-1 gap-3 text-left">
+              <img
+                src="imagenes/levi.png"
+                alt="Leviathan"
+                class="h-[50px] w-[50px] rounded-lg bg-slate-200 p-2 object-contain dark:bg-white/5"
+              />
+              <div class="flex flex-col gap-1">
+                <span class="text-sm font-semibold">Leviathan</span>
+                <span class="text-xl font-bold leading-none text-amber-500">10</span>
+              </div>
             </div>
-            <div class="vs">VS</div>
-            <div class="equipo equipo-visitante">
-              <span class="resultado">11</span>
-              <span class="nombre-equipo">Loud</span>
+            <div class="px-3 text-sm font-bold text-slate-500 dark:text-slate-400">VS</div>
+            <div class="flex flex-row-reverse items-center flex-1 gap-3 text-right">
               <img
                 src="imagenes/LOUD_logo.svg.png"
                 alt="Loud"
-                class="logo-equipo"
+                class="h-[50px] w-[50px] rounded-lg bg-slate-200 p-2 object-contain dark:bg-white/5"
               />
+              <div class="flex flex-col gap-1">
+                <span class="text-sm font-semibold">Loud</span>
+                <span class="text-xl font-bold leading-none text-amber-500">11</span>
+              </div>
             </div>
-            <span class="estado">Próximo</span>
+            <span class="px-3 py-2 text-sm border rounded-lg whitespace-nowrap border-amber-500 bg-amber-500/20 text-amber-500">
+              Próximo
+            </span>
           </article>
 
-          <article class="partido">
-            <div class="equipo equipo-local">
+          <article
+            class="mb-4 flex flex-wrap items-center justify-between gap-4 rounded-lg border border-slate-300 bg-white p-4 transition hover:-translate-y-0.5 hover:shadow-lg dark:border-[#2d3748] dark:bg-[#1f2933] dark:hover:shadow-black/40"
+          >
+            <div class="flex items-center flex-1 gap-3 text-left">
               <img
                 src="imagenes/Paper_Rex_darkmode.png"
                 alt="Paper Rex"
-                class="logo-equipo"
+                class="h-[50px] w-[50px] rounded-lg bg-slate-200 p-2 object-contain dark:bg-white/5"
               />
-              <span class="nombre-equipo">Paper Rex</span>
-              <span class="resultado">—</span>
+              <div class="flex flex-col gap-1">
+                <span class="text-sm font-semibold">Paper Rex</span>
+                <span class="text-xl font-bold leading-none text-amber-500">—</span>
+              </div>
             </div>
-            <div class="vs">VS</div>
-            <div class="equipo equipo-visitante">
-              <span class="resultado">—</span>
-              <span class="nombre-equipo">NRG</span>
-              <img src="imagenes/NRG.png" alt="NRG" class="logo-equipo" />
+            <div class="px-3 text-sm font-bold text-slate-500 dark:text-slate-400">VS</div>
+            <div class="flex flex-row-reverse items-center flex-1 gap-3 text-right">
+              <img
+                src="imagenes/nrg.png"
+                alt="NRG"
+                class="h-[50px] w-[50px] rounded-lg bg-slate-200 p-2 object-contain dark:bg-white/5"
+              />
+              <div class="flex flex-col gap-1">
+                <span class="text-sm font-semibold">NRG</span>
+                <span class="text-xl font-bold leading-none text-amber-500">—</span>
+              </div>
             </div>
-            <span class="estado">Próximo</span>
+            <span class="px-3 py-2 text-sm border rounded-lg whitespace-nowrap border-amber-500 bg-amber-500/20 text-amber-500">
+              Próximo
+            </span>
           </article>
         </div>
 
-        <div class="fecha-grupo">
-          <h3 class="fecha-titulo">Ayer - 2 de Marzo</h3>
+        <div class="mb-6">
+          <h3 class="mb-4 mt-4 border-b border-slate-300 pb-3 text-base uppercase tracking-wide text-slate-500 dark:border-[#2d3748] dark:text-slate-400">
+            Ayer - 2 de Marzo
+          </h3>
 
-          <article class="partido">
-            <div class="equipo equipo-local">
+          <article
+            class="mb-4 flex flex-wrap items-center justify-between gap-4 rounded-lg border border-slate-300 bg-white p-4 transition hover:-translate-y-0.5 hover:shadow-lg dark:border-[#2d3748] dark:bg-[#1f2933] dark:hover:shadow-black/40"
+          >
+            <div class="flex items-center flex-1 gap-3 text-left">
               <img
-                src="imagenes/Team_Liquid.png"
-                alt="Team liquid"
-                class="logo-equipo"
+                src="imagenes/liquid.png"
+                alt="Team Liquid"
+                class="h-[50px] w-[50px] rounded-lg bg-slate-200 p-2 object-contain dark:bg-white/5"
               />
-              <span class="nombre-equipo">Team Liquid</span>
-              <span class="resultado">13</span>
+              <div class="flex flex-col gap-1">
+                <span class="text-sm font-semibold">Team Liquid</span>
+                <span class="text-xl font-bold leading-none text-amber-500">13</span>
+              </div>
             </div>
-            <div class="vs">VS</div>
-            <div class="equipo equipo-visitante">
-              <span class="resultado">9</span>
-              <span class="nombre-equipo">Furia</span>
+            <div class="px-3 text-sm font-bold text-slate-500 dark:text-slate-400">VS</div>
+            <div class="flex flex-row-reverse items-center flex-1 gap-3 text-right">
               <img
                 src="imagenes/FURIA_Esports_logo.svg"
                 alt="Furia"
-                class="logo-equipo"
+                class="h-[50px] w-[50px] rounded-lg bg-slate-200 p-2 object-contain dark:bg-white/5"
               />
+              <div class="flex flex-col gap-1">
+                <span class="text-sm font-semibold">Furia</span>
+                <span class="text-xl font-bold leading-none text-amber-500">9</span>
+              </div>
             </div>
-            <span class="estado finalizado">Finalizado</span>
+            <span class="px-3 py-2 text-sm text-white bg-red-600 rounded-lg whitespace-nowrap">Finalizado</span>
           </article>
 
-          <article class="partido">
-            <div class="equipo equipo-local">
+          <article
+            class="mb-4 flex flex-wrap items-center justify-between gap-4 rounded-lg border border-slate-300 bg-white p-4 transition hover:-translate-y-0.5 hover:shadow-lg dark:border-[#2d3748] dark:bg-[#1f2933] dark:hover:shadow-black/40"
+          >
+            <div class="flex items-center flex-1 gap-3 text-left">
               <img
                 src="imagenes/Edward_Gaming_logo.png"
                 alt="Edward Gaming"
-                class="logo-equipo"
+                class="h-[50px] w-[50px] rounded-lg bg-slate-200 p-2 object-contain dark:bg-white/5"
               />
-              <span class="nombre-equipo">Edward Gaming</span>
-              <span class="resultado">12</span>
+              <div class="flex flex-col gap-1">
+                <span class="text-sm font-semibold">Edward Gaming</span>
+                <span class="text-xl font-bold leading-none text-amber-500">12</span>
+              </div>
             </div>
-            <div class="vs">VS</div>
-            <div class="equipo equipo-visitante">
-              <span class="resultado">12</span>
-              <span class="nombre-equipo">MIBR</span>
-              <img src="imagenes/MIBR.png" alt="MIBR" class="logo-equipo" />
+            <div class="px-3 text-sm font-bold text-slate-500 dark:text-slate-400">VS</div>
+            <div class="flex flex-row-reverse items-center flex-1 gap-3 text-right">
+              <img
+                src="imagenes/mbir.png"
+                alt="MIBR"
+                class="h-[50px] w-[50px] rounded-lg bg-slate-200 p-2 object-contain dark:bg-white/5"
+              />
+              <div class="flex flex-col gap-1">
+                <span class="text-sm font-semibold">MIBR</span>
+                <span class="text-xl font-bold leading-none text-amber-500">12</span>
+              </div>
             </div>
-            <span class="estado finalizado">Finalizado</span>
+            <span class="px-3 py-2 text-sm text-white bg-red-600 rounded-lg whitespace-nowrap">Finalizado</span>
           </article>
         </div>
 
-        <div class="fecha-grupo">
-          <h3 class="fecha-titulo">Hace 2 días - 1 de Marzo</h3>
+        <div class="mb-6">
+          <h3 class="mb-4 mt-4 border-b border-slate-300 pb-3 text-base uppercase tracking-wide text-slate-500 dark:border-[#2d3748] dark:text-slate-400">
+            Hace 2 días - 1 de Marzo
+          </h3>
 
-          <article class="partido">
-            <div class="equipo equipo-local">
+          <article
+            class="mb-4 flex flex-wrap items-center justify-between gap-4 rounded-lg border border-slate-300 bg-white p-4 transition hover:-translate-y-0.5 hover:shadow-lg dark:border-[#2d3748] dark:bg-[#1f2933] dark:hover:shadow-black/40"
+          >
+            <div class="flex items-center flex-1 gap-3 text-left">
               <img
                 src="imagenes/KRU_Esports_allmode.png"
-                alt="kru esports"
-                class="logo-equipo"
+                alt="Kru esports"
+                class="h-[50px] w-[50px] rounded-lg bg-slate-200 p-2 object-contain dark:bg-white/5"
               />
-              <span class="nombre-equipo">KRU Esports</span>
-              <span class="resultado">13</span>
+              <div class="flex flex-col gap-1">
+                <span class="text-sm font-semibold">KRU Esports</span>
+                <span class="text-xl font-bold leading-none text-amber-500">13</span>
+              </div>
             </div>
-            <div class="vs">VS</div>
-            <div class="equipo equipo-visitante">
-              <span class="resultado">7</span>
-              <span class="nombre-equipo">Navi</span>
+            <div class="px-3 text-sm font-bold text-slate-500 dark:text-slate-400">VS</div>
+            <div class="flex flex-row-reverse items-center flex-1 gap-3 text-right">
               <img
                 src="imagenes/NAVI-Logo.svg.png"
                 alt="Navi"
-                class="logo-equipo"
+                class="h-[50px] w-[50px] rounded-lg bg-slate-200 p-2 object-contain dark:bg-white/5"
               />
+              <div class="flex flex-col gap-1">
+                <span class="text-sm font-semibold">Navi</span>
+                <span class="text-xl font-bold leading-none text-amber-500">7</span>
+              </div>
             </div>
-            <span class="estado finalizado">Finalizado</span>
+            <span class="px-3 py-2 text-sm text-white bg-red-600 rounded-lg whitespace-nowrap">Finalizado</span>
           </article>
         </div>
       </section>
     </main>
 
-    <script src="script.js"></script>
+    <script src="./script.js"></script>
   </body>
 </html>

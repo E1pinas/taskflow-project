@@ -4,24 +4,44 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tareas Spotify</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="output.css" />
   </head>
-  <body>
-    <div class="header">
-      <h1>Taskflow Spotify</h1>
+  <body class="bg-slate-50 p-6 font-sans text-slate-900 dark:bg-slate-900 dark:text-slate-100 max-sm:p-4">
+    <div class="mb-5 flex items-center justify-between gap-3">
+      <h1 class="text-2xl font-bold">Taskflow Spotify</h1>
+      <button
+        id="toggleTema"
+        type="button"
+        class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700"
+      >
+        Modo oscuro
+      </button>
     </div>
-    <main>
-      <div class="acciones">
-        <button id="abrirModal">Agregar tarea</button>
-        <button id="borrarSeleccionadas" type="button">Borrar seleccionadas</button>
+    <main class="grid max-w-[760px] gap-3">
+      <div class="flex gap-2 max-sm:grid max-sm:grid-cols-1">
+        <button
+          id="abrirModal"
+          type="button"
+          class="w-fit rounded-lg bg-emerald-500 px-3.5 py-2.5 font-medium text-white transition hover:bg-emerald-600 max-sm:w-full"
+        >
+          Agregar tarea
+        </button>
+        <button
+          id="borrarSeleccionadas"
+          type="button"
+          class="w-fit rounded-lg bg-red-500 px-3.5 py-2.5 font-medium text-white transition hover:bg-red-600 max-sm:w-full"
+        >
+          Borrar seleccionadas
+        </button>
       </div>
       <input
         id="buscarTarea"
         type="search"
         placeholder="Buscar tarea..."
         aria-label="Buscar tarea"
+        class="w-full rounded-lg border border-slate-300 bg-white p-2.5 text-slate-900 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-400"
       />
-      <ul id="listaTareas"></ul>
+      <ul id="listaTareas" class="m-0 grid list-none gap-2 p-0"></ul>
     </main>
 
     <!-- Aquí se inyectará la modal -->

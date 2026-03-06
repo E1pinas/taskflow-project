@@ -1,0 +1,23 @@
+{
+  "name": "tareas-spotify",
+  "version": "1.0.0",
+  "description": "Aplicación web simple para gestionar tareas en el navegador usando JavaScript ",
+  "main": "app.js",
+  "scripts": {
+    "build:css": "tailwindcss -i ./input.css -o ./output.css --minify",
+    "watch:css": "tailwindcss -i ./input.css -o ./output.css --watch",
+    "serve": "live-server --port=5173 --no-browser",
+    "dev": "concurrently \"npm:watch:css\" \"npm:serve\""
+  },
+  "keywords": [],
+  "author": "Daichi",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "autoprefixer": "10.4.27",
+    "concurrently": "9.2.1",
+    "live-server": "1.2.2",
+    "postcss": "8.5.8",
+    "tailwindcss": "3.4.17"
+  }
+}

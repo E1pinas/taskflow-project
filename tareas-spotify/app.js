@@ -1,4 +1,5 @@
-const STORAGE_KEY = "taskflow_spotify_tareas";
+const LLAVE = "taskflow_spotify_tareas";
+const TEMA = "taskflow_spotify_tema";
 
 function normalizarCancion(item) {
   if (!item || typeof item !== "object") {
@@ -40,7 +41,7 @@ function normalizarCancion(item) {
   };
 }
 
-let tareas = (JSON.parse(localStorage.getItem(STORAGE_KEY)) || [])
+let tareas = (JSON.parse(localStorage.getItem(LLAVE)) || [])
   .map(normalizarCancion)
   .filter(Boolean);
 
@@ -51,9 +52,29 @@ const listaTareas = document.getElementById("listaTareas");
 const inputBusqueda = document.getElementById("buscarTarea");
 const botonBorrarSeleccionadas = document.getElementById("borrarSeleccionadas");
 const botonAbrirModal = document.getElementById("abrirModal");
+const botonTema = document.getElementById("toggleTema");
+
+function actualizarTextoBotonTema() {
+  if (!botonTema) {
+    return;
+  }
+  botonTema.textContent = document.documentElement.classList.contains("dark")
+    ? "Modo claro"
+    : "Modo oscuro";
+}
+
+function aplicarTemaInicial() {
+  const temaGuardado = localStorage.getItem(TEMA);
+  const preferenciaSistema = window.matchMedia("(prefers-color-scheme: dark)");
+  const temaOscuro =
+    temaGuardado === null ? preferenciaSistema.matches : temaGuardado === "dark";
+
+  document.documentElement.classList.toggle("dark", temaOscuro);
+  actualizarTextoBotonTema();
+}
 
 function guardarTareas() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(tareas));
+  localStorage.setItem(LLAVE, JSON.stringify(tareas));
 }
 
 function eliminarTarea(id) {
@@ -65,11 +86,12 @@ function eliminarTarea(id) {
 
 function crearNodoTarea(tarea) {
   const li = document.createElement("li");
-  li.className = "tarea";
+  li.className =
+    "flex items-center justify-between gap-3 rounded-[10px] border border-slate-200 bg-white p-3 dark:border-slate-700 dark:bg-slate-800 max-sm:flex-col max-sm:items-stretch";
 
   const check = document.createElement("input");
   check.type = "checkbox";
-  check.className = "checkbox-seleccion";
+  check.className = `${modoSeleccion ? "block" : "hidden"} h-4 w-4 rounded border-slate-300 text-emerald-500 focus:ring-emerald-500 dark:border-slate-600 dark:bg-slate-900`;
   check.checked = tareasSeleccionadas.has(tarea.id);
   check.addEventListener("change", () => {
     if (check.checked) {
@@ -80,13 +102,14 @@ function crearNodoTarea(tarea) {
   });
 
   const contenedorPrincipal = document.createElement("div");
-  contenedorPrincipal.className = "contenedor-principal";
+  contenedorPrincipal.className = "flex items-center flex-1 gap-3";
 
   // Portada
   let portada = null;
   if (tarea.imagen) {
     portada = document.createElement("img");
-    portada.className = "portada-cancion";
+    portada.className =
+      "object-cover w-16 h-16 border rounded-lg shrink-0 border-slate-200 dark:border-slate-700";
     portada.src = tarea.imagen;
     portada.alt = `Portada de ${tarea.cancion}`;
     contenedorPrincipal.appendChild(portada);
@@ -95,29 +118,32 @@ function crearNodoTarea(tarea) {
   // Información (canción, artista, álbum)
   const nombreCancion = document.createElement("strong");
   nombreCancion.textContent = tarea.cancion;
-  nombreCancion.className = "nombre-cancion";
+  nombreCancion.className =
+    "mb-1 block text-[15px] text-slate-800 dark:text-slate-100";
 
   const artistaSpan = document.createElement("span");
   artistaSpan.textContent = tarea.artista;
-  artistaSpan.className = "detalle-artista";
+  artistaSpan.className = "text-[13px] text-slate-500 dark:text-slate-400";
 
   const albumSpan = document.createElement("span");
   albumSpan.textContent = tarea.album;
-  albumSpan.className = "detalle-album";
+  albumSpan.className = "text-xs text-slate-400 dark:text-slate-500";
 
   const contenedorInformacion = document.createElement("div");
-  contenedorInformacion.className = "contenedor-informacion";
+  contenedorInformacion.className = "flex flex-col gap-0.5";
   contenedorInformacion.append(nombreCancion, artistaSpan, albumSpan);
 
   contenedorPrincipal.appendChild(contenedorInformacion);
 
   const bloqueIzquierdo = document.createElement("div");
-  bloqueIzquierdo.className = "tarea-info";
+  bloqueIzquierdo.className = "flex items-center flex-1 gap-3 max-sm:items-start";
   bloqueIzquierdo.append(check, contenedorPrincipal);
 
   const botonEliminar = document.createElement("button");
   botonEliminar.type = "button";
   botonEliminar.textContent = "Eliminar";
+  botonEliminar.className =
+    "rounded-lg bg-red-500 px-2.5 py-2 text-white transition hover:bg-red-600 max-sm:w-full";
   botonEliminar.addEventListener("click", () => eliminarTarea(tarea.id));
 
   li.append(bloqueIzquierdo, botonEliminar);
@@ -130,7 +156,6 @@ function construirTextoBusqueda(tarea) {
 
 function renderTareas(filtro = "") {
   listaTareas.innerHTML = "";
-  listaTareas.classList.toggle("modo-seleccion", modoSeleccion);
 
   const tareasFiltradas = tareas.filter((tarea) =>
     construirTextoBusqueda(tarea).includes(filtro),
@@ -236,6 +261,15 @@ inputBusqueda.addEventListener("input", (event) => {
 });
 
 document.addEventListener("modalReady", inicializarFormularioModal);
+if (botonTema) {
+  botonTema.addEventListener("click", () => {
+    const activarOscuro = !document.documentElement.classList.contains("dark");
+    document.documentElement.classList.toggle("dark", activarOscuro);
+    localStorage.setItem(TEMA, activarOscuro ? "dark" : "light");
+    actualizarTextoBotonTema();
+  });
+}
+
 botonAbrirModal.addEventListener("click", () => {
   if (modoSeleccion) {
     salirModoSeleccion();
@@ -272,5 +306,6 @@ botonBorrarSeleccionadas.addEventListener("click", () => {
   renderTareas(inputBusqueda.value.trim().toLowerCase());
 });
 
+aplicarTemaInicial();
 guardarTareas();
 renderTareas();
