@@ -10,7 +10,8 @@ function normalizarCancion(item) {
   let cancion = typeof item.cancion === "string" ? item.cancion.trim() : "";
   let album = typeof item.album === "string" ? item.album.trim() : "";
   let imagen = typeof item.imagen === "string" ? item.imagen : "";
-  let completada = typeof item.completada === "boolean" ? item.completada : false;
+  let completada =
+    typeof item.completada === "boolean" ? item.completada : false;
   let orden = typeof item.orden === "number" ? item.orden : Date.now();
 
   if ((!artista || !cancion) && typeof item.texto === "string") {
@@ -51,14 +52,43 @@ let tareas = (JSON.parse(localStorage.getItem(LLAVE)) || [])
   .sort((a, b) => (a.orden || 0) - (b.orden || 0)); // Ordenar por campo orden
 
 const tareasSeleccionadas = new Set();
-let draggedIndex = null;
+
 let modoSeleccion = false;
 let modoMoverCompletadas = false;
 let modoMoverPendientes = false;
 
 const listaTareasPendientes = document.getElementById("listaTareasPendientes");
-const listaTareasCompletadas = document.getElementById("listaTareasCompletadas");
+const listaTareasCompletadas = document.getElementById(
+  "listaTareasCompletadas",
+);
 const inputBusqueda = document.getElementById("buscarTarea");
+
+// allow dropping on empty container to move between lists
+listaTareasPendientes.addEventListener("dragover", (e) => e.preventDefault());
+listaTareasPendientes.addEventListener("drop", (e) => {
+  e.preventDefault();
+  const draggedId = e.dataTransfer.getData("text/plain");
+  const tarea = tareas.find((t) => t.id == draggedId);
+  if (tarea && tarea.completada) {
+    tarea.completada = false;
+    guardarTareas();
+    inputBusqueda.value = "";
+    renderTareas();
+  }
+});
+
+listaTareasCompletadas.addEventListener("dragover", (e) => e.preventDefault());
+listaTareasCompletadas.addEventListener("drop", (e) => {
+  e.preventDefault();
+  const draggedId = e.dataTransfer.getData("text/plain");
+  const tarea = tareas.find((t) => t.id == draggedId);
+  if (tarea && !tarea.completada) {
+    tarea.completada = true;
+    guardarTareas();
+    inputBusqueda.value = "";
+    renderTareas();
+  }
+});
 const botonBorrarSeleccionadas = document.getElementById("borrarSeleccionadas");
 const botonAbrirModal = document.getElementById("abrirModal");
 const botonMoverCompletadas = document.getElementById("moverCompletadas");
@@ -78,7 +108,9 @@ function aplicarTemaInicial() {
   const temaGuardado = localStorage.getItem(TEMA);
   const preferenciaSistema = window.matchMedia("(prefers-color-scheme: dark)");
   const temaOscuro =
-    temaGuardado === null ? preferenciaSistema.matches : temaGuardado === "dark";
+    temaGuardado === null
+      ? preferenciaSistema.matches
+      : temaGuardado === "dark";
 
   document.documentElement.classList.toggle("dark", temaOscuro);
   actualizarTextoBotonTema();
@@ -112,21 +144,25 @@ function moverTareasSeleccionadas(completar = true) {
   }
 
   // Crear lista de tareas seleccionadas
-  const tareasAMover = Array.from(tareasSeleccionadas).map(id =>
-    tareas.find(t => t.id === id)
-  ).filter(Boolean);
+  const tareasAMover = Array.from(tareasSeleccionadas)
+    .map((id) => tareas.find((t) => t.id === id))
+    .filter(Boolean);
 
-  const listaCanciones = tareasAMover.map(t => `"${t.cancion}" de ${t.artista}`).join('\n• ');
+  const listaCanciones = tareasAMover
+    .map((t) => `"${t.cancion}" de ${t.artista}`)
+    .join("\n• ");
   const accion = completar ? "completadas" : "pendientes";
 
-  const confirmado = confirm(`¿Mover las siguientes canciones a ${accion}?\n\n• ${listaCanciones}`);
+  const confirmado = confirm(
+    `¿Mover las siguientes canciones a ${accion}?\n\n• ${listaCanciones}`,
+  );
 
   if (!confirmado) {
     return; // No salir del modo, permitir que el usuario cancele y siga seleccionando
   }
 
-  tareasSeleccionadas.forEach(id => {
-    const tarea = tareas.find(t => t.id === id);
+  tareasSeleccionadas.forEach((id) => {
+    const tarea = tareas.find((t) => t.id === id);
     if (tarea) {
       tarea.completada = completar;
     }
@@ -138,20 +174,24 @@ function moverTareasSeleccionadas(completar = true) {
 }
 
 function completarTodasLasTareas() {
-  const tareasPendientes = tareas.filter(tarea => !tarea.completada);
+  const tareasPendientes = tareas.filter((tarea) => !tarea.completada);
   if (tareasPendientes.length === 0) {
-    alert('No hay tareas pendientes para completar.');
+    alert("No hay tareas pendientes para completar.");
     return;
   }
 
-  const listaCanciones = tareasPendientes.map(t => `"${t.cancion}" de ${t.artista}`).join('\n• ');
-  const confirmado = confirm(`¿Completar todas las tareas pendientes?\n\n• ${listaCanciones}`);
+  const listaCanciones = tareasPendientes
+    .map((t) => `"${t.cancion}" de ${t.artista}`)
+    .join("\n• ");
+  const confirmado = confirm(
+    `¿Completar todas las tareas pendientes?\n\n• ${listaCanciones}`,
+  );
 
   if (!confirmado) {
     return;
   }
 
-  tareas.forEach(tarea => {
+  tareas.forEach((tarea) => {
     if (!tarea.completada) {
       tarea.completada = true;
     }
@@ -160,33 +200,31 @@ function completarTodasLasTareas() {
   renderTareas(inputBusqueda.value.trim().toLowerCase());
 }
 
-function handleDragStart(event) {
-  draggedIndex = Array.from(event.target.parentNode.children).indexOf(event.target);
-  event.target.classList.add("opacity-50");
-}
-
-function handleDragOver(event) {
-  event.preventDefault();
-}
-
-function handleDrop(event) {
-  event.preventDefault();
-  const dropIndex = Array.from(event.target.closest("li").parentNode.children).indexOf(event.target.closest("li"));
-  if (draggedIndex !== null && draggedIndex !== dropIndex) {
-    const draggedTask = tareas.splice(draggedIndex, 1)[0];
-    tareas.splice(dropIndex, 0, draggedTask);
-    // Actualizar orden
-    tareas.forEach((tarea, index) => {
-      tarea.orden = index;
-    });
-    guardarTareas();
-    renderTareas(inputBusqueda.value.trim().toLowerCase());
+function descompletarTodasLasTareas() {
+  const tareasCompletadas = tareas.filter((tarea) => tarea.completada);
+  if (tareasCompletadas.length === 0) {
+    alert("No hay tareas completadas para mover.");
+    return;
   }
-  draggedIndex = null;
-}
 
-function handleDragEnd(event) {
-  event.target.classList.remove("opacity-50");
+  const listaCanciones = tareasCompletadas
+    .map((t) => `"${t.cancion}" de ${t.artista}`)
+    .join("\n• ");
+  const confirmado = confirm(
+    `¿Mover todas las tareas completadas a pendientes?\n\n• ${listaCanciones}`,
+  );
+
+  if (!confirmado) {
+    return;
+  }
+
+  tareas.forEach((tarea) => {
+    if (tarea.completada) {
+      tarea.completada = false;
+    }
+  });
+  guardarTareas();
+  renderTareas(inputBusqueda.value.trim().toLowerCase());
 }
 
 function reordenarTareas(draggedId, targetId) {
@@ -208,12 +246,69 @@ function reordenarTareas(draggedId, targetId) {
 }
 
 function crearNodoTarea(tarea) {
-  const li = document.createElement("li");
-  li.className =
-    "flex items-center justify-between gap-3 rounded-[10px] border border-slate-200 bg-white p-3 dark:border-slate-700 dark:bg-slate-800 max-sm:flex-col max-sm:items-stretch transition-all duration-300 ease-in-out cursor-move";
-  li.draggable = true;
+  const template = document.getElementById("taskTemplate");
+  const li = template.content.cloneNode(true).querySelector("li");
   li.dataset.id = tarea.id;
+  li.draggable = true;
 
+  const selectCheckbox = li.querySelector(".select-checkbox");
+  selectCheckbox.checked = tareasSeleccionadas.has(tarea.id);
+  selectCheckbox.addEventListener("change", () => {
+    if (selectCheckbox.checked) {
+      tareasSeleccionadas.add(tarea.id);
+    } else {
+      tareasSeleccionadas.delete(tarea.id);
+    }
+    actualizarTextosBotones();
+  });
+  selectCheckbox.classList.toggle(
+    "hidden",
+    !(modoSeleccion || modoMoverCompletadas || modoMoverPendientes),
+  );
+
+  const checkbox = li.querySelector(".task-checkbox");
+  checkbox.checked = tarea.completada;
+  checkbox.addEventListener("change", () => toggleCompletada(tarea.id));
+
+  const img = li.querySelector(".task-image");
+  if (tarea.imagen) {
+    img.src = tarea.imagen;
+    img.style.display = "block";
+  } else {
+    img.style.display = "none";
+  }
+
+  const cancion = li.querySelector(".task-cancion");
+  cancion.textContent = tarea.cancion;
+  if (tarea.completada) {
+    cancion.classList.add("line-through", "text-slate-500");
+  }
+
+  const artista = li.querySelector(".task-artista");
+  artista.textContent = tarea.artista;
+  if (tarea.completada) {
+    artista.classList.add("line-through", "text-slate-500");
+  }
+
+  const album = li.querySelector(".task-album");
+  album.textContent = tarea.album;
+  if (tarea.completada) {
+    album.classList.add("line-through", "text-slate-500");
+  }
+
+  const editBtn = li.querySelector(".edit-btn");
+  editBtn.addEventListener("click", () => editarTarea(tarea.id));
+
+  const deleteBtn = li.querySelector(".delete-btn");
+  deleteBtn.addEventListener("click", () => eliminarTarea(tarea.id));
+
+  // cuando se renderiza, ocultar/mostrar checkbox de selección según modo actual
+  selectCheckbox.classList.toggle(
+    "hidden",
+    !(modoSeleccion || modoMoverCompletadas || modoMoverPendientes),
+  );
+
+  // Drag and drop handlers
   li.addEventListener("dragstart", (e) => {
     e.dataTransfer.setData("text/plain", tarea.id);
     li.classList.add("opacity-50");
@@ -238,100 +333,33 @@ function crearNodoTarea(tarea) {
     const draggedId = e.dataTransfer.getData("text/plain");
     const targetId = tarea.id;
 
-    // Determinar si se soltó en un contenedor diferente
     const targetContainer = li.closest("ul");
-    const draggedTask = tareas.find(t => t.id == draggedId);
+    const draggedTask = tareas.find((t) => t.id == draggedId);
+    if (!draggedTask) return;
 
-    if (!draggedTask) return; // Si no se encuentra la tarea, salir
-
-    if (targetContainer.id === "listaTareasPendientes" && draggedTask.completada) {
-      // Moviendo de completadas a pendientes
+    if (
+      targetContainer.id === "listaTareasPendientes" &&
+      draggedTask.completada
+    ) {
       draggedTask.completada = false;
       guardarTareas();
-      inputBusqueda.value = ""; // Limpiar búsqueda para mostrar la tarea movida
+      inputBusqueda.value = "";
       renderTareas();
-    } else if (targetContainer.id === "listaTareasCompletadas" && !draggedTask.completada) {
-      // Moviendo de pendientes a completadas
+    } else if (
+      targetContainer.id === "listaTareasCompletadas" &&
+      !draggedTask.completada
+    ) {
       draggedTask.completada = true;
       guardarTareas();
-      inputBusqueda.value = ""; // Limpiar búsqueda para mostrar la tarea movida
+      inputBusqueda.value = "";
       renderTareas();
     } else {
-      // Reordenar dentro del mismo contenedor
       if (draggedId !== targetId) {
         reordenarTareas(draggedId, targetId);
       }
     }
   });
 
-  const checkSeleccion = document.createElement("input");
-  checkSeleccion.type = "checkbox";
-  checkSeleccion.className = `${modoSeleccion || modoMoverCompletadas || modoMoverPendientes ? "block" : "hidden"} h-4 w-4 rounded border-slate-300 text-emerald-500 focus:ring-emerald-500 dark:border-slate-600 dark:bg-slate-900`;
-  checkSeleccion.checked = tareasSeleccionadas.has(tarea.id);
-  checkSeleccion.addEventListener("change", () => {
-    if (checkSeleccion.checked) {
-      tareasSeleccionadas.add(tarea.id);
-    } else {
-      tareasSeleccionadas.delete(tarea.id);
-    }
-    actualizarTextosBotones();
-  });
-
-  const checkCompletada = document.createElement("input");
-  checkCompletada.type = "checkbox";
-  checkCompletada.className = "h-4 w-4 rounded border-slate-300 text-emerald-500 focus:ring-emerald-500 dark:border-slate-600 dark:bg-slate-900";
-  checkCompletada.checked = tarea.completada;
-  checkCompletada.addEventListener("change", () => toggleCompletada(tarea.id));
-
-  const contenedorPrincipal = document.createElement("div");
-  contenedorPrincipal.className = "flex items-center flex-1 gap-3";
-
-  // Portada
-  let portada = null;
-  if (tarea.imagen) {
-    portada = document.createElement("img");
-    portada.className =
-      "object-cover w-16 h-16 border rounded-lg shrink-0 border-slate-200 dark:border-slate-700 transition-opacity duration-300";
-    portada.src = tarea.imagen;
-    portada.alt = `Portada de ${tarea.cancion}`;
-    if (tarea.completada) {
-      portada.classList.add("opacity-50");
-    }
-    contenedorPrincipal.appendChild(portada);
-  }
-
-  // Información (canción, artista, álbum)
-  const nombreCancion = document.createElement("strong");
-  nombreCancion.textContent = tarea.cancion;
-  nombreCancion.className =
-    `mb-1 block text-[15px] text-slate-800 dark:text-slate-100 transition-all duration-300 ${tarea.completada ? "line-through opacity-60" : ""}`;
-
-  const artistaSpan = document.createElement("span");
-  artistaSpan.textContent = tarea.artista;
-  artistaSpan.className = `text-[13px] text-slate-500 dark:text-slate-400 transition-all duration-300 ${tarea.completada ? "line-through opacity-60" : ""}`;
-
-  const albumSpan = document.createElement("span");
-  albumSpan.textContent = tarea.album;
-  albumSpan.className = `text-xs text-slate-400 dark:text-slate-500 transition-all duration-300 ${tarea.completada ? "line-through opacity-60" : ""}`;
-
-  const contenedorInformacion = document.createElement("div");
-  contenedorInformacion.className = "flex flex-col gap-0.5";
-  contenedorInformacion.append(nombreCancion, artistaSpan, albumSpan);
-
-  contenedorPrincipal.appendChild(contenedorInformacion);
-
-  const bloqueIzquierdo = document.createElement("div");
-  bloqueIzquierdo.className = "flex items-center flex-1 gap-3 max-sm:items-start";
-  bloqueIzquierdo.append(checkSeleccion, checkCompletada, contenedorPrincipal);
-
-  const botonEliminar = document.createElement("button");
-  botonEliminar.type = "button";
-  botonEliminar.textContent = "Eliminar";
-  botonEliminar.className =
-    "rounded-lg bg-red-500 px-2.5 py-2 text-white transition hover:bg-red-600 max-sm:w-full";
-  botonEliminar.addEventListener("click", () => eliminarTarea(tarea.id));
-
-  li.append(bloqueIzquierdo, botonEliminar);
   return li;
 }
 
@@ -339,91 +367,39 @@ function construirTextoBusqueda(tarea) {
   return `${tarea.artista} ${tarea.cancion} ${tarea.album}`.toLowerCase();
 }
 
+function actualizarEstadisticas() {
+  const total = tareas.length;
+  const completadas = tareas.filter((t) => t.completada).length;
+  const pendientes = total - completadas;
+  document.getElementById("totalTareas").textContent = `Total: ${total}`;
+  document.getElementById("completadas").textContent =
+    `Completadas: ${completadas}`;
+  document.getElementById("pendientes").textContent =
+    `Pendientes: ${pendientes}`;
+}
+
 function renderTareas(filtro = "") {
   listaTareasPendientes.innerHTML = "";
   listaTareasCompletadas.innerHTML = "";
-
-  // Agregar event listeners de drop a las listas para cuando estén vacías
-  listaTareasPendientes.addEventListener("dragover", (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    e.dataTransfer.dropEffect = "move";
-    listaTareasPendientes.classList.add("border-emerald-500");
-  });
-
-  listaTareasPendientes.addEventListener("dragleave", (e) => {
-    e.stopPropagation();
-    if (e.currentTarget === listaTareasPendientes) {
-      listaTareasPendientes.classList.remove("border-emerald-500");
-    }
-  });
-
-  listaTareasPendientes.addEventListener("drop", (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    listaTareasPendientes.classList.remove("border-emerald-500");
-    const draggedId = e.dataTransfer.getData("text/plain");
-    if (!draggedId) return; // Si no hay dato válido, salir
-    
-    const draggedTask = tareas.find(t => t.id == draggedId);
-
-    if (draggedTask && draggedTask.completada) {
-      draggedTask.completada = false;
-      guardarTareas();
-      inputBusqueda.value = ""; // Limpiar búsqueda
-      renderTareas();
-    }
-  });
-
-  listaTareasCompletadas.addEventListener("dragover", (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    e.dataTransfer.dropEffect = "move";
-    listaTareasCompletadas.classList.add("border-emerald-500");
-  });
-
-  listaTareasCompletadas.addEventListener("dragleave", (e) => {
-    e.stopPropagation();
-    if (e.currentTarget === listaTareasCompletadas) {
-      listaTareasCompletadas.classList.remove("border-emerald-500");
-    }
-  });
-
-  listaTareasCompletadas.addEventListener("drop", (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    listaTareasCompletadas.classList.remove("border-emerald-500");
-    const draggedId = e.dataTransfer.getData("text/plain");
-    if (!draggedId) return; // Si no hay dato válido, salir
-    
-    const draggedTask = tareas.find(t => t.id == draggedId);
-
-    if (draggedTask && !draggedTask.completada) {
-      draggedTask.completada = true;
-      guardarTareas();
-      inputBusqueda.value = ""; // Limpiar búsqueda
-      renderTareas();
-    }
-  });
 
   const tareasFiltradas = tareas.filter((tarea) =>
     construirTextoBusqueda(tarea).includes(filtro),
   );
 
-  const tareasPendientes = tareasFiltradas.filter(tarea => !tarea.completada);
-  const tareasCompletadas = tareasFiltradas.filter(tarea => tarea.completada);
+  const tareasPendientes = tareasFiltradas.filter((tarea) => !tarea.completada);
+  const tareasCompletadas = tareasFiltradas.filter((tarea) => tarea.completada);
 
   tareasPendientes.forEach((tarea) => {
     const nodo = crearNodoTarea(tarea);
-    nodo.classList.add("animate-fade-in");
     listaTareasPendientes.appendChild(nodo);
   });
 
   tareasCompletadas.forEach((tarea) => {
     const nodo = crearNodoTarea(tarea);
-    nodo.classList.add("animate-fade-in");
     listaTareasCompletadas.appendChild(nodo);
   });
+
+  actualizarEstadisticas();
 }
 
 function agregarTarea({ artista, cancion, album, imagen }) {
@@ -443,14 +419,24 @@ function agregarTarea({ artista, cancion, album, imagen }) {
   renderTareas(); // No aplicar filtro al agregar nueva tarea
 }
 
-function leerImagenComoDataURL(archivo) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () =>
-      resolve(typeof reader.result === "string" ? reader.result : "");
-    reader.onerror = () => reject(new Error("No se pudo leer la imagen."));
-    reader.readAsDataURL(archivo);
-  });
+function editarTarea(id) {
+  const tarea = tareas.find((t) => t.id === id);
+  if (!tarea) return;
+
+  const nuevoArtista = prompt("Editar artista:", tarea.artista);
+  if (nuevoArtista === null) return;
+  const nuevaCancion = prompt("Editar canción:", tarea.cancion);
+  if (nuevaCancion === null) return;
+  const nuevoAlbum = prompt("Editar álbum:", tarea.album);
+  if (nuevoAlbum === null) return;
+
+  if (nuevaCancion.trim()) {
+    tarea.artista = nuevoArtista.trim() || "Artista desconocido";
+    tarea.cancion = nuevaCancion.trim();
+    tarea.album = nuevoAlbum.trim() || "Sencillo";
+    guardarTareas();
+    renderTareas(inputBusqueda.value.trim().toLowerCase());
+  }
 }
 
 function cerrarModal() {
@@ -492,15 +478,30 @@ function actualizarTextosBotones() {
     if (tareasSeleccionadas.size === 0) {
       botonMoverCompletadas.textContent = "Cancelar";
       botonMoverCompletadas.classList.add("bg-red-500", "hover:bg-red-600");
-      botonMoverCompletadas.classList.remove("bg-green-500", "hover:bg-green-600", "bg-blue-500", "hover:bg-blue-600");
+      botonMoverCompletadas.classList.remove(
+        "bg-green-500",
+        "hover:bg-green-600",
+        "bg-blue-500",
+        "hover:bg-blue-600",
+      );
     } else {
       botonMoverCompletadas.textContent = `Confirmar mover a completadas (${tareasSeleccionadas.size})`;
       botonMoverCompletadas.classList.add("bg-green-500", "hover:bg-green-600");
-      botonMoverCompletadas.classList.remove("bg-red-500", "hover:bg-red-600", "bg-blue-500", "hover:bg-blue-600");
+      botonMoverCompletadas.classList.remove(
+        "bg-red-500",
+        "hover:bg-red-600",
+        "bg-blue-500",
+        "hover:bg-blue-600",
+      );
     }
   } else {
     botonMoverCompletadas.textContent = "Mover a completadas";
-    botonMoverCompletadas.classList.remove("bg-green-500", "hover:bg-green-600", "bg-red-500", "hover:bg-red-600");
+    botonMoverCompletadas.classList.remove(
+      "bg-green-500",
+      "hover:bg-green-600",
+      "bg-red-500",
+      "hover:bg-red-600",
+    );
     botonMoverCompletadas.classList.add("bg-blue-500", "hover:bg-blue-600");
   }
 
@@ -508,16 +509,40 @@ function actualizarTextosBotones() {
     if (tareasSeleccionadas.size === 0) {
       botonMoverPendientes.textContent = "Cancelar";
       botonMoverPendientes.classList.add("bg-red-500", "hover:bg-red-600");
-      botonMoverPendientes.classList.remove("bg-green-500", "hover:bg-green-600", "bg-orange-500", "hover:bg-orange-600");
+      botonMoverPendientes.classList.remove(
+        "bg-green-500",
+        "hover:bg-green-600",
+        "bg-orange-500",
+        "hover:bg-orange-600",
+      );
     } else {
       botonMoverPendientes.textContent = `Confirmar mover a pendientes (${tareasSeleccionadas.size})`;
-      botonMoverPendientes.classList.add("bg-green-500", "hover:bg-green-600");
-      botonMoverPendientes.classList.remove("bg-red-500", "hover:bg-red-600", "bg-orange-500", "hover:bg-orange-600");
+      botonMoverPendientes.class.add("bg-green-500", "hover:bg-green-600");
+      botonMoverPendientes.classList.remove(
+        "bg-red-500",
+        "hover:bg-red-600",
+        "bg-orange-500",
+        "hover:bg-orange-600",
+      );
     }
   } else {
     botonMoverPendientes.textContent = "Mover a pendientes";
-    botonMoverPendientes.classList.remove("bg-green-500", "hover:bg-green-600", "bg-red-500", "hover:bg-red-600");
+    botonMoverPendientes.classList.remove(
+      "bg-green-500",
+      "hover:bg-green-600",
+      "bg-red-500",
+      "hover:bg-red-600",
+    );
     botonMoverPendientes.classList.add("bg-orange-500", "hover:bg-orange-600");
+  }
+
+  // actualizar botón de borrado masivo
+  if (modoSeleccion) {
+    if (tareasSeleccionadas.size === 0) {
+      botonBorrarSeleccionadas.textContent = "Confirmar borrado";
+    } else {
+      botonBorrarSeleccionadas.textContent = `Borrar seleccionadas (${tareasSeleccionadas.size})`;
+    }
   }
 }
 
@@ -527,6 +552,16 @@ function inicializarFormularioModal() {
   const nombreCancion = document.getElementById("nombreCancion");
   const albumCancion = document.getElementById("albumCancion");
   const imagenCancion = document.getElementById("imagenCancion");
+
+  function leerImagenComoDataURL(archivo) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () =>
+        resolve(typeof reader.result === "string" ? reader.result : "");
+      reader.onerror = () => reject(new Error("No se pudo leer la imagen."));
+      reader.readAsDataURL(archivo);
+    });
+  }
   if (
     !formTarea ||
     !artistaCancion ||
@@ -548,8 +583,8 @@ function inicializarFormularioModal() {
         ? imagenCancion.files[0]
         : null;
 
-    if (!cancion || !artista) {
-      alert("Por favor, completa el artista y el nombre de la canción.");
+    if (!cancion) {
+      alert("Por favor, completa el nombre de la canción.");
       return;
     }
 
@@ -595,11 +630,15 @@ inputBusqueda.addEventListener("input", (event) => {
 document.addEventListener("modalReady", inicializarFormularioModal);
 if (botonTema) {
   botonTema.addEventListener("click", () => {
+    console.log("Botón de tema clickeado");
     const activarOscuro = !document.documentElement.classList.contains("dark");
     document.documentElement.classList.toggle("dark", activarOscuro);
     localStorage.setItem(TEMA, activarOscuro ? "dark" : "light");
     actualizarTextoBotonTema();
+    console.log("Tema cambiado a:", activarOscuro ? "dark" : "light");
   });
+} else {
+  console.error("Botón de tema no encontrado");
 }
 
 botonAbrirModal.addEventListener("click", () => {
@@ -644,23 +683,7 @@ botonMoverCompletadas.addEventListener("click", () => {
 });
 
 botonMoverPendientes.addEventListener("click", () => {
-  if (!modoMoverPendientes) {
-    // Activar modo mover a pendientes
-    salirModoSeleccion();
-    salirModoMover();
-    activarModoMoverPendientes();
-    return;
-  }
-
-  // Si ya está en modo, verificar si hay tareas seleccionadas
-  if (tareasSeleccionadas.size === 0) {
-    // Si no hay tareas seleccionadas, salir del modo (cancelar)
-    salirModoMover();
-    return;
-  }
-
-  // Si hay tareas seleccionadas, intentar mover las seleccionadas
-  moverTareasSeleccionadas(false);
+  descompletarTodasLasTareas();
 });
 
 aplicarTemaInicial();

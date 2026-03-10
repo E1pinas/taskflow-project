@@ -2,12 +2,23 @@
 
 Aplicación web simple para gestionar tareas en el navegador usando JavaScript y persistencia local.
 
+## Diseño de la App
+
+La interfaz de Taskflow Spotify sigue un diseño simple y responsivo:
+
+- **Cabecera**: Título de la app y botón para alternar entre modo claro y oscuro.
+- **Contenido principal**: Botones para agregar tareas y borrar seleccionadas, input de búsqueda, secciones para tareas pendientes y completadas.
+- **Panel lateral (aside)**: Estadísticas con total de tareas, completadas y pendientes.
+- **Acciones del usuario**: Agregar tareas (con artista, canción, álbum, imagen), marcar completadas, eliminar, buscar, editar, ver estadísticas.
+- **Wireframe**: Ver [docs/design/wireframe.md](docs/design/wireframe.md) para el diagrama del diseño.
+
 ## Funcionalidades
 
-- ✅ Agregar tareas desde una modal con validación completa.
-- ✅ Eliminar tareas individualmente con animaciones.
+- ✅ Agregar tareas desde una modal con validación completa (artista, canción, álbum, imagen).
+- ✅ Editar artista, canción y álbum de tareas existentes.
+- ✅ Eliminar tareas individualmente.
 - ✅ Marcar tareas como completadas/desmarcar con estilo visual.
-- ✅ **Mover tareas entre secciones**: pendientes ↔ completadas.
+- ✅ Panel lateral con estadísticas (total, completadas, pendientes).
 - ✅ Persistencia con localStorage (no se pierden al refrescar).
 - ✅ Filtro de búsqueda en tiempo real.
 - ✅ Soporte de tema claro/oscuro con persistencia.
@@ -23,6 +34,7 @@ Aplicación web simple para gestionar tareas en el navegador usando JavaScript y
 ### Casos de Prueba Documentados
 
 #### ✅ Lista Vacía
+
 - **Descripción**: Verificar comportamiento cuando no hay tareas.
 - **Pasos**:
   1. Abrir aplicación con localStorage vacío.
@@ -30,25 +42,18 @@ Aplicación web simple para gestionar tareas en el navegador usando JavaScript y
 - **Resultado Esperado**: Lista vacía, sin crashes.
 - **Estado**: ✅ Pasó
 
-#### ✅ Agregar Tarea Sin Título
+#### ✅ Agregar Tarea Sin Canción
+
 - **Descripción**: Intentar agregar tarea sin nombre de canción.
 - **Pasos**:
   1. Abrir modal de agregar tarea.
   2. Dejar campo "Nombre de la canción" vacío.
   3. Intentar enviar formulario.
-- **Resultado Esperado**: Validación falla, muestra alerta "Por favor, completa el artista y el nombre de la canción."
-- **Estado**: ✅ Pasó
-
-#### ✅ Agregar Tarea Sin Artista
-- **Descripción**: Intentar agregar tarea sin artista.
-- **Pasos**:
-  1. Abrir modal de agregar tarea.
-  2. Dejar campo "Artista" vacío.
-  3. Intentar enviar formulario.
-- **Resultado Esperado**: Validación falla, muestra alerta.
+- **Resultado Esperado**: Validación falla, muestra alerta "Por favor, completa el nombre de la canción."
 - **Estado**: ✅ Pasó
 
 #### ✅ Agregar Tarea Completa
+
 - **Descripción**: Agregar tarea con todos los campos.
 - **Pasos**:
   1. Abrir modal.
@@ -58,6 +63,7 @@ Aplicación web simple para gestionar tareas en el navegador usando JavaScript y
 - **Estado**: ✅ Pasó
 
 #### ✅ Marcar/Desmarcar Completada
+
 - **Descripción**: Toggle estado completada.
 - **Pasos**:
   1. Agregar tarea.
@@ -68,6 +74,7 @@ Aplicación web simple para gestionar tareas en el navegador usando JavaScript y
 - **Estado**: ✅ Pasó
 
 #### ✅ Eliminar Tarea Individual
+
 - **Descripción**: Borrar una tarea específica.
 - **Pasos**:
   1. Agregar varias tareas.
@@ -76,6 +83,7 @@ Aplicación web simple para gestionar tareas en el navegador usando JavaScript y
 - **Estado**: ✅ Pasó
 
 #### ✅ Borrado Masivo
+
 - **Descripción**: Borrar múltiples tareas seleccionadas.
 - **Pasos**:
   1. Agregar 3 tareas.
@@ -87,6 +95,7 @@ Aplicación web simple para gestionar tareas en el navegador usando JavaScript y
 - **Estado**: ✅ Pasó
 
 #### ✅ Búsqueda/Filtro
+
 - **Descripción**: Filtrar tareas por texto.
 - **Pasos**:
   1. Agregar tareas con diferentes artistas/canciones.
@@ -95,6 +104,7 @@ Aplicación web simple para gestionar tareas en el navegador usando JavaScript y
 - **Estado**: ✅ Pasó
 
 #### ✅ Persistencia localStorage
+
 - **Descripción**: Verificar que datos persisten.
 - **Pasos**:
   1. Agregar tareas y marcar algunas completadas.
@@ -103,6 +113,7 @@ Aplicación web simple para gestionar tareas en el navegador usando JavaScript y
 - **Estado**: ✅ Pasó
 
 #### ✅ Tema Claro/Oscuro
+
 - **Descripción**: Cambiar tema.
 - **Pasos**:
   1. Hacer click en botón de tema.
@@ -112,6 +123,7 @@ Aplicación web simple para gestionar tareas en el navegador usando JavaScript y
 - **Estado**: ✅ Pasó
 
 #### ✅ Mover Tareas Entre Secciones
+
 - **Descripción**: Mover tareas seleccionadas entre pendientes y completadas con confirm.
 - **Pasos**:
   1. Agregar 2 tareas en pendientes.
@@ -123,6 +135,7 @@ Aplicación web simple para gestionar tareas en el navegador usando JavaScript y
 - **Estado**: ✅ Pasó
 
 #### ✅ Drag & Drop Entre Secciones
+
 - **Descripción**: Arrastrar tarea de una sección a otra.
 - **Pasos**:
   1. Agregar tareas en ambas secciones.
@@ -199,5 +212,3 @@ Referencia para revisión técnica (líneas actuales de inicio en los archivos).
 - `botonAbrirModal` click handler (línea 273): asegura que al abrir modal no quede activo un flujo de borrado masivo.
 - `botonBorrarSeleccionadas` click handler (línea 280): implementa máquina de estados simple de borrado en 2 pasos (entrar selección -> confirmar).
 - Bootstrap final (líneas 309-311): aplica tema, asegura persistencia consistente y renderiza estado inicial.
-
-

@@ -6,7 +6,9 @@
     <title>Tareas Spotify</title>
     <link rel="stylesheet" href="output.css" />
   </head>
-  <body class="bg-slate-50 p-6 font-sans text-slate-900 dark:bg-slate-900 dark:text-slate-100 max-sm:p-4">
+  <body
+    class="bg-slate-50 p-6 font-sans text-slate-900 dark:bg-slate-900 dark:text-slate-100 max-sm:p-4"
+  >
     <div class="mb-5 flex items-center justify-between gap-3">
       <h1 class="text-2xl font-bold">Taskflow Spotify</h1>
       <button
@@ -18,65 +20,147 @@
         Modo oscuro
       </button>
     </div>
-    <main class="grid max-w-[760px] gap-3">
-      <div class="flex gap-2 max-sm:grid max-sm:grid-cols-1">
-        <button
-          id="abrirModal"
-          type="button"
-          aria-label="Abrir modal para agregar nueva tarea"
-          class="w-fit rounded-lg bg-emerald-500 px-3.5 py-2.5 font-medium text-white transition hover:bg-emerald-600 max-sm:w-full"
-        >
-          Agregar tarea
-        </button>
-        <button
-          id="borrarSeleccionadas"
-          type="button"
-          aria-label="Entrar en modo selección para borrar múltiples tareas"
-          class="w-fit rounded-lg bg-red-500 px-3.5 py-2.5 font-medium text-white transition hover:bg-red-600 max-sm:w-full"
-        >
-          Borrar seleccionadas
-        </button>
+    <main class="flex gap-6 max-w-[1000px]">
+      <div class="flex-1 grid gap-3">
+        <div class="flex gap-2 max-sm:grid max-sm:grid-cols-1">
+          <button
+            id="abrirModal"
+            type="button"
+            aria-label="Abrir modal para agregar nueva tarea"
+            class="w-fit rounded-lg bg-emerald-500 px-3.5 py-2.5 font-medium text-white transition hover:bg-emerald-600 max-sm:w-full"
+          >
+            Agregar tarea
+          </button>
+          <button
+            id="borrarSeleccionadas"
+            type="button"
+            aria-label="Entrar en modo selección para borrar múltiples tareas"
+            class="w-fit rounded-lg bg-red-500 px-3.5 py-2.5 font-medium text-white transition hover:bg-red-600 max-sm:w-full"
+          >
+            Borrar seleccionadas
+          </button>
+        </div>
+        <input
+          id="buscarTarea"
+          type="search"
+          placeholder="Buscar tarea..."
+          aria-label="Buscar tarea"
+          class="w-full rounded-lg border border-slate-300 bg-white p-2.5 text-slate-900 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-400"
+        />
+
+        <!-- Tareas Pendientes -->
+        <section class="space-y-3">
+          <div class="flex items-center justify-between">
+            <h2
+              class="text-lg font-semibold text-slate-800 dark:text-slate-100"
+            >
+              Tareas Pendientes
+            </h2>
+            <button
+              id="moverCompletadas"
+              type="button"
+              aria-label="Completar todas las tareas pendientes"
+              class="rounded-lg bg-blue-500 px-3 py-1.5 text-sm font-medium text-white transition hover:bg-blue-600"
+            >
+              Completar Todas
+            </button>
+          </div>
+          <ul
+            id="listaTareasPendientes"
+            class="m-0 grid list-none gap-2 p-0 min-h-[100px] border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-lg p-4"
+          ></ul>
+        </section>
+
+        <!-- Tareas Completadas -->
+        <section class="space-y-3">
+          <div class="flex items-center justify-between">
+            <h2
+              class="text-lg font-semibold text-slate-800 dark:text-slate-100"
+            >
+              Tareas Completadas
+            </h2>
+            <button
+              id="moverPendientes"
+              type="button"
+              aria-label="Mover tareas seleccionadas a pendientes"
+              class="rounded-lg bg-orange-500 px-3 py-1.5 text-sm font-medium text-white transition hover:bg-orange-600"
+            >
+              Mover a pendientes
+            </button>
+          </div>
+          <ul
+            id="listaTareasCompletadas"
+            class="m-0 grid list-none gap-2 p-0 min-h-[100px] border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-lg p-4"
+          ></ul>
+        </section>
       </div>
-      <input
-        id="buscarTarea"
-        type="search"
-        placeholder="Buscar tarea..."
-        aria-label="Buscar tarea"
-        class="w-full rounded-lg border border-slate-300 bg-white p-2.5 text-slate-900 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-400"
-      />
 
-      <!-- Tareas Pendientes -->
-      <section class="space-y-3">
-        <div class="flex items-center justify-between">
-          <h2 class="text-lg font-semibold text-slate-800 dark:text-slate-100">Tareas Pendientes</h2>
-          <button
-            id="moverCompletadas"
-            type="button"
-            aria-label="Completar todas las tareas pendientes"
-            class="rounded-lg bg-blue-500 px-3 py-1.5 text-sm font-medium text-white transition hover:bg-blue-600"
+      <aside class="w-64 space-y-4">
+        <h2 class="text-lg font-semibold text-slate-800 dark:text-slate-100">
+          Estadísticas
+        </h2>
+        <div class="rounded-lg bg-slate-100 p-4 dark:bg-slate-700">
+          <p
+            id="totalTareas"
+            class="text-sm text-slate-600 dark:text-slate-300"
           >
-            Completar Todas
-          </button>
-        </div>
-        <ul id="listaTareasPendientes" class="m-0 grid list-none gap-2 p-0 min-h-[100px] border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-lg p-4"></ul>
-      </section>
-
-      <!-- Tareas Completadas -->
-      <section class="space-y-3">
-        <div class="flex items-center justify-between">
-          <h2 class="text-lg font-semibold text-slate-800 dark:text-slate-100">Tareas Completadas</h2>
-          <button
-            id="moverPendientes"
-            type="button"
-            aria-label="Mover tareas seleccionadas a pendientes"
-            class="rounded-lg bg-orange-500 px-3 py-1.5 text-sm font-medium text-white transition hover:bg-orange-600"
+            Total: 0
+          </p>
+          <p
+            id="completadas"
+            class="text-sm text-slate-600 dark:text-slate-300"
           >
-            Mover a pendientes
-          </button>
+            Completadas: 0
+          </p>
+          <p id="pendientes" class="text-sm text-slate-600 dark:text-slate-300">
+            Pendientes: 0
+          </p>
         </div>
-        <ul id="listaTareasCompletadas" class="m-0 grid list-none gap-2 p-0 min-h-[100px] border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-lg p-4"></ul>
-      </section>
+      </aside>
     </main>
+
+    <template id="taskTemplate">
+      <li
+        class="flex items-center gap-3 rounded-lg bg-white p-4 shadow-sm dark:bg-slate-800"
+      >
+        <input
+          type="checkbox"
+          class="select-checkbox hidden h-4 w-4 rounded border-slate-300 text-emerald-500 focus:ring-emerald-500 dark:border-slate-600 dark:bg-slate-900"
+          aria-label="Seleccionar tarea"
+        />
+        <input
+          type="checkbox"
+          class="task-checkbox h-4 w-4 rounded border-slate-300 text-emerald-500 focus:ring-emerald-500 dark:border-slate-600 dark:bg-slate-900"
+        />
+        <img
+          class="task-image w-16 h-16 object-cover rounded border border-slate-200 dark:border-slate-700 shrink-0"
+          src=""
+          alt="Portada"
+          style="display: none"
+        />
+        <div class="flex-1 min-w-0">
+          <strong
+            class="task-cancion block text-sm font-semibold text-slate-800 dark:text-slate-100 truncate"
+          ></strong>
+          <span
+            class="task-artista text-xs text-slate-500 dark:text-slate-400 block truncate"
+          ></span>
+          <span
+            class="task-album text-xs text-slate-400 dark:text-slate-500 block truncate"
+          ></span>
+        </div>
+        <button
+          class="edit-btn rounded px-2 py-1 text-sm bg-blue-500 text-white hover:bg-blue-600 shrink-0"
+        >
+          Editar
+        </button>
+        <button
+          class="delete-btn rounded px-2 py-1 text-sm bg-red-500 text-white hover:bg-red-600 shrink-0"
+        >
+          Eliminar
+        </button>
+      </li>
+    </template>
 
     <!-- Aquí se inyectará la modal -->
     <div id="modalContainer"></div>
