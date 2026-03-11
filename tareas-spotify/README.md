@@ -10,7 +10,6 @@ La interfaz de Taskflow Spotify sigue un diseño simple y responsivo:
 - **Contenido principal**: Botones para agregar tareas y borrar seleccionadas, input de búsqueda, secciones para tareas pendientes y completadas.
 - **Panel lateral (aside)**: Estadísticas con total de tareas, completadas y pendientes.
 - **Acciones del usuario**: Agregar tareas (con artista, canción, álbum, imagen), marcar completadas, eliminar, buscar, editar, ver estadísticas.
-- **Wireframe**: Ver [docs/design/wireframe.md](docs/design/wireframe.md) para el diagrama del diseño.
 
 ## Funcionalidades
 
