@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -162,9 +162,21 @@
       </li>
     </template>
 
-    <!-- Aquí se inyectará la modal -->
+    <!-- Aquí se inyectará la modal principal -->
     <div id="modalContainer"></div>
+
+    <!-- Aquí se inyectará la modal de confirmación genérica -->
+    <div id="confirmContainer"></div>
+
+    <!-- Contenedor para toasts -->
+    <div
+      id="toastContainer"
+      class="fixed bottom-4 right-4 z-50 flex flex-col"
+      aria-live="polite"
+      aria-atomic="true"
+    ></div>
     <script src="modal.js"></script>
+    <script src="confirm-modal.js"></script>
     <script src="app.js"></script>
   </body>
 </html>
