@@ -647,6 +647,7 @@ function inicializarFormularioModal() {
   const artistaCancion = document.getElementById("artistaCancion");
   const nombreCancion = document.getElementById("nombreCancion");
   const albumCancion = document.getElementById("albumCancion");
+  const dificultadCancion = document.getElementById("dificultadCancion");
   const imagenCancion = document.getElementById("imagenCancion");
 
   function leerImagenComoDataURL(archivo) {
