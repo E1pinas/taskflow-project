@@ -362,6 +362,15 @@ function crearNodoTarea(tarea) {
   li.dataset.id = tarea.id;
   li.draggable = true;
 
+  // Aplicar color de fondo según dificultad
+  if (tarea.dificultad === "facil") {
+    li.classList.add("bg-green-50", "dark:bg-green-900/20");
+  } else if (tarea.dificultad === "media") {
+    li.classList.add("bg-yellow-50", "dark:bg-yellow-900/20");
+  } else if (tarea.dificultad === "dificil") {
+    li.classList.add("bg-red-50", "dark:bg-red-900/20");
+  }
+
   const selectCheckbox = li.querySelector(".select-checkbox");
   selectCheckbox.checked = tareasSeleccionadas.has(tarea.id);
   selectCheckbox.addEventListener("change", () => {
