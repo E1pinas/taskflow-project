@@ -107,9 +107,13 @@ function actualizarTextoBotonTema() {
   if (!botonTema) {
     return;
   }
-  botonTema.textContent = document.documentElement.classList.contains("dark")
-    ? "Modo claro"
-    : "Modo oscuro";
+  const esOscuro = document.documentElement.classList.contains("dark");
+  botonTema.textContent = esOscuro ? "Modo claro" : "Modo oscuro";
+  // ajustar apariencia para indicar estado
+  botonTema.classList.toggle("bg-white", !esOscuro);
+  botonTema.classList.toggle("text-slate-700", !esOscuro);
+  botonTema.classList.toggle("bg-slate-800", esOscuro);
+  botonTema.classList.toggle("text-slate-100", esOscuro);
 }
 
 function aplicarTemaInicial() {
