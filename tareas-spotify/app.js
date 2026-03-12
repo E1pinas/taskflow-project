@@ -96,6 +96,37 @@ const botonMoverCompletadas = document.getElementById("moverCompletadas");
 const botonMoverPendientes = document.getElementById("moverPendientes");
 const botonTema = document.getElementById("toggleTema");
 
+const btnExportar = document.getElementById("exportarTareas");
+const btnImportar = document.getElementById("importarTareas");
+const inputImportFile = document.getElementById("importFile");
+
+if (btnExportar) btnExportar.addEventListener("click", exportarTareas);
+if (btnImportar && inputImportFile) {
+  btnImportar.addEventListener("click", () => inputImportFile.click());
+  inputImportFile.addEventListener("change", async (ev) => {
+    const file = ev.target.files ? ev.target.files[0] : null;
+    if (!file) return;
+    try {
+      const arr = await importarTareasDesdeArchivo(file);
+      const confirmado = await mostrarConfirmacion({
+        titulo: "Importar tareas",
+        mensaje: "Los datos se reemplazarán por las tareas del archivo. ¿Continuar?",
+      });
+      if (confirmado) {
+        tareas = (arr.map(normalizarCancion).filter(Boolean) || []).sort(
+          (a, b) => (a.orden || 0) - (b.orden || 0),
+        );
+        commitCambios();
+      }
+    } catch (err) {
+      mostrarToast("Error al importar: " + err.message, "error");
+    } finally {
+      // limpiar input para poder reusar el mismo archivo si se desea
+      ev.target.value = "";
+    }
+  });
+}
+
 function actualizarTextoBotonTema() {
   if (!botonTema) {
     return;
@@ -119,6 +150,37 @@ function aplicarTemaInicial() {
 
 function guardarTareas() {
   localStorage.setItem(LLAVE, JSON.stringify(tareas));
+}
+
+function exportarTareas() {
+  const data = JSON.stringify(tareas, null, 2);
+  const blob = new Blob([data], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "tareas.json";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importarTareasDesdeArchivo(archivo) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const parsed = JSON.parse(reader.result);
+        if (!Array.isArray(parsed)) {
+          reject(new Error("El JSON no contiene un array"));
+          return;
+        }
+        resolve(parsed);
+      } catch (err) {
+        reject(err);
+      }
+    };
+    reader.onerror = () => reject(new Error("No se pudo leer el archivo"));
+    reader.readAsText(archivo);
+  });
 }
 
 function commitCambios(filtro = inputBusqueda.value.trim().toLowerCase()) {
