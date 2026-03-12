@@ -1,36 +1,351 @@
-# Taskflow Spotify - Tareas con LocalStorage
+# 🎵 Taskflow Spotify - Gestor de Tareas Musical
 
-Aplicación web simple para gestionar tareas en el navegador usando JavaScript y persistencia local.
+> **Aplicación web interactiva para gestionar tareas de canciones con persistencia local, drag & drop y modo oscuro.**
 
-## Diseño de la App
+Una app moderna y responsiva que combina productividad con música. Organiza tus canciones y tareas favoritas con un diseño intuitivo.
 
-La interfaz de Taskflow Spotify sigue un diseño simple y responsivo:
+---
 
-- **Cabecera**: Título de la app y botón para alternar entre modo claro y oscuro.
-- **Contenido principal**: Botones para agregar tareas y borrar seleccionadas, input de búsqueda, secciones para tareas pendientes y completadas.
-- **Panel lateral (aside)**: Estadísticas con total de tareas, completadas y pendientes.
-- **Acciones del usuario**: Agregar tareas (con artista, canción, álbum, imagen), marcar completadas, eliminar, buscar, editar, ver estadísticas.
+## 📋 Tabla de Contenidos
 
-## Funcionalidades
+- [Características](#-características)
+- [Instalación](#-instalación)
+- [Uso Rápido](#-uso-rápido)
+- [Ejemplos de Uso](#-ejemplos-de-uso)
+- [Estructura del Proyecto](#-estructura-del-proyecto)
+- [API de Funciones](#-api-de-funciones)
+- [Testing](#-testing)
 
-- ✅ Agregar tareas desde una modal con validación completa (artista, canción, álbum, imagen).
-- ✅ Editar artista, canción y álbum de tareas existentes.
-- ✅ Eliminar tareas individualmente.
-- ✅ Marcar tareas como completadas/desmarcar con estilo visual.
-- ✅ Panel lateral con estadísticas (total, completadas, pendientes).
-- ✅ Persistencia con localStorage (no se pierden al refrescar).
-- ✅ Filtro de búsqueda en tiempo real.
-- ✅ Soporte de tema claro/oscuro con persistencia.
-- ✅ Borrado masivo de tareas seleccionadas.
-- ✅ Animaciones suaves en cambios de estado.
-- ✅ Diseño responsivo y completamente accesible.
-- ✅ Carga de imágenes para portadas de álbumes.
-- ✅ Drag & drop para reordenar tareas entre secciones.
-- ✅ Drag & drop para reordenar tareas.
+---
 
-## Testing Manual
+## ✨ Características
 
-### Casos de Prueba Documentados
+**Gestión de Tareas:**
+
+- ✅ Agregar tareas con artista, canción, álbum e imagen
+- ✅ Editar información de tareas existentes
+- ✅ Marcar tareas como completadas/no completadas
+- ✅ Eliminar tareas individuales o en lotes
+- ✅ Búsqueda en tiempo real
+- ✅ **Drag & Drop** para reordenar tareas entre secciones
+
+**Experiencia de Usuario:**
+
+- 🌗 Tema claro/oscuro con persistencia
+- 📊 Panel de estadísticas (total, completadas, pendientes)
+- 💾 Persistencia con localStorage
+- 📱 Diseño completamente responsivo
+- ♿ Accesible y usable
+- ⚡ Animaciones suaves en cambios de estado
+
+**Características Avanzadas:**
+
+- 🖼️ Carga de imágenes para portadas de álbumes
+- 📋 Búsqueda y filtrado por canción o artista
+- 🎯 Confirmación modal para acciones críticas
+- 🔄 Sincronización de datos en tiempo real
+
+---
+
+## 🚀 Instalación
+
+### Requisitos Previos
+
+- Navegador moderno (Chrome, Firefox, Safari, Edge)
+- Node.js 14+ (solo si quieres compilar estilos)
+
+### Pasos
+
+1. **Clonar o descargar el repositorio**
+
+```bash
+git clone <tu-repo>
+cd tareas-spotify
+```
+
+2. **Instalar dependencias** (opcional, solo para desarrollo)
+
+```bash
+npm install
+```
+
+3. **Compilar estilos CSS** (opcional)
+
+```bash
+npm run build
+```
+
+4. **Abrir en navegador**
+
+```bash
+# Simplemente abre index.html en tu navegador
+```
+
+---
+
+## ⚡ Uso Rápido
+
+### Agregar una Tarea
+
+1. Haz clic en el botón **"+ Agregar Tarea"**
+2. Completa los campos:
+   - **Artista**: Nombre del artista
+   - **Canción**: Nombre de la canción
+   - **Álbum**: Nombre del álbum
+   - **Imagen**: URL de la portada (opcional)
+3. Haz clic en **"Agregar"**
+
+### Marcar como Completada
+
+- Haz clic en el **checkbox** junto a la tarea
+- La tarea se moverá a la sección "Completadas" automáticamente
+
+### Eliminar Tareas
+
+- **Individualmente**: Haz clic en el botón ❌
+- **En lotes**: Activa el modo selección y confirma
+
+### Buscar Tareas
+
+- Escribe en el campo de búsqueda
+- Las tareas se filtran en tiempo real por artista o canción
+
+### Cambiar Tema
+
+- Haz clic en el botón de tema en la cabecera (☀️ / 🌙)
+- El tema se guarda automáticamente
+
+---
+
+## 💡 Ejemplos de Uso
+
+### Ejemplo 1: Crear una Tarea Musical
+
+```javascript
+// La app automáticamente crea una tarea como esta:
+{
+  id: "uuid-unico",
+  artista: "Taylor Swift",
+  cancion: "Lavender Haze",
+  album: "Midnights",
+  imagen: "https://example.com/album.jpg",
+  completada: false,
+  orden: 1678123456789,
+  dificultad: "media"
+}
+```
+
+### Ejemplo 2: Flujo Completo de Usuario
+
+```
+1. Usuario abre la app
+2. Sistema carga tareas del localStorage
+3. Usuario agrega tarea: "The Weeknd - Blinding Lights"
+4. Usuario carga imagen de la portada
+5. Usuario marca como completada (automáticamente se mueve)
+6. Usuario activa modo oscuro
+7. Al refrescar, TODO persiste ✓
+```
+
+### Ejemplo 3: Búsqueda y Filtrado
+
+```
+Tareas guardadas:
+- The Weeknd - Blinding Lights
+- Taylor Swift - Anti-Hero
+- The Weeknd - Starboy
+
+Usuario escribe "The Weeknd" en búsqueda
+Resultado:
+- The Weeknd - Blinding Lights
+- The Weeknd - Starboy
+```
+
+---
+
+## 🏗️ Diseño de la App
+
+### Estructura Visual
+
+```
+┌─────────────────────────────────────┐
+│  Taskflow Spotify | 🌗 [Tema]       │  ← Cabecera
+├─────────────────────────────────────┤
+│ [+ Agregar] [🗑️ Borrar] Búsqueda... │  ← Controles
+├──────────────────┬──────────────────┤
+│  PENDIENTES      │   COMPLETADAS    │  ← Dos secciones
+│  • Tarea 1       │   • Tarea 3 ✓    │     con drag & drop
+│  • Tarea 2       │                  │
+├──────────────────┤                  │
+│     STATS        │                  │
+│ Total:   3       │                  │
+│ Completadas: 1   │                  │
+│ Pendientes:  2   │                  │
+└──────────────────┴──────────────────┘
+```
+
+---
+
+## 🔌 API de Funciones
+
+### Funciones Principales del Core (`app.js`)
+
+#### `generarId()`
+
+Genera un ID único para cada tarea usando `crypto.randomUUID()` o fallback con timestamp.
+
+```javascript
+const id = generarId(); // "a1b2c3d4-e5f6-47a8-9b0c-1d2e3f4a5b6c"
+```
+
+#### `normalizarCancion(item)`
+
+Normaliza un objeto de tarea garantizando tipos de datos correctos y valores por defecto.
+
+```javascript
+const tareaData = {
+  artista: "The Weeknd",
+  cancion: "Blinding Lights",
+  album: "After Hours",
+  imagen: "https://example.com/cover.jpg",
+};
+const tarea = normalizarCancion(tareaData);
+```
+
+#### `guardarTareas()`
+
+Persiste el array de tareas en localStorage bajo la clave `taskflow_spotify_tareas`.
+
+```javascript
+guardarTareas(); // Guarda todas las tareas en localStorage
+```
+
+#### `renderTareas(filtro = "")`
+
+Renderiza las tareas en el DOM, aplicando filtro por búsqueda.
+
+```javascript
+renderTareas("taylor"); // Muestra solo tareas de Taylor Swift
+renderTareas(""); // Muestra todas las tareas
+```
+
+#### `agregarTarea(artista, cancion, album, imagen)`
+
+Crea una nueva tarea y la agrega a la lista.
+
+```javascript
+agregarTarea("Billie Eilish", "Bad Guy", "When We All Fall Asleep", "url");
+// Nueva tarea agregada con ID único
+```
+
+#### `editarTarea(id, artista, cancion, album, imagen)`
+
+Modifica los datos de una tarea existente.
+
+```javascript
+editarTarea("uuid123", "New Artist", "New Song", "New Album", "new-url");
+```
+
+#### `eliminarTarea(id)`
+
+Elimina una tarea por su ID.
+
+```javascript
+eliminarTarea("uuid123"); // Tarea eliminada
+```
+
+#### `completarTarea(id, completar = true)`
+
+Marca una tarea como completada o no completada.
+
+```javascript
+completarTarea("uuid123", true); // Marca como completada
+completarTarea("uuid123", false); // Marca como pendiente
+```
+
+#### `moverTareasConConfirmacion(directriz)`
+
+Mueve tareas entre "Pendientes" y "Completadas" con confirmación modal.
+
+```javascript
+moverTareasConConfirmacion("completadas"); // Mueve seleccionadas a completadas
+moverTareasConConfirmacion("pendientes"); // Mueve seleccionadas a pendientes
+```
+
+### Funciones de Tema
+
+#### `aplicarTemaInicial()`
+
+Carga el tema guardado en localStorage o usa la preferencia del sistema.
+
+```javascript
+aplicarTemaInicial(); // Se ejecuta al cargar la página
+```
+
+#### `botonTema.click()` handler
+
+Alterna entre modo claro y oscuro.
+
+```javascript
+// Click en botón de tema
+// Resultado: documento alterna clase "dark"
+```
+
+### Funciones de Interfaz
+
+#### `mostrarToast(mensaje, tipo = "info")`
+
+Muestra una notificación temporal en pantalla.
+
+```javascript
+mostrarToast("Tarea agregada", "success");
+mostrarToast("Error al guardar", "error");
+mostrarToast("Aviso importante", "warning");
+```
+
+#### `mostrarConfirmacion(opciones)`
+
+Abre un modal de confirmación con título, mensaje y detalles.
+
+```javascript
+const confirmado = await mostrarConfirmacion({
+  titulo: "¿Eliminar tareas?",
+  mensaje: "Esta acción no se puede deshacer",
+  detalle: "• Tarea 1\n• Tarea 2",
+});
+
+if (confirmado) {
+  // Usuario confirmó
+}
+```
+
+---
+
+## 🎯 Flujo de Datos
+
+```
+localStorage
+    ↓
+[Array de tareas normalizado]
+    ↓
+renderTareas(filtro)
+    ↓
+[DOM actualizado]
+    ↓
+usuario interactúa
+    ↓
+commitCambios()
+    ↓
+guardarTareas() → localStorage
+```
+
+---
+
+## ✅ Testing y Casos de Prueba
+
+### Guía de Testing Manual
+
+Estos casos aseguran que todas las funcionalidades principales funcionan correctamente:
 
 #### ✅ Lista Vacía
 
@@ -142,12 +457,25 @@ La interfaz de Taskflow Spotify sigue un diseño simple y responsivo:
 - **Resultado Esperado**: Tarea cambia de estado y sección.
 - **Estado**: ✅ Pasó
 
-## Estructura
+---
 
-- `index.html`: estructura principal de la app.
-- `modal.html`: contenido de la modal para crear tareas.
-- `modal.js`: carga e inicializa la modal.
-- `app.js`: lógica de tareas (CRUD + persistencia + filtro + tema).
+## 📁 Estructura del Proyecto
+
+```
+tareas-spotify/
+├── index.html              # Página principal
+├── modal.html              # Contenido del modal
+├── confirm-modal.html      # Confirmaciones
+├── app.js                  # Lógica principal (CRUD, filtrado, tema)
+├── modal.js                # Carga e inicializa modal
+├── confirm-modal.js        # Confirmaciones
+├── spotify-functions.js    # Funciones auxiliares
+├── input.css               # Estilos sin compilar
+├── output.css              # Estilos compilados
+├── tailwind.config.js      # Configuración de Tailwind
+├── postcss.config.js       # Configuración de PostCSS
+├── package.json            # Dependencias del proyecto
+└── doc/                    # Documentación
 - `input.css`: entrada de Tailwind.
 - `output.css`: CSS compilado de Tailwind.
 - `tailwind.config.js`: configuración de contenido y `darkMode`.
@@ -175,26 +503,114 @@ Las tareas se guardan en localStorage con la clave:
 
 taskflow_spotify_tareas
 
-## Mapa Técnico de Funciones JS
+---
 
-Referencia para revisión técnica (líneas actuales de inicio en los archivos).
+## 🤝 Contribuciones
 
-### app.js
+### Reporte de Errores
 
-- `normalizarCancion` (línea 4): se creó para sanear y migrar datos antiguos/incompletos de `localStorage` a un contrato interno estable (`id`, `artista`, `cancion`, `album`, `imagen`, `completada`, `orden`), evitando errores de render y de filtrado.
-- `actualizarTextoBotonTema` (línea 57): separa la lógica de etiqueta del toggle de tema para no duplicar decisiones de UI entre inicialización y click handler.
-- `aplicarTemaInicial` (línea 66): define la fuente de verdad del tema al cargar (preferencia guardada o `prefers-color-scheme`) y sincroniza clase `dark` + texto del botón.
-- `guardarTareas` (línea 76): encapsula persistencia; evita repetir acceso directo a `localStorage` y centraliza el side effect de escritura.
-- `eliminarTarea` (línea 80): aplica mutación inmutable de estado (`filter`), limpia selección asociada y dispara persistencia + rerender coherente.
-- `toggleCompletada` (línea 86): alterna estado completada de tarea específica, persiste cambios y rerenderiza lista.
-- `moverTareasSeleccionadas` (línea 92): cambia estado completada de tareas seleccionadas en lote y actualiza UI.
-- `reordenarTareas` (línea 102): maneja lógica de reordenamiento via drag & drop entre secciones; actualiza array, persiste orden y rerenderiza.
-- `crearNodoTarea` (línea 112): fábrica de UI para cada item; concentra estructura DOM, bindings de eventos, estilos condicionales para completadas, drag & drop listeners y clases Tailwind con animaciones.
-- `construirTextoBusqueda` (línea 178): normaliza índice de búsqueda agregando campos en minúsculas para comparación consistente y simple.
-- `renderTareas` (línea 182): función de proyección estado->UI; separa tareas en dos contenedores (pendientes/completadas), filtra por criterio y monta nodos con animaciones de entrada.
-- `agregarTarea` (línea 194): crea entidad con defaults de dominio incluyendo estado completada y orden, actualiza estado y ejecuta pipeline de persistencia + rerender.
-- `leerImagenComoDataURL` (línea 208): adapta `FileReader` a promesa para integrar carga de imagen en flujo async del formulario.
-- `cerrarModal` (línea 218): helper de UI para cerrar modal de forma segura (si existe en DOM).
+Si encuentras un bug, reporta con:
+- Pasos exactos para reproducir
+- Comportamiento esperado vs actual
+- Navegador y versión usada
+- Screenshot o video si es necesario
+
+### Mejoras Sugeridas
+
+Ideas para nuevas features:
+- [ ] Exportar tareas a JSON/CSV
+- [ ] Categorías o etiquetas
+- [ ] Sincronización con API de Spotify
+- [ ] Notificaciones sonoras
+- [ ] Modo multiusuario
+- [ ] Estadísticas avanzadas
+
+---
+
+## ❓ FAQ
+
+**P: ¿Dónde se guardan mis tareas?**
+R: En localStorage del navegador. No se envían a ningún servidor.
+
+**P: ¿Puedo perder mis tareas?**
+R: Solo si borras el localStorage o los datos del navegador. La app persiste todo automáticamente.
+
+**P: ¿Funciona sin internet?**
+R: Sí, completamente offline. No necesita conexión a internet.
+
+**P: ¿Puedo importar tareas?**
+R: Actualmente no, pero es una feature futura planeada.
+
+**P: ¿Cómo cambio el tema?**
+R: Haz clic en el botón de tema (☀️/🌙) en la barra superior. Se guarda automáticamente.
+
+**P: ¿Dónde puedo ver la documentación técnica?**
+R: Ver la sección [API de Funciones](#-api-de-funciones) arriba para detalles de cada función.
+
+---
+
+## 🔍 Referencia Técnica Detallada
+
+### Arquitectura del Código
+
+- **Estado Global**: Array `tareas` mantiene el estado en memoria
+- **Persistencia**: localStorage sincronizado en cada cambio
+- **DOM**: Renderizado reactivo sin framework (vanilla JS)
+- **Eventos**: Delegados y normalizados con handlers específicos
+- **Estilos**: Tailwind CSS + utilidades personalizadas
+
+### Funciones Clave por Módulo
+
+**app.js** - Lógica principal:
+- `normalizarCancion()`: Valida y normaliza datos de entrada
+- `guardarTareas()`: Persiste a localStorage
+- `commitCambios()`: Guarda + re-renderiza
+- `renderTareas()`: Proyecta estado a DOM
+- `agregarTarea()`: CRUD create
+- `editarTarea()`: CRUD update
+- `eliminarTarea()`: CRUD delete
+- `completarTarea()`: Toggle estado
+
+**modal.js** - Gestión de modales:
+- Carga dinámicamente modal.html
+- Inyecta en DOM y binds eventos
+
+**confirm-modal.js** - Confirmaciones:
+- Modal para acciones críticas
+- Promise-based API
+
+**spotify-functions.js** - Utilidades:
+- Helpers y funciones compartidas
+
+---
+
+## 📦 Stack Tecnológico
+
+| Tecnología | Propósito |
+|-----------|-----------|
+| **HTML5** | Estructura semántica |
+| **CSS3** | Estilos base |
+| **Tailwind CSS** | Utility-first CSS framework |
+| **Vanilla JS** | Lógica sin dependencias |
+| **localStorage** | Persistencia de datos |
+| **Drag & Drop API** | Reordenamiento de tareas |
+
+---
+
+## 🚀 Roadmap Futuro
+
+- [ ] Backend con autenticación
+- [ ] Sincronización en tiempo real
+- [ ] PWA (Progressive Web App)
+- [ ] Integración con Spotify API
+- [ ] Colaboración multiusuario
+- [ ] Estadísticas avanzadas
+- [ ] Exportación de datos
+
+---
+
+**🎵 Taskflow Spotify – Hecho con ❤️ usando Vanilla JS + Tailwind CSS**
+*Organiza tu música, gestiona tus tareas.*
 - `salirModoSeleccion` (línea 225): revierte estado transitorio de borrado masivo (flag, selección y texto del botón).
 - `inicializarFormularioModal` (línea 231): orquesta validación de refs DOM y registro del submit con validación completa (artista + canción requeridos); integra lectura de imagen, alta de tarea y cleanup del formulario.
 
@@ -211,3 +627,4 @@ Referencia para revisión técnica (líneas actuales de inicio en los archivos).
 - `botonAbrirModal` click handler (línea 273): asegura que al abrir modal no quede activo un flujo de borrado masivo.
 - `botonBorrarSeleccionadas` click handler (línea 280): implementa máquina de estados simple de borrado en 2 pasos (entrar selección -> confirmar).
 - Bootstrap final (líneas 309-311): aplica tema, asegura persistencia consistente y renderiza estado inicial.
+```

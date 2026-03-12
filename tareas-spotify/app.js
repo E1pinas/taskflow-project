@@ -22,7 +22,7 @@ function normalizarCancion(item) {
   let imagen = typeof item.imagen === "string" ? item.imagen : "";
   let completada =
     typeof item.completada === "boolean" ? item.completada : false;
-  let orden = typeof item.orden === "number" ? item.orden : Date.now();
+  
   let dificultad =
     typeof item.dificultad === "string" ? item.dificultad : "media";
 
@@ -57,7 +57,7 @@ function normalizarCancion(item) {
     album,
     imagen,
     completada,
-    orden,
+    
     dificultad,
   };
 }
@@ -65,7 +65,7 @@ function normalizarCancion(item) {
 let tareas = (JSON.parse(localStorage.getItem(LLAVE)) || [])
   .map(normalizarCancion)
   .filter(Boolean)
-  .sort((a, b) => (a.orden || 0) - (b.orden || 0)); // Ordenar por campo orden
+  
 
 const tareasSeleccionadas = new Set();
 
@@ -144,7 +144,7 @@ function mostrarToast(mensaje, tipo = "info") {
 
   const toast = document.createElement("div");
   toast.className =
-    "mb-2 rounded-lg px-4 py-2 text-sm shadow-md text-white" +
+    "px-4 py-2 mb-2 text-sm text-white rounded-lg shadow-md" +
     (tipo === "error"
       ? " bg-red-600"
       : tipo === "warning"
@@ -280,10 +280,7 @@ function reordenarTareas(draggedId, targetId) {
   tareas.splice(targetIndex, 0, draggedItem);
 
   // Actualizar orden
-  tareas.forEach((tarea, index) => {
-    tarea.orden = index;
-  });
-
+  
   commitCambios();
 }
 
@@ -487,16 +484,10 @@ function agregarTarea({ artista, cancion, album, dificultad, imagen }) {
     dificultad: dificultad || "media",
     imagen: imagen || "",
     completada: false,
-    orden:
-      tareas.length === 0
-        ? 0
-        : Math.max(
-            ...tareas.map((t) => (typeof t.orden === "number" ? t.orden : 0)),
-          ) + 1,
   };
 
   tareas.push(nuevaTarea);
-  tareas.sort((a, b) => (a.orden || 0) - (b.orden || 0));
+  
   commitCambios("");
 }
 
