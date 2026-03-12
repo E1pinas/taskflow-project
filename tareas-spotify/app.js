@@ -430,11 +430,18 @@ function actualizarEstadisticas() {
   const total = tareas.length;
   const completadas = tareas.filter((t) => t.completada).length;
   const pendientes = total - completadas;
+  const facil = tareas.filter((t) => t.dificultad === "facil").length;
+  const media = tareas.filter((t) => t.dificultad === "media").length;
+  const dificil = tareas.filter((t) => t.dificultad === "dificil").length;
+  
   document.getElementById("totalTareas").textContent = `Total: ${total}`;
   document.getElementById("completadas").textContent =
     `Completadas: ${completadas}`;
   document.getElementById("pendientes").textContent =
     `Pendientes: ${pendientes}`;
+  document.getElementById("facil").textContent = `Fácil: ${facil}`;
+  document.getElementById("media").textContent = `Media: ${media}`;
+  document.getElementById("dificil").textContent = `Difícil: ${dificil}`;
 }
 
 function renderTareas(filtro = "") {
