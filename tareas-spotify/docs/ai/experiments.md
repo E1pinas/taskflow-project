@@ -57,7 +57,7 @@ A partir del trabajo inicial, utilicé la IA para generar ideas de mejoras y lue
 - Se incorporó un control de ordenación con un `select`; Copilot generó la función de ordenamiento inmutable.
 - Se implementó exportar/importar JSON de tareas, aunque después decidí retirar la UI porque no lo usaría; la IA ayudó a escribir el código, que fue eliminado posteriormente.
 - El editor de tareas pasó de usar `prompt` a reusar la misma modal de creación; la IA recomendó cómo gestionar el estado de edición y reiniciar el formulario.
-- Se mejoró el botón de alternar tema oscuro para que cambie de apariencia y texto, facilitando su uso (la IA sugirió que el texto se actualice, y añadí cambios de color manualmente).
+- Se mejoró el botón de alternar tema oscuro para que cambie de apariencia y texto, facilitando su uso (la IA sugirió que el texto se actualice, y añadí cambios de color manualmente). Durante la implementación apareció un error de JavaScript por no declarar `dificultadCancion` en el inicializador del modal, lo que rompía la adición de tareas y el toggle; fue corregido manualmente tras detectarlo en la consola.
 Cada una de estas mejoras se registró como commits separados, evidenciando el flujo de trabajo de IA: idea → sugerencia → revisión humana → commit.
 
 Estos pasos demuestran cómo la IA puede servir tanto para ideación como para acelerar la codificación sin reemplazar la revisión y el criterio del desarrollador.
