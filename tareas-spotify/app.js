@@ -2,7 +2,10 @@ const LLAVE = "taskflow_spotify_tareas";
 const TEMA = "taskflow_spotify_tema";
 
 function generarId() {
-  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+  if (
+    typeof crypto !== "undefined" &&
+    typeof crypto.randomUUID === "function"
+  ) {
     return crypto.randomUUID();
   }
   return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
@@ -20,7 +23,8 @@ function normalizarCancion(item) {
   let completada =
     typeof item.completada === "boolean" ? item.completada : false;
   let orden = typeof item.orden === "number" ? item.orden : Date.now();
-  let dificultad = typeof item.dificultad === "string" ? item.dificultad : "media";
+  let dificultad =
+    typeof item.dificultad === "string" ? item.dificultad : "media";
 
   if ((!artista || !cancion) && typeof item.texto === "string") {
     const texto = item.texto.trim();
@@ -129,8 +133,6 @@ function guardarTareas() {
   localStorage.setItem(LLAVE, JSON.stringify(tareas));
 }
 
-
-
 function commitCambios(filtro = inputBusqueda.value.trim().toLowerCase()) {
   guardarTareas();
   renderTareas(filtro);
@@ -146,8 +148,8 @@ function mostrarToast(mensaje, tipo = "info") {
     (tipo === "error"
       ? " bg-red-600"
       : tipo === "warning"
-      ? " bg-orange-500"
-      : " bg-emerald-600");
+        ? " bg-orange-500"
+        : " bg-emerald-600");
   toast.textContent = mensaje;
 
   contenedor.appendChild(toast);
@@ -293,10 +295,7 @@ function moverTareaSegunDestino(draggedId, targetListId) {
     tarea.completada = false;
     inputBusqueda.value = "";
     commitCambios("");
-  } else if (
-    targetListId === "listaTareasCompletadas" &&
-    !tarea.completada
-  ) {
+  } else if (targetListId === "listaTareasCompletadas" && !tarea.completada) {
     tarea.completada = true;
     inputBusqueda.value = "";
     commitCambios("");
@@ -432,7 +431,7 @@ function actualizarEstadisticas() {
   const facil = tareas.filter((t) => t.dificultad === "facil").length;
   const media = tareas.filter((t) => t.dificultad === "media").length;
   const dificil = tareas.filter((t) => t.dificultad === "dificil").length;
-  
+
   document.getElementById("totalTareas").textContent = `Total: ${total}`;
   document.getElementById("completadas").textContent =
     `Completadas: ${completadas}`;
@@ -492,9 +491,7 @@ function agregarTarea({ artista, cancion, album, dificultad, imagen }) {
       tareas.length === 0
         ? 0
         : Math.max(
-            ...tareas.map((t) =>
-              typeof t.orden === "number" ? t.orden : 0,
-            ),
+            ...tareas.map((t) => (typeof t.orden === "number" ? t.orden : 0)),
           ) + 1,
   };
 

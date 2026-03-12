@@ -48,18 +48,33 @@
           class="w-full rounded-lg border border-slate-300 bg-white p-2.5 text-slate-900 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-400"
         />
         <!-- controles adicionales: filtro de estado, orden y export/import se agregarán dinámicamente -->
-        <div id="controlesAvanzados" class="mt-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:flex-wrap">
+        <div
+          id="controlesAvanzados"
+          class="mt-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:flex-wrap"
+        >
           <div class="flex items-center gap-2">
             <fieldset id="filtroEstado" class="flex items-center gap-2">
               <legend class="sr-only">Filtrar por estado</legend>
-              <label class="text-sm"><input type="radio" name="estado" value="todos" checked> Todos</label>
-              <label class="text-sm"><input type="radio" name="estado" value="pendientes"> Pendientes</label>
-              <label class="text-sm"><input type="radio" name="estado" value="completadas"> Completadas</label>
+              <label class="text-sm"
+                ><input type="radio" name="estado" value="todos" checked />
+                Todos</label
+              >
+              <label class="text-sm"
+                ><input type="radio" name="estado" value="pendientes" />
+                Pendientes</label
+              >
+              <label class="text-sm"
+                ><input type="radio" name="estado" value="completadas" />
+                Completadas</label
+              >
             </fieldset>
           </div>
           <div class="flex items-center gap-2">
             <label for="filtrarDificultad" class="text-sm">Dificultad:</label>
-            <select id="filtrarDificultad" class="rounded-lg border border-slate-300 bg-white p-1 text-sm text-slate-900 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100">
+            <select
+              id="filtrarDificultad"
+              class="rounded-lg border border-slate-300 bg-white p-1 text-sm text-slate-900 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100"
+            >
               <option value="todas" selected>Todas</option>
               <option value="facil">Fácil</option>
               <option value="media">Media</option>

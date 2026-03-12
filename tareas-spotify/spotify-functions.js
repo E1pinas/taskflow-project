@@ -9,23 +9,27 @@ function validarEntradaCancion(cancion) {
   if (!cancion || typeof cancion !== "object") {
     return {
       ok: false,
-      error: "Debes enviar un objeto de canción válido"
+      error: "Debes enviar un objeto de canción válido",
     };
   }
 
-  const artistaValido = typeof cancion.artista === "string" && cancion.artista.trim().length > 0;
-  const cancionValida = typeof cancion.cancion === "string" && cancion.cancion.trim().length > 0;
+  const artistaValido =
+    typeof cancion.artista === "string" && cancion.artista.trim().length > 0;
+  const cancionValida =
+    typeof cancion.cancion === "string" && cancion.cancion.trim().length > 0;
   const albumValido = !cancion.album || typeof cancion.album === "string";
 
   const errores = [];
-  if (!artistaValido) errores.push("Artista requerido y debe ser texto no vacío");
-  if (!cancionValida) errores.push("Canción requerida y debe ser texto no vacío");
+  if (!artistaValido)
+    errores.push("Artista requerido y debe ser texto no vacío");
+  if (!cancionValida)
+    errores.push("Canción requerida y debe ser texto no vacío");
   if (!albumValido) errores.push("Álbum debe ser texto");
 
   if (errores.length > 0) {
     return {
       ok: false,
-      errores
+      errores,
     };
   }
 
@@ -34,12 +38,18 @@ function validarEntradaCancion(cancion) {
     artista: cancion.artista.trim(),
     cancion: cancion.cancion.trim(),
     album: cancion.album?.trim() || "Sencillo",
-    completada: cancion.completada === true
+    completada: cancion.completada === true,
   };
 }
 
 console.log("=== 1. VALIDAR ENTRADA DE CANCIÓN ===");
-console.log(validarEntradaCancion({ artista: "The Weeknd", cancion: "Blinding Lights", album: "After Hours" }));
+console.log(
+  validarEntradaCancion({
+    artista: "The Weeknd",
+    cancion: "Blinding Lights",
+    album: "After Hours",
+  }),
+);
 console.log(validarEntradaCancion({ artista: "", cancion: "Song" }));
 
 // ============================================
@@ -50,7 +60,7 @@ function analizarPlaylist(canciones) {
   if (!Array.isArray(canciones)) {
     return {
       ok: false,
-      error: "Debe ser un array de canciones"
+      error: "Debe ser un array de canciones",
     };
   }
 
@@ -64,7 +74,7 @@ function analizarPlaylist(canciones) {
   for (const cancion of canciones) {
     if (validarEntradaCancion(cancion).ok) {
       totalCanciones++;
-      
+
       if (cancion.completada) {
         completadas++;
       } else {
@@ -81,7 +91,10 @@ function analizarPlaylist(canciones) {
     }
   }
 
-  const porcentajeCompletado = totalCanciones > 0 ? Number(((completadas / totalCanciones) * 100).toFixed(2)) : 0;
+  const porcentajeCompletado =
+    totalCanciones > 0
+      ? Number(((completadas / totalCanciones) * 100).toFixed(2))
+      : 0;
 
   return {
     ok: true,
@@ -92,17 +105,37 @@ function analizarPlaylist(canciones) {
     artistasUnicos: artistas.size,
     albumsUnicos: albums.size,
     cancionesArtista: Object.fromEntries(
-      Object.entries(cancPorArtista).sort((a, b) => b[1] - a[1])
-    )
+      Object.entries(cancPorArtista).sort((a, b) => b[1] - a[1]),
+    ),
   };
 }
 
 console.log("\n=== 2. ANALIZAR ESTADÍSTICAS DE PLAYLIST ===");
 const miPlaylist = [
-  { artista: "The Weeknd", cancion: "Blinding Lights", album: "After Hours", completada: true },
-  { artista: "The Weeknd", cancion: "Starboy", album: "Starboy", completada: true },
-  { artista: "Dua Lipa", cancion: "Levitating", album: "Future Nostalgia", completada: false },
-  { artista: "Dua Lipa", cancion: "Don't Start Now", album: "Future Nostalgia", completada: true }
+  {
+    artista: "The Weeknd",
+    cancion: "Blinding Lights",
+    album: "After Hours",
+    completada: true,
+  },
+  {
+    artista: "The Weeknd",
+    cancion: "Starboy",
+    album: "Starboy",
+    completada: true,
+  },
+  {
+    artista: "Dua Lipa",
+    cancion: "Levitating",
+    album: "Future Nostalgia",
+    completada: false,
+  },
+  {
+    artista: "Dua Lipa",
+    cancion: "Don't Start Now",
+    album: "Future Nostalgia",
+    completada: true,
+  },
 ];
 console.log(analizarPlaylist(miPlaylist));
 
@@ -114,7 +147,7 @@ function buscarCanciones(canciones, termino, filtarPor = "todos") {
   if (!Array.isArray(canciones) || typeof termino !== "string") {
     return {
       ok: false,
-      error: "Debe enviar un array de canciones y un término válido"
+      error: "Debe enviar un array de canciones y un término válido",
     };
   }
 
@@ -122,12 +155,12 @@ function buscarCanciones(canciones, termino, filtarPor = "todos") {
   if (terminoLimpio.length === 0) {
     return {
       ok: false,
-      error: "El término de búsqueda no puede estar vacío"
+      error: "El término de búsqueda no puede estar vacío",
     };
   }
 
-  let resultados = canciones.filter(cancion => {
-    const coincide = 
+  let resultados = canciones.filter((cancion) => {
+    const coincide =
       cancion.artista?.toLowerCase().includes(terminoLimpio) ||
       cancion.cancion?.toLowerCase().includes(terminoLimpio) ||
       cancion.album?.toLowerCase().includes(terminoLimpio);
@@ -146,7 +179,7 @@ function buscarCanciones(canciones, termino, filtarPor = "todos") {
     termino,
     filtro: filtarPor,
     totalResultados: resultados.length,
-    resultados
+    resultados,
   };
 }
 
@@ -160,6 +193,6 @@ if (typeof module !== "undefined" && module.exports) {
   module.exports = {
     validarEntradaCancion,
     analizarPlaylist,
-    buscarCanciones
+    buscarCanciones,
   };
 }
