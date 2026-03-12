@@ -54,13 +54,17 @@
             <label class="text-sm"><input type="radio" name="estado" value="todos" checked> Todos</label>
             <label class="text-sm"><input type="radio" name="estado" value="pendientes"> Pendientes</label>
             <label class="text-sm"><input type="radio" name="estado" value="completadas"> Completadas</label>
-          </fieldset>          <fieldset id=\"filtroDificultad\" class=\"flex items-center gap-2\">
-            <legend class=\"sr-only\">Filtrar por dificultad</legend>
-            <label class=\"text-sm\"><input type=\"radio\" name=\"dificultad\" value=\"todas\" checked> Todas</label>
-            <label class=\"text-sm\"><input type=\"radio\" name=\"dificultad\" value=\"facil\"> Fácil</label>
-            <label class=\"text-sm\"><input type=\"radio\" name=\"dificultad\" value=\"media\"> Media</label>
-            <label class=\"text-sm\"><input type=\"radio\" name=\"dificultad\" value=\"dificil\"> Difícil</label>
-          </fieldset>          <div class="flex items-center gap-1">
+          </fieldset>
+          <div class="flex items-center gap-2">
+            <label for="filtrarDificultad" class="text-sm">Dificultad:</label>
+            <select id="filtrarDificultad" class="rounded-lg border border-slate-300 bg-white p-1 text-sm text-slate-900 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100">
+              <option value="todas" selected>Todas</option>
+              <option value="facil">Fácil</option>
+              <option value="media">Media</option>
+              <option value="dificil">Difícil</option>
+            </select>
+          </div>
+          <div class="flex items-center gap-1">
             <label for="ordenarPor" class="text-sm">Ordenar:</label>
             <select id="ordenarPor" class="rounded-lg border border-slate-300 bg-white p-1 text-sm text-slate-900 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100">
               <option value="orden">Por orden</option>
@@ -69,9 +73,6 @@
               <option value="album">Álbum ↑</option>
             </select>
           </div>
-          <button id="exportarTareas" class="rounded-lg bg-indigo-500 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-600">Exportar JSON</button>
-          <button id="importarTareas" class="rounded-lg bg-yellow-500 px-3 py-1.5 text-sm font-medium text-white hover:bg-yellow-600">Importar JSON</button>
-          <input type="file" id="importFile" accept="application/json" class="hidden" />
         </div>
 
         <!-- Tareas Pendientes -->

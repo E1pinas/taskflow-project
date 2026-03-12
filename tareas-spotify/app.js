@@ -74,7 +74,11 @@ const listaTareasCompletadas = document.getElementById(
   "listaTareasCompletadas",
 );
 const inputBusqueda = document.getElementById("buscarTarea");
-const filtroEstadoRadios = document.querySelectorAll('input[name="estado"]');const filtroDificultadRadios = document.querySelectorAll('input[name=\"dificultad\"]');let estadoFiltro = "todos"; // 'todos' | 'pendientes' | 'completadas'
+const filtroEstadoRadios = document.querySelectorAll('input[name="estado"]');
+// control de dificultad ahora es un select
+const filtroDificultadSelect = document.getElementById("filtrarDificultad");
+let estadoFiltro = "todos"; // 'todos' | 'pendientes' | 'completadas'
+let dificultadFiltro = "todas"; // 'todas' | 'facil' | 'media' | 'dificil'
 let criterioOrden = "orden"; // 'orden' | 'artista' | 'cancion' | 'album'
 
 // allow dropping on empty container to move between lists
@@ -97,36 +101,7 @@ const botonMoverCompletadas = document.getElementById("moverCompletadas");
 const botonMoverPendientes = document.getElementById("moverPendientes");
 const botonTema = document.getElementById("toggleTema");
 
-const btnExportar = document.getElementById("exportarTareas");
-const btnImportar = document.getElementById("importarTareas");
-const inputImportFile = document.getElementById("importFile");
-
-if (btnExportar) btnExportar.addEventListener("click", exportarTareas);
-if (btnImportar && inputImportFile) {
-  btnImportar.addEventListener("click", () => inputImportFile.click());
-  inputImportFile.addEventListener("change", async (ev) => {
-    const file = ev.target.files ? ev.target.files[0] : null;
-    if (!file) return;
-    try {
-      const arr = await importarTareasDesdeArchivo(file);
-      const confirmado = await mostrarConfirmacion({
-        titulo: "Importar tareas",
-        mensaje: "Los datos se reemplazarán por las tareas del archivo. ¿Continuar?",
-      });
-      if (confirmado) {
-        tareas = (arr.map(normalizarCancion).filter(Boolean) || []).sort(
-          (a, b) => (a.orden || 0) - (b.orden || 0),
-        );
-        commitCambios();
-      }
-    } catch (err) {
-      mostrarToast("Error al importar: " + err.message, "error");
-    } finally {
-      // limpiar input para poder reusar el mismo archivo si se desea
-      ev.target.value = "";
-    }
-  });
-}
+const filtroDificultadSelect = document.getElementById("filtrarDificultad");
 
 function actualizarTextoBotonTema() {
   if (!botonTema) {
@@ -153,36 +128,7 @@ function guardarTareas() {
   localStorage.setItem(LLAVE, JSON.stringify(tareas));
 }
 
-function exportarTareas() {
-  const data = JSON.stringify(tareas, null, 2);
-  const blob = new Blob([data], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "tareas.json";
-  a.click();
-  URL.revokeObjectURL(url);
-}
 
-function importarTareasDesdeArchivo(archivo) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      try {
-        const parsed = JSON.parse(reader.result);
-        if (!Array.isArray(parsed)) {
-          reject(new Error("El JSON no contiene un array"));
-          return;
-        }
-        resolve(parsed);
-      } catch (err) {
-        reject(err);
-      }
-    };
-    reader.onerror = () => reject(new Error("No se pudo leer el archivo"));
-    reader.readAsText(archivo);
-  });
-}
 
 function commitCambios(filtro = inputBusqueda.value.trim().toLowerCase()) {
   guardarTareas();
@@ -802,15 +748,14 @@ filtroEstadoRadios.forEach((radio) => {
     }
   });
 });
-// actualizar dificultadFiltro cuando cambian los radios
-filtroDificultadRadios.forEach((radio) => {
-  radio.addEventListener(\"change\", () => {
-    if (radio.checked) {
-      dificultadFiltro = radio.value;
-      renderTareas(inputBusqueda.value.trim().toLowerCase());
-    }
+// actualizar dificultadFiltro cuando cambia el select
+if (filtroDificultadSelect) {
+  filtroDificultadSelect.addEventListener("change", () => {
+    dificultadFiltro = filtroDificultadSelect.value;
+    renderTareas(inputBusqueda.value.trim().toLowerCase());
   });
-});
+}
+
 // ordenar cuando cambia la selección
 if (selectOrden) {
   selectOrden.addEventListener("change", () => {
