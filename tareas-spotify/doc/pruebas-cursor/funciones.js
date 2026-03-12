@@ -185,58 +185,167 @@ function analizarNotasAlumnos(alumnos) {
   };
 }
 
-
 function calcularMedia(notas) {
-    if (!Array.isArray(notas) || notas.length === 0) {
-        return "No hay notas";
-    }
+  if (!Array.isArray(notas) || notas.length === 0) {
+    return "No hay notas";
+  }
 
-    let total = 0;
+  let total = 0;
 
-    for (let i = 0; i < notas.length; i++) {
-        total += notas[i];
-    }
+  for (let i = 0; i < notas.length; i++) {
+    total += notas[i];
+  }
 
-    let media = total / notas.length;
-    return media.toFixed(2);
+  let media = total / notas.length;
+  return media.toFixed(2);
 }
 
 console.log(calcularMedia([10, 10, 10, 10, 10]));
 
 function validarUsuario(usuario) {
-    if (
-        !usuario ||
-        typeof usuario.nombre !== "string" ||
-        typeof usuario.edad !== "number"
-    ) {
-        return {
-            ok: false,
-            error: "Debes enviar un objeto con nombre (string) y edad (number)"
-        };
-    }
-
-    const nombreLimpio = usuario.nombre.trim();
-
-    if (nombreLimpio.length === 0) {
-        return {
-            ok: false,
-            error: "El nombre no puede estar vacío"
-        };
-    }
-
-    if (usuario.edad < 0 || usuario.edad > 120) {
-        return {
-            ok: false,
-            error: "La edad debe estar entre 0 y 120 años"
-        };
-    }
-
-    const esMayorDeEdad = usuario.edad >= 18;
-
+  if (
+    !usuario ||
+    typeof usuario.nombre !== "string" ||
+    typeof usuario.edad !== "number"
+  ) {
     return {
-        ok: true,
-        nombre: nombreLimpio,
-        edad: usuario.edad,
-        esMayorDeEdad
+      ok: false,
+      error: "Debes enviar un objeto con nombre (string) y edad (number)",
     };
+  }
+
+  const nombreLimpio = usuario.nombre.trim();
+
+  if (nombreLimpio.length === 0) {
+    return {
+      ok: false,
+      error: "El nombre no puede estar vacío",
+    };
+  }
+
+  if (usuario.edad < 0 || usuario.edad > 120) {
+    return {
+      ok: false,
+      error: "La edad debe estar entre 0 y 120 años",
+    };
+  }
+
+  const esMayorDeEdad = usuario.edad >= 18;
+
+  return {
+    ok: true,
+    nombre: nombreLimpio,
+    edad: usuario.edad,
+    esMayorDeEdad,
+  };
 }
+
+
+
+
+
+// ============================================
+// MEJORAS DE LOS 3 EJERCICIOS ORIGINALES
+// ============================================
+
+// 1. FACTORIAL - VERSIÓN MEJORADA
+function calcularFactorial(numero) {
+  if (typeof numero !== "number" || numero < 0) {
+    return {
+      ok: false,
+      error: "El número debe ser un entero no negativo"
+    };
+  }
+  
+  if (numero > 170) {
+    return {
+      ok: false,
+      error: "El número es muy grande (máximo 170)"
+    };
+  }
+  
+  let resultado = 1;
+  for (let i = numero; i > 1; i--) {
+    resultado *= i;
+  }
+  
+  return {
+    ok: true,
+    numero,
+    factorial: resultado
+  };
+}
+
+console.log("FACTORIAL MEJORADO:");
+console.log(calcularFactorial(5));
+console.log(calcularFactorial(0));
+console.log(calcularFactorial(-5));
+
+// 2. MCD Y MCM - VERSIÓN MEJORADA
+function calcularMCD(a, b) {
+  if (typeof a !== "number" || typeof b !== "number" || a <= 0 || b <= 0) {
+    return {
+      ok: false,
+      error: "Ambos números deben ser enteros positivos"
+    };
+  }
+
+  let num1 = Math.abs(Math.floor(a));
+  let num2 = Math.abs(Math.floor(b));
+
+  while (num2 !== 0) {
+    let resto = num1 % num2;
+    num1 = num2;
+    num2 = resto;
+  }
+
+  const mcd = num1;
+  const mcm = (a * b) / mcd;
+
+  return {
+    ok: true,
+    num1: a,
+    num2: b,
+    mcd,
+    mcm: Math.floor(mcm)
+  };
+}
+
+console.log("\nMCD Y MCM MEJORADO:");
+console.log(calcularMCD(12, 18));
+console.log(calcularMCD(15, 25));
+
+// 3. PALÍNDROMO - VERSIÓN MEJORADA
+function esPalindromo(texto) {
+  if (typeof texto !== "string") {
+    return {
+      ok: false,
+      error: "Debe ser una cadena de texto"
+    };
+  }
+
+  // Limpiar: eliminar espacios, tildes y convertir a minúsculas
+  const textoLimpio = texto
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]/g, "");
+
+  const invertido = textoLimpio.split("").reverse().join("");
+  const resultado = textoLimpio === invertido;
+
+  return {
+    ok: true,
+    textoOriginal: texto,
+    textoLimpio,
+    esPalindromo: resultado,
+    textoInvertido: invertido
+  };
+}
+
+console.log("\nPALÍNDROMO MEJORADO:");
+console.log(esPalindromo("daichi tienes mucho sueño"));
+console.log(esPalindromo("A man a plan a canal Panama"));
+console.log(esPalindromo("ama"));
+
+
