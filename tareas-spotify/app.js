@@ -20,6 +20,7 @@ function normalizarCancion(item) {
   let completada =
     typeof item.completada === "boolean" ? item.completada : false;
   let orden = typeof item.orden === "number" ? item.orden : Date.now();
+  let dificultad = typeof item.dificultad === "string" ? item.dificultad : "media";
 
   if ((!artista || !cancion) && typeof item.texto === "string") {
     const texto = item.texto.trim();
@@ -53,6 +54,7 @@ function normalizarCancion(item) {
     imagen,
     completada,
     orden,
+    dificultad,
   };
 }
 
@@ -72,8 +74,7 @@ const listaTareasCompletadas = document.getElementById(
   "listaTareasCompletadas",
 );
 const inputBusqueda = document.getElementById("buscarTarea");
-const filtroEstadoRadios = document.querySelectorAll('input[name="estado"]');
-let estadoFiltro = "todos"; // 'todos' | 'pendientes' | 'completadas'
+const filtroEstadoRadios = document.querySelectorAll('input[name="estado"]');const filtroDificultadRadios = document.querySelectorAll('input[name=\"dificultad\"]');let estadoFiltro = "todos"; // 'todos' | 'pendientes' | 'completadas'
 let criterioOrden = "orden"; // 'orden' | 'artista' | 'cancion' | 'album'
 
 // allow dropping on empty container to move between lists
@@ -406,6 +407,12 @@ function crearNodoTarea(tarea) {
     album.classList.add("line-through", "text-slate-500");
   }
 
+  const dificultad = li.querySelector(".task-dificultad");
+  dificultad.textContent = `Dificultad: ${tarea.dificultad}`;
+  if (tarea.completada) {
+    dificultad.classList.add("line-through", "text-slate-500");
+  }
+
   const editBtn = li.querySelector(".edit-btn");
   editBtn.addEventListener("click", () => editarTarea(tarea.id));
 
@@ -487,6 +494,9 @@ function renderTareas(filtro = "") {
     if (estadoFiltro === "completadas") {
       return tarea.completada;
     }
+    if (dificultadFiltro !== \"todas\") {
+      return tarea.dificultad === dificultadFiltro;
+    }
     return true;
   });
 
@@ -522,12 +532,13 @@ function aplicarOrden(lista) {
   });
 }
 
-function agregarTarea({ artista, cancion, album, imagen }) {
+function agregarTarea({ artista, cancion, album, dificultad, imagen }) {
   const nuevaTarea = {
     id: generarId(),
     artista: artista.trim() || "Artista desconocido",
     cancion: cancion.trim(),
     album: album.trim() || "Sencillo",
+    dificultad: dificultad || "media",
     imagen: imagen || "",
     completada: false,
     orden:
@@ -559,11 +570,13 @@ function editarTarea(id) {
   const artistaCancion = document.getElementById("artistaCancion");
   const nombreCancion = document.getElementById("nombreCancion");
   const albumCancion = document.getElementById("albumCancion");
+  const dificultadCancion = document.getElementById("dificultadCancion");
   // no se puede rellenar el input de tipo file por seguridad
 
   if (artistaCancion) artistaCancion.value = tarea.artista;
   if (nombreCancion) nombreCancion.value = tarea.cancion;
   if (albumCancion) albumCancion.value = tarea.album;
+  if (dificultadCancion) dificultadCancion.value = tarea.dificultad;
 
   if (modal) modal.classList.remove("hidden");
 }
@@ -691,6 +704,7 @@ function inicializarFormularioModal() {
     !artistaCancion ||
     !nombreCancion ||
     !albumCancion ||
+    !dificultadCancion ||
     !imagenCancion
   ) {
     return;
@@ -702,6 +716,7 @@ function inicializarFormularioModal() {
     const artista = artistaCancion.value.trim();
     const cancion = nombreCancion.value.trim();
     const album = albumCancion.value.trim();
+    const dificultad = dificultadCancion.value;
     const archivoImagen =
       imagenCancion.files && imagenCancion.files[0]
         ? imagenCancion.files[0]
@@ -731,6 +746,7 @@ function inicializarFormularioModal() {
         tarea.artista = artista || "Artista desconocido";
         tarea.cancion = cancion;
         tarea.album = album || "Sencillo";
+        tarea.dificultad = dificultad || "media";
         if (imagen) tarea.imagen = imagen;
         guardarTareas();
         renderTareas(inputBusqueda.value.trim().toLowerCase());
@@ -738,7 +754,7 @@ function inicializarFormularioModal() {
       tareaEditandoId = null;
       if (modalTitulo) modalTitulo.textContent = "Agregar canción";
     } else {
-      agregarTarea({ artista, cancion, album, imagen });
+      agregarTarea({ artista, cancion, album, dificultad, imagen });
     }
 
     formTarea.reset();
@@ -777,7 +793,15 @@ filtroEstadoRadios.forEach((radio) => {
     }
   });
 });
-
+// actualizar dificultadFiltro cuando cambian los radios
+filtroDificultadRadios.forEach((radio) => {
+  radio.addEventListener(\"change\", () => {
+    if (radio.checked) {
+      dificultadFiltro = radio.value;
+      renderTareas(inputBusqueda.value.trim().toLowerCase());
+    }
+  });
+});
 // ordenar cuando cambia la selección
 if (selectOrden) {
   selectOrden.addEventListener("change", () => {
