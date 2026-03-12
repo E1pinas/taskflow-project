@@ -451,7 +451,7 @@ function renderTareas(filtro = "") {
     if (estadoFiltro === "completadas") {
       return tarea.completada;
     }
-    if (dificultadFiltro !== \"todas\") {
+    if (dificultadFiltro !== "todas") {
       return tarea.dificultad === dificultadFiltro;
     }
     return true;
