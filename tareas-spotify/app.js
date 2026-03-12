@@ -72,6 +72,8 @@ const listaTareasCompletadas = document.getElementById(
   "listaTareasCompletadas",
 );
 const inputBusqueda = document.getElementById("buscarTarea");
+const filtroEstadoRadios = document.querySelectorAll('input[name="estado"]');
+let estadoFiltro = "todos"; // 'todos' | 'pendientes' | 'completadas'
 
 // allow dropping on empty container to move between lists
 listaTareasPendientes.addEventListener("dragover", (e) => e.preventDefault());
@@ -412,9 +414,18 @@ function renderTareas(filtro = "") {
   listaTareasPendientes.innerHTML = "";
   listaTareasCompletadas.innerHTML = "";
 
-  const tareasFiltradas = tareas.filter((tarea) =>
-    construirTextoBusqueda(tarea).includes(filtro),
-  );
+  const tareasFiltradas = tareas.filter((tarea) => {
+    const pasaTexto = construirTextoBusqueda(tarea).includes(filtro);
+    if (!pasaTexto) return false;
+
+    if (estadoFiltro === "pendientes") {
+      return !tarea.completada;
+    }
+    if (estadoFiltro === "completadas") {
+      return tarea.completada;
+    }
+    return true;
+  });
 
   const tareasPendientes = tareasFiltradas.filter((tarea) => !tarea.completada);
   const tareasCompletadas = tareasFiltradas.filter((tarea) => tarea.completada);
@@ -654,6 +665,16 @@ inputBusqueda.addEventListener("input", (event) => {
     salirModoMover();
   }
   renderTareas(event.target.value.trim().toLowerCase());
+});
+
+// actualizar estadoFiltro cuando cambian los radios
+filtroEstadoRadios.forEach((radio) => {
+  radio.addEventListener("change", () => {
+    if (radio.checked) {
+      estadoFiltro = radio.value;
+      renderTareas(inputBusqueda.value.trim().toLowerCase());
+    }
+  });
 });
 
 document.addEventListener("modalReady", inicializarFormularioModal);
