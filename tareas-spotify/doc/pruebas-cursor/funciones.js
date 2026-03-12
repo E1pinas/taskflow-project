@@ -240,10 +240,6 @@ function validarUsuario(usuario) {
   };
 }
 
-
-
-
-
 // ============================================
 // MEJORAS DE LOS 3 EJERCICIOS ORIGINALES
 // ============================================
@@ -253,26 +249,26 @@ function calcularFactorial(numero) {
   if (typeof numero !== "number" || numero < 0) {
     return {
       ok: false,
-      error: "El número debe ser un entero no negativo"
+      error: "El número debe ser un entero no negativo",
     };
   }
-  
+
   if (numero > 170) {
     return {
       ok: false,
-      error: "El número es muy grande (máximo 170)"
+      error: "El número es muy grande (máximo 170)",
     };
   }
-  
+
   let resultado = 1;
   for (let i = numero; i > 1; i--) {
     resultado *= i;
   }
-  
+
   return {
     ok: true,
     numero,
-    factorial: resultado
+    factorial: resultado,
   };
 }
 
@@ -286,7 +282,7 @@ function calcularMCD(a, b) {
   if (typeof a !== "number" || typeof b !== "number" || a <= 0 || b <= 0) {
     return {
       ok: false,
-      error: "Ambos números deben ser enteros positivos"
+      error: "Ambos números deben ser enteros positivos",
     };
   }
 
@@ -307,7 +303,7 @@ function calcularMCD(a, b) {
     num1: a,
     num2: b,
     mcd,
-    mcm: Math.floor(mcm)
+    mcm: Math.floor(mcm),
   };
 }
 
@@ -320,7 +316,7 @@ function esPalindromo(texto) {
   if (typeof texto !== "string") {
     return {
       ok: false,
-      error: "Debe ser una cadena de texto"
+      error: "Debe ser una cadena de texto",
     };
   }
 
@@ -339,7 +335,7 @@ function esPalindromo(texto) {
     textoOriginal: texto,
     textoLimpio,
     esPalindromo: resultado,
-    textoInvertido: invertido
+    textoInvertido: invertido,
   };
 }
 
@@ -347,5 +343,3 @@ console.log("\nPALÍNDROMO MEJORADO:");
 console.log(esPalindromo("daichi tienes mucho sueño"));
 console.log(esPalindromo("A man a plan a canal Panama"));
 console.log(esPalindromo("ama"));
-
-
