@@ -101,8 +101,6 @@ const botonMoverCompletadas = document.getElementById("moverCompletadas");
 const botonMoverPendientes = document.getElementById("moverPendientes");
 const botonTema = document.getElementById("toggleTema");
 
-const filtroDificultadSelect = document.getElementById("filtrarDificultad");
-
 function actualizarTextoBotonTema() {
   if (!botonTema) {
     return;
