@@ -549,20 +549,23 @@ function editarTarea(id) {
   const tarea = tareas.find((t) => t.id === id);
   if (!tarea) return;
 
-  const nuevoArtista = prompt("Editar artista:", tarea.artista);
-  if (nuevoArtista === null) return;
-  const nuevaCancion = prompt("Editar canción:", tarea.cancion);
-  if (nuevaCancion === null) return;
-  const nuevoAlbum = prompt("Editar álbum:", tarea.album);
-  if (nuevoAlbum === null) return;
+  tareaEditandoId = id;
 
-  if (nuevaCancion.trim()) {
-    tarea.artista = nuevoArtista.trim() || "Artista desconocido";
-    tarea.cancion = nuevaCancion.trim();
-    tarea.album = nuevoAlbum.trim() || "Sencillo";
-    guardarTareas();
-    renderTareas(inputBusqueda.value.trim().toLowerCase());
-  }
+  // poblar formulario modal con datos existentes
+  const modal = document.getElementById("modal");
+  const modalTitulo = modal ? modal.querySelector("h2") : null;
+  if (modalTitulo) modalTitulo.textContent = "Editar canción";
+
+  const artistaCancion = document.getElementById("artistaCancion");
+  const nombreCancion = document.getElementById("nombreCancion");
+  const albumCancion = document.getElementById("albumCancion");
+  // no se puede rellenar el input de tipo file por seguridad
+
+  if (artistaCancion) artistaCancion.value = tarea.artista;
+  if (nombreCancion) nombreCancion.value = tarea.cancion;
+  if (albumCancion) albumCancion.value = tarea.album;
+
+  if (modal) modal.classList.remove("hidden");
 }
 
 function salirModoSeleccion() {
@@ -666,6 +669,8 @@ function actualizarTextosBotones() {
 }
 
 function inicializarFormularioModal() {
+  const modal = document.getElementById("modal");
+  const modalTitulo = modal ? modal.querySelector("h2") : null;
   const formTarea = document.getElementById("formTarea");
   const artistaCancion = document.getElementById("artistaCancion");
   const nombreCancion = document.getElementById("nombreCancion");
@@ -720,7 +725,22 @@ function inicializarFormularioModal() {
       salirModoSeleccion();
     }
 
-    agregarTarea({ artista, cancion, album, imagen });
+    if (tareaEditandoId) {
+      const tarea = tareas.find((t) => t.id === tareaEditandoId);
+      if (tarea) {
+        tarea.artista = artista || "Artista desconocido";
+        tarea.cancion = cancion;
+        tarea.album = album || "Sencillo";
+        if (imagen) tarea.imagen = imagen;
+        guardarTareas();
+        renderTareas(inputBusqueda.value.trim().toLowerCase());
+      }
+      tareaEditandoId = null;
+      if (modalTitulo) modalTitulo.textContent = "Agregar canción";
+    } else {
+      agregarTarea({ artista, cancion, album, imagen });
+    }
+
     formTarea.reset();
     cerrarModal();
   });
@@ -782,6 +802,11 @@ botonAbrirModal.addEventListener("click", () => {
     salirModoMover();
     renderTareas(inputBusqueda.value.trim().toLowerCase());
   }
+  // si abrimos el modal manualmente, nos aseguramos de salir de modo edición
+  tareaEditandoId = null;
+  const modal = document.getElementById("modal");
+  const modalTitulo = modal ? modal.querySelector("h2") : null;
+  if (modalTitulo) modalTitulo.textContent = "Agregar canción";
 });
 
 botonBorrarSeleccionadas.addEventListener("click", async () => {
