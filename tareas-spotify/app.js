@@ -74,6 +74,7 @@ const listaTareasCompletadas = document.getElementById(
 const inputBusqueda = document.getElementById("buscarTarea");
 const filtroEstadoRadios = document.querySelectorAll('input[name="estado"]');
 let estadoFiltro = "todos"; // 'todos' | 'pendientes' | 'completadas'
+let criterioOrden = "orden"; // 'orden' | 'artista' | 'cancion' | 'album'
 
 // allow dropping on empty container to move between lists
 listaTareasPendientes.addEventListener("dragover", (e) => e.preventDefault());
@@ -427,8 +428,10 @@ function renderTareas(filtro = "") {
     return true;
   });
 
-  const tareasPendientes = tareasFiltradas.filter((tarea) => !tarea.completada);
-  const tareasCompletadas = tareasFiltradas.filter((tarea) => tarea.completada);
+  // aplicar ordenamiento antes de separar por estado
+  const ordenadas = aplicarOrden(tareasFiltradas);
+  const tareasPendientes = ordenadas.filter((tarea) => !tarea.completada);
+  const tareasCompletadas = ordenadas.filter((tarea) => tarea.completada);
 
   tareasPendientes.forEach((tarea) => {
     const nodo = crearNodoTarea(tarea);
@@ -441,6 +444,20 @@ function renderTareas(filtro = "") {
   });
 
   actualizarEstadisticas();
+}
+
+function aplicarOrden(lista) {
+  const copia = [...lista];
+  if (criterioOrden === "orden") {
+    return copia.sort((a, b) => (a.orden || 0) - (b.orden || 0));
+  }
+  return copia.sort((a, b) => {
+    const fa = String(a[criterioOrden] || "").toLowerCase();
+    const fb = String(b[criterioOrden] || "").toLowerCase();
+    if (fa < fb) return -1;
+    if (fa > fb) return 1;
+    return 0;
+  });
 }
 
 function agregarTarea({ artista, cancion, album, imagen }) {
@@ -647,6 +664,8 @@ function inicializarFormularioModal() {
   });
 }
 
+const selectOrden = document.getElementById("ordenarPor");
+
 // Prevenir drag & drop en el input de búsqueda
 inputBusqueda.addEventListener("dragover", (e) => {
   e.preventDefault();
@@ -676,6 +695,14 @@ filtroEstadoRadios.forEach((radio) => {
     }
   });
 });
+
+// ordenar cuando cambia la selección
+if (selectOrden) {
+  selectOrden.addEventListener("change", () => {
+    criterioOrden = selectOrden.value;
+    renderTareas(inputBusqueda.value.trim().toLowerCase());
+  });
+}
 
 document.addEventListener("modalReady", inicializarFormularioModal);
 if (botonTema) {
