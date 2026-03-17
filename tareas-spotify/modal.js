@@ -1,32 +1,54 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const container = document.getElementById("modalContainer");
-  if (!container) return;
+  if (!container) {
+    return;
+  }
 
-  const response = await fetch("modal.html");
-  const modalHTML = await response.text();
-  container.innerHTML = modalHTML;
-  inicializarModal();
-  document.dispatchEvent(new CustomEvent("modalReady"));
+  try {
+    const response = await fetch("modal.html");
+    const modalHTML = await response.text();
+    container.innerHTML = modalHTML;
+    inicializarModal();
+    document.dispatchEvent(new CustomEvent("modalReady"));
+  } catch (error) {
+    console.error("No se pudo cargar la modal principal:", error);
+  }
 });
 
 function inicializarModal() {
   const modal = document.getElementById("modal");
-  const abrir = document.getElementById("abrirModal");
   const cerrar = document.getElementById("cerrarModal");
+  const primerInput = document.getElementById("artistaCancion");
 
-  if (!modal || !abrir || !cerrar) return;
+  if (!modal || !cerrar) {
+    return;
+  }
+
+  function abrirModal() {
+    modal.classList.remove("hidden");
+    document.body.classList.add("overflow-hidden");
+    window.setTimeout(() => primerInput?.focus(), 0);
+  }
 
   function cerrarModal() {
     modal.classList.add("hidden");
+    document.body.classList.remove("overflow-hidden");
   }
 
-  // Hacemos disponible cerrarModal para otros scripts (app.js)
+  window.abrirModal = abrirModal;
   window.cerrarModal = cerrarModal;
 
-  abrir.addEventListener("click", () => {
-    modal.classList.remove("hidden");
+  cerrar.addEventListener("click", cerrarModal);
+
+  modal.addEventListener("click", (event) => {
+    if (event.target === modal) {
+      cerrarModal();
+    }
   });
 
-  cerrar.addEventListener("click", cerrarModal);
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !modal.classList.contains("hidden")) {
+      cerrarModal();
+    }
+  });
 }
-

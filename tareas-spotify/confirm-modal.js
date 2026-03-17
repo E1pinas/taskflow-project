@@ -1,22 +1,24 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const container = document.getElementById("confirmContainer");
-  if (!container) return;
+  if (!container) {
+    return;
+  }
 
   try {
     const response = await fetch("confirm-modal.html");
     const html = await response.text();
     container.innerHTML = html;
+    inicializarConfirmModal();
   } catch (error) {
-    console.error("No se pudo cargar la modal de confirmación:", error);
-    return;
+    console.error("No se pudo cargar la modal de confirmacion:", error);
   }
-
-  inicializarConfirmModal();
 });
 
 function inicializarConfirmModal() {
   const overlay = document.getElementById("confirmOverlay");
-  if (!overlay) return;
+  if (!overlay) {
+    return;
+  }
 
   const tituloEl = overlay.querySelector("[data-confirm-title]");
   const mensajeEl = overlay.querySelector("[data-confirm-message]");
@@ -24,21 +26,27 @@ function inicializarConfirmModal() {
   const btnCancelar = overlay.querySelector("[data-confirm-cancel]");
   const btnAceptar = overlay.querySelector("[data-confirm-accept]");
 
-  window.mostrarConfirmacion = function ({ titulo, mensaje, detalle }) {
-    if (!overlay) return Promise.resolve(false);
-
-    tituloEl.textContent = titulo || "Confirmar acción";
+  window.mostrarConfirmacion = function mostrarConfirmacion({
+    titulo,
+    mensaje,
+    detalle,
+  }) {
+    tituloEl.textContent = titulo || "Confirmar accion";
     mensajeEl.textContent = mensaje || "";
     detalleEl.textContent = detalle || "";
-
+    detalleEl.classList.toggle("hidden", !detalle);
     overlay.classList.remove("hidden");
+    document.body.classList.add("overflow-hidden");
+    window.setTimeout(() => btnAceptar?.focus(), 0);
 
     return new Promise((resolve) => {
       function limpiar(respuesta) {
         overlay.classList.add("hidden");
+        document.body.classList.remove("overflow-hidden");
         btnCancelar.removeEventListener("click", onCancelar);
         btnAceptar.removeEventListener("click", onAceptar);
         overlay.removeEventListener("click", onClickFondo);
+        document.removeEventListener("keydown", onEscape);
         resolve(respuesta);
       }
 
@@ -50,8 +58,14 @@ function inicializarConfirmModal() {
         limpiar(true);
       }
 
-      function onClickFondo(e) {
-        if (e.target === overlay) {
+      function onClickFondo(event) {
+        if (event.target === overlay) {
+          limpiar(false);
+        }
+      }
+
+      function onEscape(event) {
+        if (event.key === "Escape") {
           limpiar(false);
         }
       }
@@ -59,8 +73,7 @@ function inicializarConfirmModal() {
       btnCancelar.addEventListener("click", onCancelar);
       btnAceptar.addEventListener("click", onAceptar);
       overlay.addEventListener("click", onClickFondo);
+      document.addEventListener("keydown", onEscape);
     });
   };
 }
-
-

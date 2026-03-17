@@ -1,3 +1,164 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@source "./*.html";
+@source "./*.js";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-brand-bg: #0f172a;
+  --color-brand-surface: #1e293b;
+  --color-brand-accent: #2563eb;
+}
+
+:root {
+  --ui-bg: #f8fafc;
+  --ui-surface: #ffffff;
+  --ui-surface-strong: #f1f5f9;
+  --ui-border: #e2e8f0;
+  --ui-text: #0f172a;
+  --ui-text-muted: #475569;
+  --ui-accent: var(--color-brand-accent);
+  --ui-accent-strong: #1d4ed8;
+  --ui-accent-soft: #dbeafe;
+}
+
+.dark {
+  --ui-bg: var(--color-brand-bg);
+  --ui-surface: var(--color-brand-surface);
+  --ui-surface-strong: color-mix(in srgb, white 8%, var(--color-brand-surface));
+  --ui-border: color-mix(in srgb, white 14%, var(--color-brand-surface));
+  --ui-text: rgba(255, 255, 255, 0.92);
+  --ui-text-muted: rgba(255, 255, 255, 0.68);
+  --ui-accent: var(--color-brand-accent);
+  --ui-accent-strong: color-mix(in srgb, black 18%, var(--color-brand-accent));
+  --ui-accent-soft: color-mix(in srgb, white 14%, var(--color-brand-accent));
+}
+
+@layer components {
+  .app-shell {
+    background-color: var(--ui-bg);
+    color: var(--ui-text);
+  }
+
+  .surface-card {
+    background-color: var(--ui-surface);
+    border-color: var(--ui-border);
+    color: var(--ui-text);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06), 0 8px 24px rgba(15, 23, 42, 0.04);
+  }
+
+  .surface-card-strong {
+    background-color: var(--ui-surface-strong);
+    border-color: var(--ui-border);
+    color: var(--ui-text);
+  }
+
+  .ui-title {
+    color: var(--ui-text);
+  }
+
+  .ui-text-muted {
+    color: var(--ui-text-muted);
+  }
+
+  .ui-input {
+    background-color: var(--ui-surface);
+    border-color: var(--ui-border);
+    color: var(--ui-text);
+  }
+
+  .ui-input::placeholder {
+    color: var(--ui-text-muted);
+  }
+
+  .ui-input:focus {
+    border-color: var(--ui-accent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, transparent 78%, var(--ui-accent));
+    outline: none;
+  }
+
+  .btn-accent {
+    background-color: var(--ui-accent);
+    color: white;
+  }
+
+  .btn-accent:hover {
+    background-color: var(--ui-accent-strong);
+  }
+
+  .btn-secondary {
+    background-color: var(--ui-surface);
+    border-color: var(--ui-border);
+    color: var(--ui-text);
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--ui-surface-strong);
+  }
+
+  .btn-soft {
+    background-color: var(--ui-surface);
+    border-color: var(--ui-border);
+    color: var(--ui-text);
+  }
+
+  .btn-soft:hover {
+    background-color: var(--ui-surface-strong);
+  }
+
+  .stat-pill {
+    background-color: var(--ui-surface-strong);
+    border: 1px solid var(--ui-border);
+    color: var(--ui-text);
+  }
+
+  .list-frame {
+    background-color: color-mix(in srgb, var(--ui-surface) 92%, var(--ui-bg));
+    border-color: var(--ui-border);
+  }
+
+  .task-card {
+    background-color: var(--ui-surface);
+    border: 1px solid var(--ui-border);
+    color: var(--ui-text);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+  }
+
+  .task-card--facil {
+    background-image: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--ui-accent) 18%, transparent),
+      transparent 26%
+    );
+  }
+
+  .task-card--media {
+    background-image: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--ui-accent) 26%, transparent),
+      transparent 34%
+    );
+  }
+
+  .task-card--dificil {
+    background-image: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--ui-accent) 38%, transparent),
+      transparent 42%
+    );
+  }
+
+  .toast {
+    border: 1px solid var(--ui-border);
+    background-color: var(--ui-surface);
+    color: var(--ui-text);
+  }
+
+  .toast--accent {
+    border-color: color-mix(in srgb, var(--ui-accent) 22%, var(--ui-border));
+    background-color: color-mix(in srgb, var(--ui-accent) 8%, var(--ui-surface));
+  }
+
+  .toast--neutral {
+    background-color: var(--ui-surface-strong);
+  }
+}
