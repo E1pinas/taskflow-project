@@ -7,27 +7,27 @@
     <link rel="stylesheet" href="output.css" />
   </head>
   <body
-    class="app-shell min-h-screen p-6 font-sans max-sm:p-4"
+    class="min-h-screen p-6 font-sans app-shell max-sm:p-4"
   >
-    <div class="mb-5 flex items-center justify-between gap-3">
-      <h1 class="ui-title text-2xl font-bold">Taskflow Spotify</h1>
+    <div class="flex items-center justify-around gap-3 mb-5">
+      <h1 class="text-2xl font-bold ui-title">Taskflow Spotify</h1>
       <button
         id="toggleTema"
         type="button"
         aria-label="Cambiar entre modo claro y oscuro"
-        class="btn-secondary rounded-lg border px-3 py-2 text-sm font-medium transition"
+        class="px-3 py-2 text-sm font-medium transition border rounded-lg btn-secondary"
       >
         Modo oscuro
       </button>
     </div>
-    <main class="mx-auto flex max-w-[1080px] flex-col gap-6 xl:flex-row">
-      <div class="flex-1 grid gap-3">
-        <div class="flex gap-2 max-sm:grid max-sm:grid-cols-1">
+    <main class="pagina-principal">
+      <div class="columna-principal">
+        <div class="bloque-acciones">
           <button
             id="abrirModal"
             type="button"
             aria-label="Abrir modal para agregar nueva tarea"
-            class="btn-accent w-fit rounded-lg px-3.5 py-2.5 font-medium transition max-sm:w-full"
+            class="btn-accent boton-ancho-movil boton-tamano-md"
           >
             Agregar canción
           </button>
@@ -35,69 +35,57 @@
             id="borrarSeleccionadas"
             type="button"
             aria-label="Entrar en modo selección para borrar múltiples tareas"
-            class="btn-soft w-fit rounded-lg border px-3.5 py-2.5 font-medium transition max-sm:w-full"
+            class="btn-soft boton-ancho-movil boton-tamano-md"
           >
-            Seleccionar para borrar
+            Seleccionar tareas para borrar
           </button>
         </div>
-        <div class="relative">
+        <div id="contenedorBusqueda" class="contenedor-busqueda">
           <input
             id="buscarTarea"
             type="search"
             placeholder="Buscar por artista, canción, álbum o dificultad..."
             aria-label="Buscar tarea"
-            class="ui-input w-full rounded-lg border p-2.5 pr-12"
+            class="ui-input campo-busqueda"
           />
-          <button
-            id="limpiarBusqueda"
-            type="button"
-            class="btn-secondary absolute right-2 top-1/2 hidden -translate-y-1/2 rounded-md border px-2 py-1 text-xs font-medium transition"
-          >
-            Limpiar
-          </button>
         </div>
-        <div
-          class="surface-card flex flex-wrap items-center gap-2 rounded-xl border px-3 py-2 text-sm shadow-sm"
-        >
+        <div id="contenedorResumen" class="surface-card tarjeta-resumen">
           <p id="resumenVista" class="flex-1 min-w-[220px]" aria-live="polite">
             0 resultados
           </p>
-          <span class="stat-pill rounded-full px-2.5 py-1 text-xs font-medium">
+          <span class="p-1 stat-pill">
             Pendientes:
             <strong id="contadorPendientesVista">0</strong>
           </span>
-          <span class="stat-pill rounded-full px-2.5 py-1 text-xs font-medium">
+          <span class="p-1 stat-pill ">
             Completadas:
             <strong id="contadorCompletadasVista">0</strong>
           </span>
         </div>
         <!-- controles adicionales: filtro de estado, orden y export/import se agregarán dinámicamente -->
-        <div
-          id="controlesAvanzados"
-          class="mt-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:flex-wrap"
-        >
-          <div class="flex items-center gap-2">
-            <fieldset id="filtroEstado" class="flex items-center gap-2">
+        <div id="controlesAvanzados" class="controles-avanzados">
+          <div class="grupo-control">
+            <fieldset id="filtroEstado" class="filtro-estado">
               <legend class="sr-only">Filtrar por estado</legend>
-              <label class="ui-text-muted text-sm"
+              <label class="text-sm ui-text-muted"
                 ><input type="radio" name="estado" value="todos" checked />
                 Todos</label
               >
-              <label class="ui-text-muted text-sm"
+              <label class="text-sm ui-text-muted"
                 ><input type="radio" name="estado" value="pendientes" />
                 Pendientes</label
               >
-              <label class="ui-text-muted text-sm"
+              <label class="text-sm ui-text-muted"
                 ><input type="radio" name="estado" value="completadas" />
                 Completadas</label
               >
             </fieldset>
           </div>
-          <div class="flex items-center gap-2">
-            <label for="filtrarDificultad" class="ui-text-muted text-sm">Dificultad:</label>
+          <div class="grupo-control">
+            <label for="filtrarDificultad" class="text-sm ui-text-muted">Dificultad:</label>
             <select
               id="filtrarDificultad"
-              class="ui-input rounded-lg border p-1 text-sm"
+              class="ui-input campo-select"
             >
               <option value="todas" selected>Todas</option>
               <option value="facil">Fácil</option>
@@ -108,69 +96,69 @@
         </div>
 
         <!-- Tareas Pendientes -->
-        <section class="space-y-3">
-          <div class="flex items-center justify-between">
-            <h2 class="ui-title text-lg font-semibold">
+        <section class="seccion-tareas">
+          <div class="cabecera-seccion">
+            <h2 class="titulo-seccion">
               Tareas Pendientes
             </h2>
             <button
               id="moverCompletadas"
               type="button"
               aria-label="Completar todas las tareas pendientes"
-              class="btn-accent rounded-lg px-3 py-1.5 text-sm font-medium transition"
+              class="btn-accent boton-tamano-sm"
             >
               Completar todas
             </button>
           </div>
           <ul
             id="listaTareasPendientes"
-            class="list-frame m-0 grid min-h-[100px] list-none gap-2 rounded-lg border-2 border-dashed p-4"
+            class="list-frame"
           ></ul>
         </section>
 
         <!-- Tareas Completadas -->
-        <section class="space-y-3">
-          <div class="flex items-center justify-between">
-            <h2 class="ui-title text-lg font-semibold">
+        <section class="seccion-tareas">
+          <div class="cabecera-seccion">
+            <h2 class="titulo-seccion">
               Tareas Completadas
             </h2>
             <button
               id="moverPendientes"
               type="button"
               aria-label="Mover tareas seleccionadas a pendientes"
-              class="btn-soft rounded-lg border px-3 py-1.5 text-sm font-medium transition"
+              class="btn-soft boton-tamano-sm"
             >
               Mover a pendientes
             </button>
           </div>
           <ul
             id="listaTareasCompletadas"
-            class="list-frame m-0 grid min-h-[100px] list-none gap-2 rounded-lg border-2 border-dashed p-4"
+            class="list-frame"
           ></ul>
         </section>
       </div>
 
-      <aside class="w-full space-y-4 xl:w-72">
-        <h2 class="ui-title text-lg font-semibold">
+      <aside class="panel-lateral">
+        <h2 class="titulo-seccion">
           Estadísticas
         </h2>
-        <div class="surface-card rounded-lg border p-4">
-          <p id="totalTareas" class="ui-text-muted text-sm">
+        <div class="surface-card panel-estadisticas">
+          <p id="totalTareas" class="texto-estadistica">
             Total: 0
           </p>
-          <p id="completadas" class="ui-text-muted text-sm">
+          <p id="completadas" class="texto-estadistica">
             Completadas: 0
           </p>
-          <p id="pendientes" class="ui-text-muted text-sm">
+          <p id="pendientes" class="texto-estadistica">
             Pendientes: 0
           </p>
-          <p id="facil" class="ui-text-muted text-sm">
+          <p id="facil" class="texto-estadistica">
             Fácil: 0
           </p>
-          <p id="media" class="ui-text-muted text-sm">
+          <p id="media" class="texto-estadistica">
             Media: 0
           </p>
-          <p id="dificil" class="ui-text-muted text-sm">
+          <p id="dificil" class="texto-estadistica">
             Difícil: 0
           </p>
         </div>
@@ -178,42 +166,35 @@
     </main>
 
     <template id="taskTemplate">
-      <li
-        class="task-card flex items-center gap-3 rounded-lg p-4 shadow-sm"
-      >
+      <li class="task-card tarjeta-tarea" data-role="task">
         <input
           type="checkbox"
-          class="task-checkbox h-4 w-4 rounded border-[var(--ui-border)] text-[var(--ui-accent)] focus:ring-[var(--ui-accent)]"
+          class="task-checkbox checkbox-tarea"
+          data-action="toggle-tarea"
         />
         <img
-          class="task-image h-16 w-16 shrink-0 rounded border border-[var(--ui-border)] object-cover"
+          class="task-image imagen-tarea"
           src=""
           alt="Portada"
           style="display: none"
         />
-        <div class="flex-1 min-w-0">
-          <strong
-            class="task-cancion ui-title block truncate text-sm font-semibold"
-          ></strong>
-          <span
-            class="task-artista ui-text-muted block truncate text-xs"
-          ></span>
-          <span
-            class="task-album ui-text-muted block truncate text-xs"
-          ></span>
-          <span
-            class="task-dificultad ui-text-muted block truncate text-xs"
-          ></span>
+        <div class="contenido-tarea">
+          <strong class="task-cancion titulo-tarea"></strong>
+          <span class="task-artista meta-tarea"></span>
+          <span class="task-album meta-tarea"></span>
+          <span class="task-dificultad meta-tarea"></span>
         </div>
         <button
-          class="edit-btn btn-secondary shrink-0 rounded border px-2 py-1 text-sm"
+          class="edit-btn btn-secondary boton-tamano-xs shrink-0"
           type="button"
+          data-action="edit"
         >
           Editar
         </button>
         <button
-          class="delete-btn btn-soft shrink-0 rounded border px-2 py-1 text-sm"
+          class="delete-btn btn-soft boton-tamano-xs shrink-0"
           type="button"
+          data-action="delete"
         >
           Eliminar
         </button>
@@ -229,12 +210,12 @@
     <!-- Contenedor para toasts -->
     <div
       id="toastContainer"
-      class="fixed bottom-4 right-4 z-50 flex flex-col"
+      class="fixed z-50 flex flex-col bottom-4 right-4"
       aria-live="polite"
       aria-atomic="true"
     ></div>
     <script src="modal.js"></script>
     <script src="confirm-modal.js"></script>
-    <script src="app.js"></script>
+    <script type="module" src="src/js/principal.js"></script>
   </body>
 </html>

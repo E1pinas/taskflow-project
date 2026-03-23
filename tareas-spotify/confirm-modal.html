@@ -1,36 +1,34 @@
 <div
   id="confirmOverlay"
-  class="fixed inset-0 z-40 hidden items-center justify-center bg-black/60 p-4"
+  class="confirmacion-capa hidden"
 >
-  <div
-    class="surface-card w-full max-w-[460px] rounded-xl border p-5 shadow-xl"
-  >
+  <div class="surface-card modal-panel modal-panel-md shadow-xl">
     <h2
-      class="ui-title mb-2 text-lg font-semibold"
+      class="titulo-confirmacion"
       data-confirm-title
     >
       Confirmar acción
     </h2>
     <p
-      class="ui-text-muted mb-3 text-sm"
+      class="mensaje-confirmacion"
       data-confirm-message
     ></p>
     <pre
-      class="surface-card-strong ui-text-muted max-h-40 overflow-y-auto rounded-md border p-2 text-xs"
+      class="surface-card-strong ui-text-muted detalle-confirmacion"
       data-confirm-detail
     ></pre>
-    <div class="mt-4 flex justify-end gap-2">
+    <div class="acciones-confirmacion">
       <button
         type="button"
         data-confirm-cancel
-        class="btn-secondary rounded-lg border px-3 py-1.5 text-sm font-medium transition"
+        class="btn-secondary boton-tamano-sm"
       >
         Cancelar
       </button>
       <button
         type="button"
         data-confirm-accept
-        class="btn-accent rounded-lg px-3 py-1.5 text-sm font-medium transition"
+        class="btn-accent boton-tamano-sm"
       >
         Confirmar
       </button>

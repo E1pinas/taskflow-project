@@ -1,53 +1,53 @@
 <div
   id="modal"
-  class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 p-6"
+  class="modal-capa hidden"
 >
-  <div class="surface-card w-full max-w-[480px] rounded-xl border p-5">
-    <h2 class="ui-title mb-3 text-xl font-semibold">
+  <div class="surface-card modal-panel modal-panel-lg">
+    <h2 class="titulo-modal">
       Agregar canción
     </h2>
     <form id="formTarea" class="grid gap-2" novalidate>
       <label
         for="artistaCancion"
-        class="ui-text-muted text-sm font-medium"
+        class="etiqueta-formulario"
         >Nombre del artista</label
       >
       <input
         type="text"
         id="artistaCancion"
         placeholder="Nombre del artista (opcional)"
-        class="ui-input w-full rounded-lg border p-2.5"
+        class="ui-input campo-formulario"
       />
       <label
         for="nombreCancion"
-        class="ui-text-muted text-sm font-medium"
+        class="etiqueta-formulario"
         >Nombre de la canción</label
       >
       <input
         type="text"
         id="nombreCancion"
         placeholder="Nombre de la canción"
-        class="ui-input w-full rounded-lg border p-2.5"
+        class="ui-input campo-formulario"
       />
       <label
         for="albumCancion"
-        class="ui-text-muted text-sm font-medium"
+        class="etiqueta-formulario"
         >Álbum</label
       >
       <input
         type="text"
         id="albumCancion"
         placeholder="Álbum (opcional)"
-        class="ui-input w-full rounded-lg border p-2.5"
+        class="ui-input campo-formulario"
       />
       <label
         for="dificultadCancion"
-        class="ui-text-muted text-sm font-medium"
+        class="etiqueta-formulario"
         >Dificultad</label
       >
       <select
         id="dificultadCancion"
-        class="ui-input w-full rounded-lg border p-2.5"
+        class="ui-input campo-formulario"
       >
         <option value="facil">Fácil</option>
         <option value="media" selected>Media</option>
@@ -55,25 +55,25 @@
       </select>
       <label
         for="imagenCancion"
-        class="ui-text-muted text-sm font-medium"
+        class="etiqueta-formulario"
         >Imagen de portada</label
       >
       <input
         type="file"
         id="imagenCancion"
         accept="image/*"
-        class="ui-input w-full rounded-lg border p-2.5 file:mr-3 file:rounded-md file:border-0 file:bg-[var(--ui-accent-soft)] file:px-3 file:py-1 file:text-sm file:font-medium file:text-[var(--ui-text)]"
+        class="ui-input campo-archivo"
       />
       <button
         type="submit"
-        class="btn-accent mt-1 rounded-lg px-3.5 py-2.5 font-medium transition"
+        class="btn-accent boton-tamano-md mt-1"
       >
         Guardar
       </button>
       <button
         type="button"
         id="cerrarModal"
-        class="btn-secondary rounded-lg border px-3.5 py-2.5 font-medium transition"
+        class="btn-secondary boton-tamano-md"
       >
         Cancelar
       </button>
