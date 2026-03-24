@@ -4,6 +4,7 @@
   "description": "Aplicación web simple para gestionar tareas en el navegador usando JavaScript ",
   "main": "server/src/index.js",
   "scripts": {
+    "build": "tailwindcss -i ./input.css -o ./output.css --minify",
     "build:css": "tailwindcss -i ./input.css -o ./output.css --minify",
     "watch:css": "tailwindcss -i ./input.css -o ./output.css --watch",
     "serve": "live-server --port=5173 --no-browser",

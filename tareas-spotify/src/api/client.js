@@ -1,11 +1,24 @@
-const LOCAL_API_BASE_URL = "/api/v1/tasks";
+const LOCAL_API_BASE_URL = "http://localhost:3000/api/v1/tasks";
+const PROD_API_BASE_URL = "/api/v1/tasks";
+
+function getApiBaseUrl() {
+  if (typeof window === "undefined") {
+    return PROD_API_BASE_URL;
+  }
+
+  const isLocalhost =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1";
+
+  return isLocalhost ? LOCAL_API_BASE_URL : PROD_API_BASE_URL;
+}
 
 
 
 
 
 async function request(path = "", options = {}) {
-  const response = await fetch(`${LOCAL_API_BASE_URL}${path}`, {
+  const response = await fetch(`${getApiBaseUrl()}${path}`, {
     headers: {
       "Content-Type": "application/json",
       ...(options.headers || {}),
