@@ -1,0 +1,338 @@
+@import "tailwindcss";
+@source "./*.html";
+@source "./*.js";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-brand-bg: #0f172a;
+  --color-brand-surface: #1e293b;
+  --color-brand-accent: #2563eb;
+}
+
+:root {
+  --ui-bg: #f8fafc;
+  --ui-surface: #ffffff;
+  --ui-surface-strong: #f1f5f9;
+  --ui-border: #e2e8f0;
+  --ui-text: #0f172a;
+  --ui-text-muted: #475569;
+  --ui-accent: var(--color-brand-accent);
+  --ui-accent-strong: #1d4ed8;
+  --ui-accent-soft: #dbeafe;
+}
+
+.dark {
+  --ui-bg: var(--color-brand-bg);
+  --ui-surface: var(--color-brand-surface);
+  --ui-surface-strong: color-mix(in srgb, white 8%, var(--color-brand-surface));
+  --ui-border: color-mix(in srgb, white 14%, var(--color-brand-surface));
+  --ui-text: rgba(255, 255, 255, 0.92);
+  --ui-text-muted: rgba(255, 255, 255, 0.68);
+  --ui-accent: var(--color-brand-accent);
+  --ui-accent-strong: color-mix(in srgb, black 18%, var(--color-brand-accent));
+  --ui-accent-soft: color-mix(in srgb, white 14%, var(--color-brand-accent));
+}
+
+@layer components {
+  .app-shell {
+    @apply min-h-screen p-6 font-sans max-sm:p-4;
+    background-color: var(--ui-bg);
+    color: var(--ui-text);
+  }
+
+  .pagina-principal {
+    @apply mx-auto flex max-w-[1080px] flex-col gap-6 xl:flex-row;
+  }
+
+  .columna-principal {
+    @apply grid flex-1 gap-3;
+  }
+
+  .bloque-acciones {
+    @apply flex gap-2 max-sm:grid max-sm:grid-cols-1;
+  }
+
+  .contenedor-busqueda {
+    @apply relative;
+  }
+
+  .surface-card {
+    background-color: var(--ui-surface);
+    border-color: var(--ui-border);
+    color: var(--ui-text);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06), 0 8px 24px rgba(15, 23, 42, 0.04);
+  }
+
+  .surface-card-strong {
+    background-color: var(--ui-surface-strong);
+    border-color: var(--ui-border);
+    color: var(--ui-text);
+  }
+
+  .ui-title {
+    color: var(--ui-text);
+  }
+
+  .ui-text-muted {
+    color: var(--ui-text-muted);
+  }
+
+  .ui-input {
+    background-color: var(--ui-surface);
+    border-color: var(--ui-border);
+    color: var(--ui-text);
+  }
+
+  .campo-busqueda {
+    @apply w-full rounded-lg border p-2.5 pr-12;
+  }
+
+  .campo-formulario {
+    @apply w-full rounded-lg border p-2.5;
+  }
+
+  .campo-select {
+    @apply rounded-lg border p-1 text-sm;
+  }
+
+  .campo-archivo {
+    @apply w-full rounded-lg border p-2.5 file:mr-3 file:rounded-md file:border-0 file:px-3 file:py-1 file:text-sm file:font-medium;
+  }
+
+  .etiqueta-formulario {
+    @apply text-sm font-medium;
+    color: var(--ui-text-muted);
+  }
+
+  .ui-input::placeholder {
+    color: var(--ui-text-muted);
+  }
+
+  .ui-input:focus {
+    border-color: var(--ui-accent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, transparent 78%, var(--ui-accent));
+    outline: none;
+  }
+
+  .btn-accent {
+    @apply rounded-lg font-medium transition;
+    background-color: var(--ui-accent);
+    color: white;
+  }
+
+  .btn-accent:hover {
+    background-color: var(--ui-accent-strong);
+  }
+
+  .btn-secondary {
+    @apply rounded-lg border font-medium transition;
+    background-color: var(--ui-surface);
+    border-color: var(--ui-border);
+    color: var(--ui-text);
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--ui-surface-strong);
+  }
+
+  .btn-soft {
+    @apply rounded-lg border font-medium transition;
+    background-color: var(--ui-surface);
+    border-color: var(--ui-border);
+    color: var(--ui-text);
+  }
+
+  .btn-soft:hover {
+    background-color: var(--ui-surface-strong);
+  }
+
+  .stat-pill {
+    @apply rounded-full text-xs font-medium;
+    background-color: var(--ui-surface-strong);
+    border: 1px solid var(--ui-border);
+    color: var(--ui-text);
+  }
+
+  .boton-tamano-md {
+    @apply px-3.5 py-2.5;
+  }
+
+  .boton-tamano-sm {
+    @apply px-3 py-1.5 text-sm;
+  }
+
+  .boton-tamano-xs {
+    @apply px-2 py-1 text-sm;
+  }
+
+  .boton-ancho-movil {
+    @apply w-fit max-sm:w-full;
+  }
+
+  .tarjeta-resumen {
+    @apply flex flex-wrap items-center gap-2 rounded-xl border px-3 py-2 text-sm shadow-sm;
+  }
+
+  .controles-avanzados {
+    @apply mt-2 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center;
+  }
+
+  .grupo-control {
+    @apply flex items-center gap-2;
+  }
+
+  .filtro-estado {
+    @apply flex items-center gap-2;
+  }
+
+  .seccion-tareas {
+    @apply space-y-3;
+  }
+
+  .cabecera-seccion {
+    @apply flex items-center justify-between;
+  }
+
+  .titulo-seccion {
+    @apply text-lg font-semibold;
+    color: var(--ui-text);
+  }
+
+  .list-frame {
+    @apply m-0 grid min-h-[100px] list-none gap-2 rounded-lg border-2 border-dashed p-4;
+    background-color: color-mix(in srgb, var(--ui-surface) 92%, var(--ui-bg));
+    border-color: var(--ui-border);
+  }
+
+  .panel-lateral {
+    @apply w-full space-y-4 xl:w-72;
+  }
+
+  .panel-estadisticas {
+    @apply rounded-lg border p-4;
+  }
+
+  .texto-estadistica {
+    @apply text-sm;
+    color: var(--ui-text-muted);
+  }
+
+  .task-card {
+    background-color: var(--ui-surface);
+    border: 1px solid var(--ui-border);
+    color: var(--ui-text);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+  }
+
+  .tarjeta-tarea {
+    @apply flex items-center gap-3 rounded-lg p-4 shadow-sm;
+  }
+
+  .checkbox-tarea {
+    @apply h-4 w-4 rounded;
+    border-color: var(--ui-border);
+    color: var(--ui-accent);
+    --tw-ring-color: var(--ui-accent);
+  }
+
+  .imagen-tarea {
+    @apply h-16 w-16 shrink-0 rounded border object-cover;
+    border-color: var(--ui-border);
+  }
+
+  .contenido-tarea {
+    @apply min-w-0 flex-1;
+  }
+
+  .titulo-tarea {
+    @apply block truncate text-sm font-semibold;
+    color: var(--ui-text);
+  }
+
+  .meta-tarea {
+    @apply block truncate text-xs;
+    color: var(--ui-text-muted);
+  }
+
+  .modal-capa {
+    @apply fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-6;
+  }
+
+  .confirmacion-capa {
+    @apply fixed inset-0 z-40 flex items-center justify-center bg-black/60 p-4;
+  }
+
+  .modal-panel {
+    @apply w-full rounded-xl border p-5;
+  }
+
+  .modal-panel-lg {
+    @apply max-w-[480px];
+  }
+
+  .modal-panel-md {
+    @apply max-w-[460px];
+  }
+
+  .titulo-modal {
+    @apply mb-3 text-xl font-semibold;
+    color: var(--ui-text);
+  }
+
+  .titulo-confirmacion {
+    @apply mb-2 text-lg font-semibold;
+    color: var(--ui-text);
+  }
+
+  .mensaje-confirmacion {
+    @apply mb-3 text-sm;
+    color: var(--ui-text-muted);
+  }
+
+  .detalle-confirmacion {
+    @apply max-h-40 overflow-y-auto rounded-md border p-2 text-xs;
+  }
+
+  .acciones-confirmacion {
+    @apply mt-4 flex justify-end gap-2;
+  }
+
+  .task-card--facil {
+    background-image: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--ui-accent) 18%, transparent),
+      transparent 26%
+    );
+  }
+
+  .task-card--media {
+    background-image: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--ui-accent) 26%, transparent),
+      transparent 34%
+    );
+  }
+
+  .task-card--dificil {
+    background-image: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--ui-accent) 38%, transparent),
+      transparent 42%
+    );
+  }
+
+  .toast {
+    border: 1px solid var(--ui-border);
+    background-color: var(--ui-surface);
+    color: var(--ui-text);
+  }
+
+  .toast--accent {
+    border-color: color-mix(in srgb, var(--ui-accent) 22%, var(--ui-border));
+    background-color: color-mix(in srgb, var(--ui-accent) 8%, var(--ui-surface));
+  }
+
+  .toast--neutral {
+    background-color: var(--ui-surface-strong);
+  }
+}
