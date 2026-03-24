@@ -8,6 +8,7 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const projectRoot = path.resolve(__dirname, "../..");
+const publicRoot = path.join(projectRoot, "public");
 
 app.use(cors());
 app.use(express.json({ limit: "5mb" }));
@@ -18,8 +19,23 @@ app.get("/health", (_req, res) => {
 
 app.use("/api/v1/tasks", taskRoutes);
 
-app.get(/^(?!\/api\/|\/health$).*/, (_req, res) => {
-  res.sendFile(path.join(projectRoot, "public", "index.html"));
+app.get(/.*\..*/, (req, res, next) => {
+  const relativePath = req.path.replace(/^\/+/, "");
+  const filePath = path.resolve(publicRoot, relativePath);
+
+  if (!filePath.startsWith(publicRoot)) {
+    return next();
+  }
+
+  return res.sendFile(filePath, (error) => {
+    if (error) {
+      next();
+    }
+  });
+});
+
+app.get(/^(?!\/api\/|\/health$|.*\..*).*/, (_req, res) => {
+  res.sendFile(path.join(publicRoot, "index.html"));
 });
 
 app.use((err, _req, res, _next) => {
