@@ -1,18 +1,18 @@
 {
   "version": 2,
   "functions": {
-    "api/index.js": {
+    "server/api/index.js": {
       "runtime": "@vercel/node"
     }
   },
   "rewrites": [
     {
       "source": "/health",
-      "destination": "/api/index.js"
+      "destination": "/server/api/index.js"
     },
     {
       "source": "/api/:match*",
-      "destination": "/api/index.js"
+      "destination": "/server/api/index.js"
     }
   ]
 }

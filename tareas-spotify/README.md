@@ -6,7 +6,7 @@ Aplicacion web para gestionar tareas musicales con frontend en JavaScript modula
 
 El proyecto queda dividido en dos fronteras claras:
 
-- `server/`: backend Node.js + Express.
+- `server/`: backend Node.js + Express dentro del mismo proyecto Node.
 - `src/`: frontend vanilla JavaScript.
 
 ### Backend por capas
@@ -152,7 +152,7 @@ Si la validacion falla, el controlador devuelve `400 Bad Request`.
 El backend sigue un enfoque 12-Factor:
 
 - la configuracion vive fuera del codigo
-- `dotenv` carga `server/.env`
+- `dotenv` carga `.env` en la raiz del proyecto
 - el arranque se cancela si `PORT` no existe
 
 Archivo esperado:
@@ -183,7 +183,7 @@ La interfaz gestiona tres estados clave:
 
 ## Ejecucion local
 
-### Frontend
+### Frontend + backend
 
 ```bash
 npm install
@@ -194,14 +194,6 @@ El frontend queda accesible en:
 
 ```text
 http://127.0.0.1:5173
-```
-
-### Backend
-
-```bash
-cd server
-npm install
-npm run dev
 ```
 
 El backend queda accesible en:
@@ -267,8 +259,8 @@ Respuesta esperada:
 ```text
 tareas-spotify/
 ├── server/
-│   ├── .env
-│   ├── package.json
+│   ├── api/
+│   │   └── index.js
 │   └── src/
 │       ├── app.js
 │       ├── index.js
@@ -288,7 +280,10 @@ tareas-spotify/
 │       ├── shared/
 │       ├── ui/
 │       └── principal.js
+├── .env
 ├── index.html
+├── package.json
+├── vercel.json
 └── README.md
 ```
 
