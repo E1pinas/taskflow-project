@@ -1,7 +1,8 @@
 {
   "version": 2,
+  "framework": "express",
   "buildCommand": "npm run build",
-  "outputDirectory": "public",
+  "outputDirectory": null,
   "rewrites": [
     {
       "source": "/((?!api/|health$|.*\\..*).*)",
