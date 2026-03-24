@@ -13,10 +13,6 @@ function getApiBaseUrl() {
   return isLocalhost ? LOCAL_API_BASE_URL : PROD_API_BASE_URL;
 }
 
-
-
-
-
 async function request(path = "", options = {}) {
   const response = await fetch(`${getApiBaseUrl()}${path}`, {
     headers: {
