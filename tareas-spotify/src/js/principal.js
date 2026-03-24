@@ -24,6 +24,7 @@ const estadoUi = {
   cargando: false,
   errorRed: "",
 };
+const MAX_IMAGE_SIZE_BYTES = 2 * 1024 * 1024;
 
 function obtenerEstadoAplicacion() {
   return {
@@ -279,6 +280,11 @@ function inicializarFormularioModal() {
     const archivoImagen = imagenCancion.files?.[0] || null;
 
     if (archivoImagen) {
+      if (archivoImagen.size > MAX_IMAGE_SIZE_BYTES) {
+        mostrarToast("La imagen no puede superar 2 MB en produccion.", "warning");
+        return;
+      }
+
       try {
         imagen = await leerImagenComoDataURL(archivoImagen);
       } catch (_error) {

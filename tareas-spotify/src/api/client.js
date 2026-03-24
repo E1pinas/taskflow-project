@@ -1,5 +1,6 @@
 const LOCAL_API_BASE_URL = "http://localhost:3000/api/v1/tasks";
 const PROD_API_BASE_URL = "/api/v1/tasks";
+const MAX_ERROR_TEXT_LENGTH = 180;
 
 function getApiBaseUrl() {
   if (typeof window === "undefined") {
@@ -27,12 +28,24 @@ async function request(path = "", options = {}) {
   }
 
   const contentType = response.headers.get("content-type") || "";
-  const data = contentType.includes("application/json")
-    ? await response.json()
-    : null;
+  const isJson = contentType.includes("application/json");
+  const data = isJson ? await response.json() : null;
+  const text = isJson ? "" : (await response.text()).trim();
 
   if (!response.ok) {
-    throw new Error(data?.message || "No se pudo completar la solicitud.");
+    if (response.status === 413) {
+      throw new Error("La imagen es demasiado grande para enviarla al servidor.");
+    }
+
+    if (data?.message) {
+      throw new Error(data.message);
+    }
+
+    if (text) {
+      throw new Error(text.slice(0, MAX_ERROR_TEXT_LENGTH));
+    }
+
+    throw new Error(`Error ${response.status}: no se pudo completar la solicitud.`);
   }
 
   return data;
