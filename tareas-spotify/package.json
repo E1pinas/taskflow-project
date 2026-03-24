@@ -7,8 +7,7 @@
     "build": "tailwindcss -i ./input.css -o ./output.css --minify",
     "build:css": "tailwindcss -i ./input.css -o ./output.css --minify",
     "watch:css": "tailwindcss -i ./input.css -o ./output.css --watch",
-    "serve": "live-server --port=5173 --no-browser",
-    "dev": "concurrently \"npm:watch:css\" \"npm:serve\" \"npm:server:dev\"",
+    "dev": "concurrently \"npm:watch:css\" \"npm:server:dev\"",
     "server:dev": "nodemon server/src/index.js",
     "server:start": "node server/src/index.js",
     "start": "node server/src/index.js"
@@ -25,7 +24,6 @@
   "devDependencies": {
     "@tailwindcss/cli": "^4.1.13",
     "concurrently": "9.2.1",
-    "live-server": "1.2.2",
     "nodemon": "^3.1.10",
     "tailwindcss": "^4.1.13"
   }
