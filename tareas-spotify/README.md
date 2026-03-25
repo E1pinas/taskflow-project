@@ -7,7 +7,7 @@ Aplicacion web para gestionar tareas musicales con frontend en JavaScript modula
 El proyecto queda dividido en dos fronteras claras:
 
 - `server/`: backend Node.js + Express dentro del mismo proyecto Node.
-- `src/`: frontend vanilla JavaScript.
+- `public/`: frontend vanilla JavaScript servido por Express.
 
 ### Backend por capas
 
@@ -22,7 +22,7 @@ Dentro de `server/src` se aplica separacion de responsabilidades:
 
 ### Frontend
 
-Dentro de `src` el frontend queda organizado asi:
+Dentro de `public/src` el frontend queda organizado asi:
 
 - `api/client.js`: capa de comunicacion HTTP con `fetch`.
 - `js/core/`: estado, almacenamiento de tema y modelo de tarea.
@@ -165,7 +165,7 @@ PORT=3000
 
 La UI ya no guarda tareas en `localStorage`. Ahora:
 
-1. Al cargar la pagina, `src/js/principal.js` pide las tareas al backend.
+1. Al cargar la pagina, `public/src/js/principal.js` pide las tareas al backend.
 2. La UI entra en estado de carga.
 3. Si la peticion funciona, renderiza tareas y estadisticas.
 4. Si falla, muestra estado de error visual y feedback en la interfaz.
@@ -258,9 +258,22 @@ Respuesta esperada:
 
 ```text
 tareas-spotify/
+├── public/
+│   ├── index.html
+│   ├── modal.html
+│   ├── confirm-modal.html
+│   ├── modal.js
+│   ├── confirm-modal.js
+│   ├── output.css
+│   └── src/
+│       ├── api/
+│       │   └── client.js
+│       └── js/
+│           ├── core/
+│           ├── shared/
+│           ├── ui/
+│           └── principal.js
 ├── server/
-│   ├── api/
-│   │   └── index.js
 │   └── src/
 │       ├── app.js
 │       ├── index.js
@@ -272,16 +285,7 @@ tareas-spotify/
 │       │   └── task.routes.js
 │       └── services/
 │           └── task.service.js
-├── src/
-│   ├── api/
-│   │   └── client.js
-│   └── js/
-│       ├── core/
-│       ├── shared/
-│       ├── ui/
-│       └── principal.js
-├── .env
-├── index.html
+├── input.css
 ├── package.json
 ├── vercel.json
 └── README.md

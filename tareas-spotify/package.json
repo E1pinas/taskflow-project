@@ -4,9 +4,9 @@
   "description": "Aplicación web simple para gestionar tareas en el navegador usando JavaScript ",
   "main": "server/src/index.js",
   "scripts": {
-    "build": "node ./scripts/prepare-public.mjs && tailwindcss -i ./input.css -o ./public/output.css --minify",
+    "build": "tailwindcss -i ./input.css -o ./public/output.css --minify",
     "build:css": "tailwindcss -i ./input.css -o ./public/output.css --minify",
-    "watch:css": "tailwindcss -i ./input.css -o ./output.css --watch",
+    "watch:css": "tailwindcss -i ./input.css -o ./public/output.css --watch",
     "dev": "concurrently \"npm:watch:css\" \"npm:server:dev\"",
     "server:dev": "nodemon server/src/index.js",
     "server:start": "node server/src/index.js",
