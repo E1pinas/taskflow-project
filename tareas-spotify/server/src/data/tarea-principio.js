@@ -1,0 +1,32 @@
+export const tareaPrincipio = [
+  {
+    id: "The Lost Soul Down",
+    artista: "NBSPLV",
+    cancion: "The Lost Soul Down",
+    album: "After Hours",
+    imagen: "/img/G_FRv9uWoAATL9X.jpg",
+    dificultad: "media",
+    completada: false,
+    creadaEn: "2026-03-25T08:00:00.000Z",
+  },
+  {
+    id: "come to brazil",
+    artista: "bnno$",
+    cancion: "come to brazil",
+    album: "bnno$",
+    imagen: "/img/HCdRxXuXcAA_xw0.png",
+    dificultad: "dificil",
+    completada: false,
+    creadaEn: "2026-03-25T08:05:00.000Z",
+  },
+  {
+    id: "PIXELATED KISSES",
+    artista: "joji",
+    cancion: "PIXELATED KISSES",
+    album: "PIXELATED KISSES",
+    imagen: "/img/MV5BODYwZmZmZmYtNDAxMy00YmE5LTllZjctMjYyYzMzNGQyMzA2XkEyXkFqcGc@._V1_.jpg",
+    dificultad: "facil",
+    completada: false,
+    creadaEn: "2026-03-25T08:10:00.000Z",
+  },
+];

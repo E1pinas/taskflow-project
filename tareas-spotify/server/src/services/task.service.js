@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
+import { tareaPrincipio } from "../data/tarea-principio.js";
 
-let tasks = [];
+let tasks = tareaPrincipio.map((task) => ({ ...task }));
 
 function createTaskId() {
   return randomUUID();

@@ -77,14 +77,19 @@ function mostrarToast(mensaje, tipo = "info") {
 function actualizarTextoBotonTema() {
   const esOscuro = document.documentElement.classList.contains("dark");
   referencias.botonTema.textContent = esOscuro ? "Modo claro" : "Modo oscuro";
-  referencias.botonTema.setAttribute("aria-pressed", esOscuro ? "true" : "false");
+  referencias.botonTema.setAttribute(
+    "aria-pressed",
+    esOscuro ? "true" : "false",
+  );
 }
 
 function aplicarTemaInicial() {
   const temaGuardado = cargarTema();
   const preferenciaSistema = window.matchMedia("(prefers-color-scheme: dark)");
   const temaOscuro =
-    temaGuardado === null ? preferenciaSistema.matches : temaGuardado === "dark";
+    temaGuardado === null
+      ? preferenciaSistema.matches
+      : temaGuardado === "dark";
 
   document.documentElement.classList.toggle("dark", temaOscuro);
   actualizarTextoBotonTema();
@@ -95,7 +100,9 @@ async function cargarTareasDesdeApi() {
 
   try {
     const tareas = await obtenerTareasApi();
-    estadoApp.establecerTareas((tareas || []).map(normalizarCancion).filter(Boolean));
+    estadoApp.establecerTareas(
+      (tareas || []).map(normalizarCancion).filter(Boolean),
+    );
     setEstadoRed({ cargando: false, errorRed: "" });
   } catch (error) {
     setEstadoRed({
@@ -281,7 +288,10 @@ function inicializarFormularioModal() {
 
     if (archivoImagen) {
       if (archivoImagen.size > MAX_IMAGE_SIZE_BYTES) {
-        mostrarToast("La imagen no puede superar 2 MB en produccion.", "warning");
+        mostrarToast(
+          "La imagen no puede superar 2 MB en produccion.",
+          "warning",
+        );
         return;
       }
 
@@ -341,18 +351,29 @@ async function borrarSeleccionadas() {
   setEstadoRed({ cargando: true, errorRed: "" });
 
   try {
-    await Promise.all([...tareasSeleccionadas].map((id) => eliminarTareaApi(id)));
+    await Promise.all(
+      [...tareasSeleccionadas].map((id) => eliminarTareaApi(id)),
+    );
     estadoApp.eliminarSeleccionadas();
     setEstadoRed({ cargando: false, errorRed: "" });
     mostrarToast(`${cantidad} canciones eliminadas.`, "warning");
   } catch (error) {
-    const mensaje = getMensajeError(error, "No se pudieron eliminar todas las tareas.");
+    const mensaje = getMensajeError(
+      error,
+      "No se pudieron eliminar todas las tareas.",
+    );
     setEstadoRed({ cargando: false, errorRed: mensaje });
     mostrarToast(mensaje, "error");
   }
 }
 
-async function actualizarEstadoMasivo(tareasObjetivo, completada, mensajeExito, mensajeError, tipoToast = "info") {
+async function actualizarEstadoMasivo(
+  tareasObjetivo,
+  completada,
+  mensajeExito,
+  mensajeError,
+  tipoToast = "info",
+) {
   setEstadoRed({ cargando: true, errorRed: "" });
 
   try {
@@ -367,7 +388,9 @@ async function actualizarEstadoMasivo(tareasObjetivo, completada, mensajeExito, 
     );
 
     estadoApp.establecerTareas(
-      estadoApp.obtenerEstado().tareas.map((tarea) => mapa.get(tarea.id) || tarea),
+      estadoApp
+        .obtenerEstado()
+        .tareas.map((tarea) => mapa.get(tarea.id) || tarea),
     );
     setEstadoRed({ cargando: false, errorRed: "" });
     mostrarToast(mensajeExito, tipoToast);
@@ -379,7 +402,9 @@ async function actualizarEstadoMasivo(tareasObjetivo, completada, mensajeExito, 
 }
 
 async function completarTodasLasTareas() {
-  const pendientes = estadoApp.obtenerEstado().tareas.filter((tarea) => !tarea.completada);
+  const pendientes = estadoApp
+    .obtenerEstado()
+    .tareas.filter((tarea) => !tarea.completada);
 
   if (pendientes.length === 0) {
     mostrarToast("No hay tareas pendientes para completar.", "warning");
@@ -389,7 +414,9 @@ async function completarTodasLasTareas() {
   const confirmado = await window.mostrarConfirmacion({
     titulo: "Completar todas las tareas",
     mensaje: "¿Quieres mover todas las tareas pendientes a completadas?",
-    detalle: pendientes.map((t) => `• "${t.cancion}" de ${t.artista}`).join("\n"),
+    detalle: pendientes
+      .map((t) => `• "${t.cancion}" de ${t.artista}`)
+      .join("\n"),
   });
 
   if (!confirmado) {
@@ -405,7 +432,9 @@ async function completarTodasLasTareas() {
 }
 
 async function moverCompletadasAPendientes() {
-  const completadas = estadoApp.obtenerEstado().tareas.filter((tarea) => tarea.completada);
+  const completadas = estadoApp
+    .obtenerEstado()
+    .tareas.filter((tarea) => tarea.completada);
 
   if (completadas.length === 0) {
     mostrarToast("No hay tareas completadas para mover.", "warning");
@@ -438,7 +467,11 @@ function reordenarTareas(draggedId, targetId) {
   const draggedIndex = tareas.findIndex((t) => t.id === draggedId);
   const targetIndex = tareas.findIndex((t) => t.id === targetId);
 
-  if (draggedIndex === -1 || targetIndex === -1 || draggedIndex === targetIndex) {
+  if (
+    draggedIndex === -1 ||
+    targetIndex === -1 ||
+    draggedIndex === targetIndex
+  ) {
     return;
   }
 
@@ -448,7 +481,9 @@ function reordenarTareas(draggedId, targetId) {
 }
 
 async function moverTareaSegunDestino(draggedId, listaDestinoId) {
-  const tarea = estadoApp.obtenerEstado().tareas.find((item) => item.id === draggedId);
+  const tarea = estadoApp
+    .obtenerEstado()
+    .tareas.find((item) => item.id === draggedId);
 
   if (!tarea) {
     return;
@@ -498,7 +533,9 @@ async function gestionarCambioLista(event) {
     return;
   }
 
-  const tareaActual = estadoActual.tareas.find((item) => item.id === tarea.dataset.id);
+  const tareaActual = estadoActual.tareas.find(
+    (item) => item.id === tarea.dataset.id,
+  );
 
   if (!tareaActual) {
     return;
@@ -577,15 +614,17 @@ async function gestionarDrop(event) {
 }
 
 function registrarEventosListas() {
-  [referencias.listaPendientes, referencias.listaCompletadas].forEach((lista) => {
-    lista.addEventListener("click", gestionarClickLista);
-    lista.addEventListener("change", gestionarCambioLista);
-    lista.addEventListener("dragstart", gestionarDragStart);
-    lista.addEventListener("dragend", gestionarDragEnd);
-    lista.addEventListener("dragover", gestionarDragOver);
-    lista.addEventListener("dragleave", gestionarDragLeave);
-    lista.addEventListener("drop", gestionarDrop);
-  });
+  [referencias.listaPendientes, referencias.listaCompletadas].forEach(
+    (lista) => {
+      lista.addEventListener("click", gestionarClickLista);
+      lista.addEventListener("change", gestionarCambioLista);
+      lista.addEventListener("dragstart", gestionarDragStart);
+      lista.addEventListener("dragend", gestionarDragEnd);
+      lista.addEventListener("dragover", gestionarDragOver);
+      lista.addEventListener("dragleave", gestionarDragLeave);
+      lista.addEventListener("drop", gestionarDrop);
+    },
+  );
 }
 
 function registrarEventosControles() {
@@ -645,8 +684,14 @@ function registrarEventosControles() {
     await borrarSeleccionadas();
   });
 
-  referencias.botonCompletarTodas.addEventListener("click", completarTodasLasTareas);
-  referencias.botonMoverPendientes.addEventListener("click", moverCompletadasAPendientes);
+  referencias.botonCompletarTodas.addEventListener(
+    "click",
+    completarTodasLasTareas,
+  );
+  referencias.botonMoverPendientes.addEventListener(
+    "click",
+    moverCompletadasAPendientes,
+  );
 
   document.addEventListener("keydown", (event) => {
     if (
