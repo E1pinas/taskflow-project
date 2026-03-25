@@ -2,14 +2,9 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "express",
   "buildCommand": "npm run build",
-  "rewrites": [
-    {
-      "source": "/",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/:path((?!api/|health$|.*\\..*).*)",
-      "destination": "/index.html"
+  "functions": {
+    "server.js": {
+      "includeFiles": "public/**"
     }
-  ]
+  }
 }
