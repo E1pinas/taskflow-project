@@ -43,6 +43,14 @@ if (!isVercel) {
       }
     });
   });
+} else {
+  app.get("/", (_req, res) => {
+    return res.redirect("/index.html");
+  });
+
+  app.get(/^(?!\/api\/|\/health$|.*\..*).*/, (_req, res) => {
+    return res.redirect("/index.html");
+  });
 }
 
 app.use((err, _req, res, _next) => {
