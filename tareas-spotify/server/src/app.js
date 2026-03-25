@@ -18,6 +18,7 @@ app.get("/health", (_req, res) => {
 });
 
 app.use("/api/v1/tasks", taskRoutes);
+app.use("/v1/tasks", taskRoutes);
 
 app.get(/.*\..*/, (req, res, next) => {
   const relativePath = req.path.replace(/^\/+/, "");
