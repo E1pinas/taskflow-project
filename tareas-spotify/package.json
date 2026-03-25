@@ -4,9 +4,8 @@
   "description": "Aplicación web simple para gestionar tareas en el navegador usando JavaScript ",
   "main": "server/src/index.js",
   "scripts": {
-    "build": "node ./scripts/build.mjs",
+    "build": "tailwindcss -i ./input.css -o ./public/output.css --minify",
     "build:css": "tailwindcss -i ./input.css -o ./public/output.css --minify",
-    "build:css:dist": "tailwindcss -i ./input.css -o ./dist/output.css --minify",
     "watch:css": "tailwindcss -i ./input.css -o ./public/output.css --watch",
     "dev": "concurrently \"npm:watch:css\" \"npm:server:dev\"",
     "server:dev": "nodemon server/src/index.js",
@@ -17,9 +16,7 @@
   "author": "Daichi",
   "license": "ISC",
   "type": "module",
-  "engines": {
-    "node": "20.x"
-  },
+ 
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
