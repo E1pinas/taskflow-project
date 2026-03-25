@@ -1,6 +1,4 @@
 {
-  "version": 2,
   "framework": "express",
-  "buildCommand": "npm run build",
-  "outputDirectory": null
+  "buildCommand": "npm run build"
 }
