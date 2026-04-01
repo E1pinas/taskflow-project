@@ -310,33 +310,7 @@ Response `200 OK`:
 }
 ```
 
-### Listar tareas
 
-```bash
-curl -s http://localhost:3000/api/v1/tasks
-```
-
-### Crear una tarea con `curl`
-
-```bash
-curl -i -X POST http://localhost:3000/api/v1/tasks \
-  -H "Content-Type: application/json" \
-  -d "{\"artista\":\"Joji\",\"cancion\":\"Glimpse of Us\",\"album\":\"Smithereens\",\"imagen\":\"/img/joji.jpg\",\"dificultad\":\"media\",\"completada\":false}"
-```
-
-### Marcar una tarea como completada
-
-```bash
-curl -i -X PATCH http://localhost:3000/api/v1/tasks/6c987e69-4a82-4f8e-bf4a-8a4b1b6a5a1c \
-  -H "Content-Type: application/json" \
-  -d "{\"completada\":true}"
-```
-
-### Eliminar una tarea
-
-```bash
-curl -i -X DELETE http://localhost:3000/api/v1/tasks/6c987e69-4a82-4f8e-bf4a-8a4b1b6a5a1c
-```
 
 ---
 
