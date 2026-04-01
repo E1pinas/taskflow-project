@@ -166,9 +166,9 @@ async function eliminarTarea(id) {
   }
 
   const confirmado = await window.mostrarConfirmacion({
-    titulo: "Eliminar cancion",
+    titulo: "Eliminar tarea",
     mensaje: `¿Seguro que quieres eliminar "${tarea.cancion}"?`,
-    detalle: `${tarea.artista} • ${tarea.album}`,
+    detalle: `${tarea.artista} , ${tarea.album}`,
   });
 
   if (!confirmado) {
